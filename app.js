@@ -29,6 +29,7 @@ mongoose.connect('mongodb://localhost/palconing', {
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
+const privRouter = require('./routes/priv')
 
 var app = express();
 
