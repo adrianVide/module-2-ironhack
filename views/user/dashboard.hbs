@@ -1,9 +1,18 @@
 <h1>{{currentUserInfo.name}}, these are the events happening near you</h1>
 
 
+{{#if message}}
+<h4 class="rounded-pill text-center py-3 px-2 bg-success text-light font-weight-bold my-4 w-50">{{message}}</h4>
+{{/if}}
+
+
 <h4>Click on any marker to see the details of the event</h4>
 
 <div id="mymap"></div>
+
+
+
+
 
 {{!-------------------------------------------MAPA-------------------------------------------}}
 <script>
