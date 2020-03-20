@@ -4,19 +4,17 @@ const Event = require('../models/event');
 
 router.get('/', async function(req, res, next) {
   try {
-  eventMarkers = []
   events = await Event.find({isItOver: false})
-  events.map(function(event){
-      let marker = {
-        name: event.name,
-        id: event._id,
-        lat: event.latitude,
-        lon: event.longitude
-      }
-      eventMarkers.push(marker)
-    })
-  console.log(eventMarkers)
-  res.render('user/dashboard', { title: 'Palconing', events: JSON.stringify(eventMarkers)}); 
+  events.sort(function (a, b) {
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0;
+  })
+  res.render('user/dashboard', { title: 'Palconing', events: JSON.stringify(events)}); 
   }
   catch {
     (err)=> console.error("There was an error: ",err)}  
