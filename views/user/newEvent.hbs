@@ -1,0 +1,23 @@
+<div class="card col-lg-4 col-md-8 my-3 form">
+  <form id="form" action="/users/newEvent" method="POST">
+    <br>
+    <label for="name">Name</label>
+    <input class=" w-100" type="text" name="name" placeholder="e.g. Neighbourhood bingo!" required 
+      title="Please input a valid name for your event">
+    <br>
+    <label for="description">Event description</label>
+    <input class=" w-100" type="text" name="description"
+      placeholder="e.g. Join me to play a game of bingo!" title="Please input a valid description">
+    <br>
+
+
+    <label for="date">Event description</label>
+    <input class="w-100" type="datetime-local" min="now" required name="date"> 
+
+
+    <button type="submit" class="btn my-4 btn-primary w-100">Create an account</button>
+</div>
+
+{{#if errorMessage}}
+<h4 class="rounded-pill text-center py-3 px-2 bg-danger text-light font-weight-bold mb-5">{{errorMessage}}</h4>
+{{/if}}
