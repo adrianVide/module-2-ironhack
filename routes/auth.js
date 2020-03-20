@@ -14,6 +14,12 @@ router.get("/signup", (req,res,next) =>{
     });
 });
 
+router.get("/login", (req,res,next) =>{
+  res.render("auth/login", {
+      errorMessage:""
+  });
+});
+
 router.post('/signup', (req, res, next) => {
     const nameInput = req.body.name;
     const emailInput = req.body.email;
@@ -67,11 +73,49 @@ router.post('/signup', (req, res, next) => {
           });
           return;
         }
-          res.redirect('/');
+          res.redirect('/users/');
       });
     });
   });
 
 
+  router.post("/login", (req, res, next) => {
+    const inputEmail = req.body.email
+    const inputPassword = req.body.password
+    if (inputEmail === "" || inputPassword === "") {
+      res.render("auth/signup", {
+        errorMessage: "Please include valid credentials"
+      });
+      return
+    }
+    User.findOne({
+        email: inputEmail
+      })
+      .then(user => {
+        if (user === null) {
+          res.render("auth/signup", {
+            errorMessage: "No such user exists, please sign up"
+          });
+          return
+  
+        } else {
+          if (bcrypt.compareSync(inputPassword, user.password)) {
+            req.session.currentUser = user;
+            res.redirect('/users/');
+            }
+           else {
+            res.render("auth/login", {
+              errorMessage: "Incorrect password"
+            })
+          }
+        }
+      })
+      .catch(error => next(error));
+  })
+  
+  router.get("/logout", (req, res, next)=>{
+  req.session.destroy(err => res.redirect("/auth/login"))
+  })
+  
 
 module.exports = router;

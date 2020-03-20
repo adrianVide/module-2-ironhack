@@ -5,23 +5,39 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <style>
+    #mymap {
+      height: 800px;
+    }
+  </style>
 </head>
 
 <body>
     <nav class="navbar  navbar-expand-lg">
         <ul class="navbar-nav">
+    {{#if isUserLoggedIn}}
+            <li class="nav-item">
+                <a class="nav-link " href="/users/">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="/auth/logout">Logout</a>
+            </li>
+    {{else}}
             <li class="nav-item">
                 <a class="nav-link " href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="/signup">Signup</a>
+                <a class="nav-link " href="/auth/signup">Signup</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="/login">Login</a>
+                <a class="nav-link " href="/auth/login">Login</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link " href="/secret">Secret</a>
-            </li>
+    {{/if}}
         </ul>
     </nav>
 
