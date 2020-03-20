@@ -17,8 +17,6 @@ router.post('/newEvent', function(req, res, next) {
   const {name, description, date} = req.body
   const userOrganizing = req.session.currentUser;
   
-
-
   Event.findOne({ organizer: userOrganizing._id, date: date },  (err, existingEvent) => {
     if (err) {
       next(err);
@@ -47,11 +45,12 @@ router.post('/newEvent', function(req, res, next) {
         res.render('users/newEvent', {
           errorMessage: 'Something went wrong. Try again later.'
         });
-        return;
+        //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
       }
-      res.redirect('/users/', { title: 'Palconing'});
     });
-});
+  });
+  
+  res.render('user/dashboard', { message: 'Your event was created successfully' });
 });
 
 
