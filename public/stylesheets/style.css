@@ -16,3 +16,9 @@ a {
   width: 1200px;
   border: 2px solid grey;
 }
+
+#map {
+  height: 800px;
+  width: 1200px;
+  border: 2px solid grey;
+}
