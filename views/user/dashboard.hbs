@@ -1,0 +1,38 @@
+<h1>{{currentUserInfo.name}}, these are the events happening near you</h1>
+
+
+<h4>Click on any marker to see the details of the event</h4>
+
+<div id="mymap"></div>
+
+{{!-------------------------------------------MAPA-------------------------------------------}}
+<script>
+  const latInput = document.getElementById("lat")
+  const lonInput = document.getElementById("lon")
+  const mymap = L.map("mymap", {
+    minZoom: 14,
+  })
+  let marker
+
+  if ("geolocation" in navigator) {
+    console.log("geolocation available");
+    navigator.geolocation.getCurrentPosition(position => {
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+      console.log(lat, lon);
+      mymap.setView([lat, lon], 17);
+      const attribution =
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
+      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      const tiles = L.tileLayer(tileUrl, { attribution });
+      tiles.addTo(mymap);
+      marker = L.marker([lat, lon]).addTo(mymap);
+      latInput.value = lat
+      lonInput.value = lon
+    });
+  } else {
+    console.log("geolocation not available");
+  }
+
+
+</script>
