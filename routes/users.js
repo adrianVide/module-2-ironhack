@@ -1,11 +1,27 @@
 var express = require('express');
 var router = express.Router();
-
 const Event = require('../models/event');
 
-router.get('/', function(req, res, next) {
-  res.render('user/dashboard', { title: 'Palconing' });
-});
+router.get('/', async function(req, res, next) {
+  try {
+  eventMarkers = []
+  events = await Event.find({isItOver: false})
+  events.map(function(event){
+      let marker = {
+        name: event.name,
+        id: event._id,
+        lat: event.latitude,
+        lon: event.longitude
+      }
+      eventMarkers.push(marker)
+    })
+  console.log(eventMarkers)
+  res.render('user/dashboard', { title: 'Palconing', events: JSON.stringify(eventMarkers)}); 
+  }
+  catch {
+    (err)=> console.error("There was an error: ",err)}  
+  }  
+);
 
 router.get('/newEvent', function(req, res, next) {
   res.render('user/newEvent', { title: 'Palconing'});

@@ -11,17 +11,18 @@
 <div id="mymap"></div>
 
 
-
-
+<p id="events" class="d-none">{{events}}</p>
 
 {{!-------------------------------------------MAPA-------------------------------------------}}
 <script>
   const latInput = document.getElementById("lat")
   const lonInput = document.getElementById("lon")
+  const events = JSON.parse(document.getElementById("events").innerHTML)
+  console.log(events)
   const mymap = L.map("mymap", {
     minZoom: 14,
   })
-  let marker
+
 
   if ("geolocation" in navigator) {
     console.log("geolocation available");
@@ -42,6 +43,13 @@
   } else {
     console.log("geolocation not available");
   }
+
+
+events.map(function(event){
+     L.marker( [event.lat, event.lon] )
+      .bindPopup( `<a href=/events/${event.id}>${event.name}</a>` )
+      .addTo( mymap );
+})
 
 
 </script>
