@@ -30,12 +30,14 @@ Palconing  turns your balconies into theatre box seats, to help you reconnect wi
 -A separate collection will hold all event data, and will only reference attendees and organizers through their "_id" value in the database.
 
 ## Wireframes
+
+### Mobile Phone
+
 ![landing](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView1.png)
 ![signup](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView2.png)
 ![events](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView3.png)
 ![eventdetails¡](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView4.png)
 
-### Mobile Phone
 
 
 ### Git
