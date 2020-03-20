@@ -1,11 +1,25 @@
 var express = require('express');
 var router = express.Router();
-
 const Event = require('../models/event');
 
-router.get('/', function(req, res, next) {
-  res.render('user/dashboard', { title: 'Palconing' });
-});
+router.get('/', async function(req, res, next) {
+  try {
+  events = await Event.find({isItOver: false})
+  events.sort(function (a, b) {
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0;
+  })
+  res.render('user/dashboard', { title: 'Palconing', events: JSON.stringify(events)}); 
+  }
+  catch {
+    (err)=> console.error("There was an error: ",err)}  
+  }  
+);
 
 router.get('/newEvent', function(req, res, next) {
   res.render('user/newEvent', { title: 'Palconing'});

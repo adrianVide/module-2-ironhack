@@ -73,7 +73,7 @@ router.post('/signup', (req, res, next) => {
           });
           return;
         }
-          res.redirect('/users/login');
+          res.redirect('/auth/login');
       });
     });
   });
