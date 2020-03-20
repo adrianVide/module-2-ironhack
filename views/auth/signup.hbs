@@ -4,9 +4,7 @@
   <form id="form" action="/auth/signup" method="POST">
     <br>
     <label for="name">Name</label>
-    <input class=" w-100" type="text" name="name" placeholder="e.g. John Doe" required pattern="\w+"
-      title="Please input a valid name" onchange="
-        this.setCustomValidity(this.validity.patternMismatch ? this.title : '');">
+    <input class=" w-100" type="text" name="name" placeholder="e.g. John Doe" required>
     <br>
     <label for="email">Email</label>
     <input class=" w-100" type="email" name="email" placeholder="john@doe.com" required

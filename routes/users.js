@@ -37,8 +37,8 @@ router.post('/newEvent', function(req, res, next) {
       latitude: userOrganizing.latitude,
       longitude: userOrganizing.longitude
     }
-    
     const theEvent = new Event(newEvent)
+    console.log(theEvent)
 
     theEvent.save((err) => {
       if (err) {

@@ -10,14 +10,10 @@
 
 <div id="mymap"></div>
 
-
-
-
-
-{{!-------------------------------------------MAPA-------------------------------------------}}
+<input type="string" id="lat" value="{{currentUserInfo.latitude}}" class="d-none">
+<input type="string" id="lon" value="{{currentUserInfo.longitude}}" class="d-none">
+{{!---------------------<input type="number" id="lat" value="{{">----------------------MAPA-------------------------------------------}}
 <script>
-  const latInput = document.getElementById("lat")
-  const lonInput = document.getElementById("lon")
   const mymap = L.map("mymap", {
     minZoom: 14,
   })
@@ -36,8 +32,6 @@
       const tiles = L.tileLayer(tileUrl, { attribution });
       tiles.addTo(mymap);
       marker = L.marker([lat, lon]).addTo(mymap);
-      latInput.value = lat
-      lonInput.value = lon
     });
   } else {
     console.log("geolocation not available");
