@@ -1,27 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-  <style>
-    #mymap {
-      height: 800px;
-    }
-  </style>
-  <title>Document</title>
-</head>
-
-<body>
-  <h1>My Position</h1>
-  <p>
-    latitude: <span id="latitude"></span>&deg;<br />
-    longitude: <span id="longitude"></span>&deg;
-  </p>
-
 
   <h2 class="my-3">Register an account</h2>
 
@@ -50,7 +26,10 @@
         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" title="Please, ensure both passwords are the same" onchange="
         this.setCustomValidity(this.validity.patternMismatch ? this.title : '');">
       <br>
-
+      <br>
+      <label for="description">Your description (optional)</label>
+      <input class=" w-100" type="text" name="description" placeholder="e.g. I am a gym instructor with 10 years of experience..." pattern="\w+"
+        title="Please input a valid description">
       <br>
       <div class="mb-3 align-items-center">
         <p class="">Please select the location of your balcony on the map to autofill your coordinates</p>
@@ -125,7 +104,3 @@
 
   </script>
 {{!-------------------------------------------MAPA-------------------------------------------}}
-
-</body>
-
-</html>

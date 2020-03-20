@@ -18,7 +18,7 @@ router.post('/signup', (req, res, next) => {
     const nameInput = req.body.name;
     const emailInput = req.body.email;
     const passwordInput = req.body.password;
-    const {passwordRepeat, latitude, longitude} = req.body;
+    const {passwordRepeat, description, latitude, longitude} = req.body;
   
     if (emailInput === '' || passwordInput === '') {
       res.render('auth/signup', {
@@ -53,6 +53,7 @@ router.post('/signup', (req, res, next) => {
         name: nameInput,
         email: emailInput,
         password: hashedPass,
+        description: description,
         latitude: latitude,
         longitude: longitude,
       };
