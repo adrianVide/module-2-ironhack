@@ -4,7 +4,7 @@ event details.
 
 asdfasdf
 
-<div id="map"></div>
+<div id="event-details-map"></div>
 
 {{!-------------------------------------------MAPA-------------------------------------------}}
 {{!-- <script>
@@ -51,7 +51,7 @@ asdfasdf
     mymap.on('click', onMapClick);
 
 </script> --}}
-<script>var map = L.map('map').setView([{{latitude}}, {{longitude}}], 13);
+<script>var map = L.map('event-details-map').setView([{{latitude}}, {{longitude}}], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

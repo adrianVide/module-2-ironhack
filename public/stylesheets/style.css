@@ -1,13 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+
 body {
-  padding: 50px;
+  /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
 }
 
-#lat, #lon {
+#lat,
+#lon {
   border: 0px solid;
 }
 
@@ -19,6 +23,9 @@ a {
 
 #map {
   height: 800px;
-  width: 1200px;
-  border: 2px solid grey;
+  background-color: rgba(255, 0, 0, 0);
+}
+
+#event-details-map {
+  height: 75vw;
 }
