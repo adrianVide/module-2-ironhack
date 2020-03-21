@@ -14,20 +14,20 @@ router.get('/', async function(req, res, next) {
     }
     return 0;
   })
-  res.render('user/dashboard', { title: 'Palconing', events: JSON.stringify(events)}); 
+  res.render('/dashboard', { title: 'Palcony', events: JSON.stringify(events)}); 
   }
   catch {
     (err)=> console.error("There was an error: ",err)}  
   }  
 );
 
-router.get('/newEvent', function(req, res, next) {
-  res.render('user/newEvent', { title: 'Palconing'});
+router.get('/add-event', function(req, res, next) {
+  res.render('/users/add-event');
 });
 
 
 
-router.post('/newEvent', function(req, res, next) {
+router.post('/add-event', function(req, res, next) {
   const {name, description, date} = req.body
   const userOrganizing = req.session.currentUser;
   
@@ -38,7 +38,7 @@ router.post('/newEvent', function(req, res, next) {
     }
     if (existingEvent !==null){
 
-        res.render('user/newEvent', {
+        res.render('/users/add-event', {
           errorMessage: `You already have an event scheduled at that time.`
         });
         return;
@@ -56,7 +56,7 @@ router.post('/newEvent', function(req, res, next) {
 
     theEvent.save((err) => {
       if (err) {
-        res.render('users/newEvent', {
+        res.render('/users/add-event', {
           errorMessage: 'Something went wrong. Try again later.'
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
@@ -64,7 +64,7 @@ router.post('/newEvent', function(req, res, next) {
     });
   });
   
-  res.render('user/dashboard', { message: 'Your event was created successfully' });
+  res.render('/users/dashboard', { message: 'Your event was created successfully' });
 });
 
 
