@@ -14,7 +14,7 @@ router.get('/', async function(req, res, next) {
     }
     return 0;
   })
-  res.render('/dashboard', { title: 'Palcony', events: JSON.stringify(events)}); 
+  res.render('users/dashboard', { title: 'Palcony', events: JSON.stringify(events)}); 
   }
   catch {
     (err)=> console.error("There was an error: ",err)}  
@@ -22,7 +22,7 @@ router.get('/', async function(req, res, next) {
 );
 
 router.get('/add-event', function(req, res, next) {
-  res.render('/users/add-event');
+  res.render('users/add-event');
 });
 
 
@@ -38,7 +38,7 @@ router.post('/add-event', function(req, res, next) {
     }
     if (existingEvent !==null){
 
-        res.render('/users/add-event', {
+        res.render('users/add-event', {
           errorMessage: `You already have an event scheduled at that time.`
         });
         return;
@@ -56,7 +56,7 @@ router.post('/add-event', function(req, res, next) {
 
     theEvent.save((err) => {
       if (err) {
-        res.render('/users/add-event', {
+        res.render('users/add-event', {
           errorMessage: 'Something went wrong. Try again later.'
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
@@ -64,7 +64,7 @@ router.post('/add-event', function(req, res, next) {
     });
   });
   
-  res.render('/users/dashboard', { message: 'Your event was created successfully' });
+  res.render('users/dashboard', { message: 'Your event was created successfully' });
 });
 
 

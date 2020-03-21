@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/user");
 
-const dbName = "palconing";
+const dbName = "palcony";
 mongoose.connect(`mongodb://localhost/${dbName}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true
