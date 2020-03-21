@@ -1,62 +1,9 @@
-event details.
-
-{{name}}
-
-asdfasdf
-
 <div id="event-details-map"></div>
 
-{{!-------------------------------------------MAPA-------------------------------------------}}
-{{!-- <script>
-    const latInput = document.getElementById("lat")
-    const lonInput = document.getElementById("lon")
-    const mymap = L.map("mymap", {
-        minZoom: 14,
-    })
-    let marker
-
-    if ("geolocation" in navigator) {
-        console.log("geolocation available");
-        navigator.geolocation.getCurrentPosition(position => {
-            lat = {{ latitude }
-        };
-        lon = {{ longitude }
-    };
-    console.log(lat, lon);
-    document.getElementById("latitude").textContent = lat;
-    document.getElementById("longitude").textContent = lon;
-
-    mymap.setView([lat, lon], 20);
-    const attribution =
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
-    const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-    const tiles = L.tileLayer(tileUrl, { attribution });
-    tiles.addTo(mymap);
-    marker = L.marker([lat, lon]).addTo(mymap);
-    
-      });
-    } else {
-        console.log("geolocation not available");
-    }
-
-
-    function onMapClick(e) {
-        latInput.value = e.latlng.lat
-        lonInput.value = e.latlng.lng
-        mymap.removeLayer(marker);
-        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
-    }
-
-
-    mymap.on('click', onMapClick);
-
-</script> --}}
 <script>var map = L.map('event-details-map').setView([{{latitude}}, {{longitude}}], 13);
-
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-
     L.marker([{{latitude}}, {{longitude}}]).addTo(map)
         .bindPopup('{{name}}')
         .openPopup();</script>

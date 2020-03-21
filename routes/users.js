@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const Event = require('../models/event');
+const User = require('../models/user');
 
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
   try {
+<<<<<<< HEAD
   events = await Event.find({isItOver: false})
   events.sort(function (a, b) {
     if (a.date < b.date) {
@@ -15,35 +17,73 @@ router.get('/', async function(req, res, next) {
     return 0;
   })
   res.render('users/dashboard', { title: 'Palcony', events: JSON.stringify(events)}); 
+=======
+    events = await Event.find({
+      isItOver: false
+    })
+    events.sort(function (a, b) {
+      if (a.date < b.date) {
+        return 1;
+      }
+      if (a.date > b.date) {
+        return -1;
+      }
+      return 0;
+    })
+    res.render('user/dashboard', {
+      title: 'Palcony',
+      events: JSON.stringify(events)
+    });
+  } catch {
+    (err) => console.error("There was an error: ", err)
+>>>>>>> master
   }
-  catch {
-    (err)=> console.error("There was an error: ",err)}  
-  }  
-);
+});
 
+<<<<<<< HEAD
 router.get('/add-event', function(req, res, next) {
   res.render('users/add-event');
+=======
+router.get('/newEvent', function (req, res, next) {
+  res.render('user/newEvent', {
+    title: 'Palcony'
+  });
+>>>>>>> master
 });
 
 
 
-router.post('/add-event', function(req, res, next) {
-  const {name, description, date} = req.body
+router.post('/newEvent', async function (req, res, next) {
+  const {
+    name,
+    description,
+    date
+  } = req.body
   const userOrganizing = req.session.currentUser;
-  
-  Event.findOne({ organizer: userOrganizing._id, date: date },  (err, existingEvent) => {
+  let newEvent
+  Event.findOne({
+    organizer: userOrganizing._id,
+    date: date
+  }, (err, existingEvent) => {
     if (err) {
       next(err);
       return;
     }
-    if (existingEvent !==null){
+    if (existingEvent !== null) {
 
+<<<<<<< HEAD
         res.render('users/add-event', {
           errorMessage: `You already have an event scheduled at that time.`
         });
         return;
+=======
+      res.render('user/newEvent', {
+        errorMessage: `You already have an event scheduled at that time.`
+      });
+      return;
+>>>>>>> master
     }
-    let newEvent = {
+    newEvent = {
       name: name,
       description: description,
       date: date,
@@ -54,19 +94,41 @@ router.post('/add-event', function(req, res, next) {
     const theEvent = new Event(newEvent)
     console.log(theEvent)
 
-    theEvent.save((err) => {
+    theEvent.save(async (err) => {
       if (err) {
         res.render('users/add-event', {
           errorMessage: 'Something went wrong. Try again later.'
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
-      }
+      } else {
+        await updateUserOrganizedEventsArray(theEvent, userOrganizing)
+        res.redirect('/users/');
+      };
     });
   });
+<<<<<<< HEAD
   
   res.render('users/dashboard', { message: 'Your event was created successfully' });
+=======
+>>>>>>> master
 });
 
+async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
+    let newEventId = await Event.findOne(theEvent, (err, eventInDb) => eventInDb)
+    console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
+    User.findByIdAndUpdate(
+      userOrganizing._id, {
+        $push: {
+          "organizedEvents": newEventId.id,
+        }
+      }, {
+        new: true
+      }
+    ).then((result) => {
+      console.log(result)
+    }).catch((error) => {
+        console.log(error)
+      })
+    }
 
-
-module.exports = router;
+    module.exports = router;
