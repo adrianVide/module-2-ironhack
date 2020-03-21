@@ -47,7 +47,7 @@ router.post('/signup', (req, res, next) => {
   
       if (existingUser !== null) {
         res.render('auth/signup', {
-          errorMessage: `The email ${emailInput} is already registered in Palconing.`
+          errorMessage: `The email ${emailInput} is already registered in Palcony.`
         });
         return;
       }

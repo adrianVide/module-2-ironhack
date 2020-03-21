@@ -1,13 +1,13 @@
-# Project- PALCONING - Social interaction amidst a quarantine 
+# Project- PALCONY - Social interaction amidst a quarantine 
 
 
 
 ## Description
 Due to the current COVID-19 quarantine, people all around the country have been ordered to stay at home, effectively isolating them. As time passes, days become dull, and the lack of human contact start taking a toll on the average person. What once was a warm home slowly devolves into a prison cell with nicer furniture.
 
-Palconing was born to help people come together in spite of this quarantine. It enables us to schedule activities to perform any activity we desire from the confort of our own balconies or windows, and to invite our neighbours to take part in it. It also shows us all the activities other people in our area have planned, as to invite us to join them. Want to do some exercise? Your next-door neighbour just offered to direct a Zumba class! Are you bored? one of your neighbours is holding a Bingo session! Love playing guitar? Hold a concert for your neighbours from your own balcony!
+Palcony was born to help people come together in spite of this quarantine. It enables us to schedule activities to perform any activity we desire from the confort of our own balconies or windows, and to invite our neighbours to take part in it. It also shows us all the activities other people in our area have planned, as to invite us to join them. Want to do some exercise? Your next-door neighbour just offered to direct a Zumba class! Are you bored? one of your neighbours is holding a Bingo session! Love playing guitar? Hold a concert for your neighbours from your own balcony!
 
-Palconing  turns your balconies into theatre box seats, to help you reconnect with the people around you without having to leave our home.
+Palcony turns your balconies into theatre box seats, to help you reconnect with the people around you without having to leave our home.
 
 ## MVP
 - Responsive webpage (mobile-first, tablet, laptop)

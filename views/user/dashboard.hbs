@@ -36,9 +36,6 @@
       const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       const tiles = L.tileLayer(tileUrl, { attribution });
       tiles.addTo(mymap);
-      marker = L.marker([lat, lon]).addTo(mymap);
-      latInput.value = lat
-      lonInput.value = lon
     });
   } else {
     console.log("geolocation not available");
@@ -80,6 +77,7 @@
       case "3": day+="rd"; break;
       default: day+="th";
     }
+    if (day.charAt(0)==="0"){day=day.slice(1)}
   return `${month} the ${day}`
   }
 
