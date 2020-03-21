@@ -1,11 +1,25 @@
 var express = require('express');
 var router = express.Router();
-
 const Event = require('../models/event');
 
-router.get('/', function(req, res, next) {
-  res.render('user/dashboard', { title: 'Palconing' });
-});
+router.get('/', async function(req, res, next) {
+  try {
+  events = await Event.find({isItOver: false})
+  events.sort(function (a, b) {
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0;
+  })
+  res.render('user/dashboard', { title: 'Palconing', events: JSON.stringify(events)}); 
+  }
+  catch {
+    (err)=> console.error("There was an error: ",err)}  
+  }  
+);
 
 router.get('/newEvent', function(req, res, next) {
   res.render('user/newEvent', { title: 'Palconing'});
@@ -17,8 +31,6 @@ router.post('/newEvent', function(req, res, next) {
   const {name, description, date} = req.body
   const userOrganizing = req.session.currentUser;
   
-
-
   Event.findOne({ organizer: userOrganizing._id, date: date },  (err, existingEvent) => {
     if (err) {
       next(err);
@@ -39,19 +51,20 @@ router.post('/newEvent', function(req, res, next) {
       latitude: userOrganizing.latitude,
       longitude: userOrganizing.longitude
     }
-    
     const theEvent = new Event(newEvent)
+    console.log(theEvent)
 
     theEvent.save((err) => {
       if (err) {
         res.render('users/newEvent', {
           errorMessage: 'Something went wrong. Try again later.'
         });
-        return;
+        //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
       }
-      res.redirect('/users/', { title: 'Palconing'});
     });
-});
+  });
+  
+  res.render('user/dashboard', { message: 'Your event was created successfully' });
 });
 
 
