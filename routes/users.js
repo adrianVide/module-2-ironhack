@@ -5,19 +5,6 @@ const User = require('../models/user');
 
 router.get('/', async function (req, res, next) {
   try {
-<<<<<<< HEAD
-  events = await Event.find({isItOver: false})
-  events.sort(function (a, b) {
-    if (a.date < b.date) {
-      return 1;
-    }
-    if (a.date > b.date) {
-      return -1;
-    }
-    return 0;
-  })
-  res.render('users/dashboard', { title: 'Palcony', events: JSON.stringify(events)}); 
-=======
     events = await Event.find({
       isItOver: false
     })
@@ -30,30 +17,24 @@ router.get('/', async function (req, res, next) {
       }
       return 0;
     })
-    res.render('user/dashboard', {
+    res.render('users/dashboard', {
       title: 'Palcony',
       events: JSON.stringify(events)
     });
   } catch {
     (err) => console.error("There was an error: ", err)
->>>>>>> master
   }
 });
 
-<<<<<<< HEAD
-router.get('/add-event', function(req, res, next) {
-  res.render('users/add-event');
-=======
-router.get('/newEvent', function (req, res, next) {
-  res.render('user/newEvent', {
+router.get('/add-event', function (req, res, next) {
+  res.render('users/add-event', {
     title: 'Palcony'
   });
->>>>>>> master
 });
 
 
 
-router.post('/newEvent', async function (req, res, next) {
+router.post('/add-event', async function (req, res, next) {
   const {
     name,
     description,
@@ -71,17 +52,10 @@ router.post('/newEvent', async function (req, res, next) {
     }
     if (existingEvent !== null) {
 
-<<<<<<< HEAD
-        res.render('users/add-event', {
-          errorMessage: `You already have an event scheduled at that time.`
-        });
-        return;
-=======
-      res.render('user/newEvent', {
+      res.render('users/add-event', {
         errorMessage: `You already have an event scheduled at that time.`
       });
       return;
->>>>>>> master
     }
     newEvent = {
       name: name,
@@ -106,11 +80,6 @@ router.post('/newEvent', async function (req, res, next) {
       };
     });
   });
-<<<<<<< HEAD
-  
-  res.render('users/dashboard', { message: 'Your event was created successfully' });
-=======
->>>>>>> master
 });
 
 async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
