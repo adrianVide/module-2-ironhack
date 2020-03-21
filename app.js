@@ -13,7 +13,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect('mongodb://localhost/palconing', {
+mongoose.connect('mongodb://localhost/palcony', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

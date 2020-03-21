@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Event = require('../models/event');
 
-mongoose.connect('mongodb://localhost/palconing', {
+mongoose.connect('mongodb://localhost/palcony', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
