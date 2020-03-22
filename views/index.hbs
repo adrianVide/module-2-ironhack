@@ -6,11 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-  <style>
-    #mymap {
-      height: 800px;
-    }
-  </style>
+
   <title>Document</title>
 </head>
 
@@ -79,14 +75,13 @@
   <div id="mymap"></div>
 
   {{!-------------------------------------------MAPA-------------------------------------------}}
-  <script>
+    <script>
     const latInput = document.getElementById("lat")
     const lonInput = document.getElementById("lon")
     const mymap = L.map("mymap", {
       minZoom: 14,
     })
     let marker
-
     if ("geolocation" in navigator) {
       console.log("geolocation available");
       navigator.geolocation.getCurrentPosition(position => {
@@ -95,7 +90,6 @@
         console.log(lat, lon);
         document.getElementById("latitude").textContent = lat;
         document.getElementById("longitude").textContent = lon;
-
         mymap.setView([lat, lon], 20);
         const attribution =
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
@@ -109,18 +103,13 @@
     } else {
       console.log("geolocation not available");
     }
-
-
     function onMapClick(e) {
       latInput.value = e.latlng.lat
       lonInput.value = e.latlng.lng
       mymap.removeLayer(marker);
       marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
     }
-
-
     mymap.on('click', onMapClick);
-
   </script>
 {{!-------------------------------------------MAPA-------------------------------------------}}
 
