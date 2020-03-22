@@ -1,4 +1,16 @@
-<div id="event-details-map"></div>
+<h1>{{name}}</h1>
+<p class="text-secondary">Created by: {{organizerData.name}}</p>
+<p  class="mb-0"><b>Date: </b>{{readableDate}}</p>
+<p><b>Time: </b>{{time}}</p>
+<p class="font-italic">{{description}}</p>
+
+<p class="font-weight-bold mb-0">Location:</p>
+<ul>
+<li class=""><b>Latitude: </b> <i id="latitude" >{{latitude}}</i></li>
+<li class=""><b>Longitude: </b> <i id="longitude">{{longitude}}</i></li>
+</ul>
+
+<div style="height: 80vw;  width: auto;  margin: 0px;" id="event-details-map"></div>
 
 <script>var map = L.map('event-details-map').setView([{{latitude}}, {{longitude}}], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
