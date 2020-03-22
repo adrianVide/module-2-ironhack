@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 body {
-  /* padding: 50px; */
+  background-color:#DEF2F1;
+  padding: 1vw;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   font-family: "Montserrat", sans-serif;
 }
@@ -12,8 +13,8 @@ a {
   border: 0px solid;
 }
 #mymap {
-  height: 800px;
-  width: 1200px;
+  height: 1vw;
+  width: 80vw;
   border: 2px solid grey;
 }
 #map {
