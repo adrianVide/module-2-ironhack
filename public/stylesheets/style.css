@@ -1,10 +1,18 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap');
 body {
   background-color:#DEF2F1;
   padding: 1vw;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
   font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  color: #2B7A77;
 }
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #3AAFA9;
+}
+
 a {
   color: #00b7ff;
 }
@@ -13,10 +21,12 @@ a {
   border: 0px solid;
 }
 #mymap {
-  height: 1vw;
-  width: 80vw;
-  border: 2px solid grey;
+  height: 80vw;
+  width: auto;
+  /* border: 2px solid grey; */
+  margin: 0px;
 }
+
 #map {
   height: 800px;
   background-color: rgba(255, 0, 0, 0);
