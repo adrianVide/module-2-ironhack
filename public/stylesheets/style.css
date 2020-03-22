@@ -1,20 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap');
 body {
-  background-color:#DEF2F1;
+  background-color:#2B7A77;
   padding: 1vw;
   /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  color: #2B7A77;
-}
-h1 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
   color: #3AAFA9;
 }
 
+/* colors:
+#3AAFA9
+#2B7A77
+#DEF2F1
+#17232A */
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #DEF2F1;
+}
+
+.main-color {
+  color: #DEF2F1;
+}
+
+
+
 a {
-  color: #00b7ff;
+  color: #17232A;
 }
 #lat,
 #lon {
