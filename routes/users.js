@@ -8,6 +8,7 @@ router.get('/', async function (req, res, next) {
     events = await Event.find({
       isItOver: false
     })
+    events = isEventOver(events)
     events.sort(function (a, b) {
       if (a.date < b.date) {
         return 1;
@@ -83,21 +84,81 @@ router.post('/add-event', async function (req, res, next) {
 });
 
 async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
-    let newEventId = await Event.findOne(theEvent, (err, eventInDb) => eventInDb)
-    console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
-    User.findByIdAndUpdate(
-      userOrganizing._id, {
-        $push: {
-          "organizedEvents": newEventId.id,
-        }
-      }, {
-        new: true
+  let newEventId = await Event.findOne(theEvent, (err, eventInDb) => eventInDb)
+  console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
+  User.findByIdAndUpdate(
+    userOrganizing._id, {
+      $push: {
+        "organizedEvents": newEventId.id,
       }
-    ).then((result) => {
-      console.log(result)
-    }).catch((error) => {
-        console.log(error)
-      })
+    }, {
+      new: true
     }
+  ).catch((error) => {
+    console.log(error)
+  })
+}
 
-    module.exports = router;
+function isEventOver(events) {
+  let currentDate = new Date()
+  return events.map(function (event) {
+    if (currentDate.getTime() < event.date.getTime()) {
+      return event
+    } else {
+      closeFinishedEvent(event)
+    }
+  });
+}
+
+
+
+function closeFinishedEvent(event) {
+  Event.findByIdAndUpdate(
+    event._id, {
+      $set: {
+        "isItOver": true,
+      }
+    }, {
+      new: true
+    }
+  ).catch((error) => {
+    console.log(error)
+  })
+  User.findByIdAndUpdate(
+    event.organizer, {
+      $pull: {
+        "organizedEvents": event.id,
+      },
+      $push: {
+        "pastOrganizedEvents": event.id,
+      },
+    },
+    {
+      new: true
+    }).catch((error) => {
+    console.log(error)
+  });
+  event.participants.map(function(participant){
+    User.findByIdAndUpdate(
+      participant, {
+        $pull: {
+          "participatedEvents": event.id,
+        },
+        $push: {
+          "pastParticipatedEvents": event.id,
+        },
+      },
+      {
+        new: true
+      }).catch((error) => {
+      console.log(error)
+    });
+  })
+}
+
+
+
+
+
+
+module.exports = router;
