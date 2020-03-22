@@ -105,19 +105,60 @@ function isEventOver(events) {
     if (currentDate.getTime() < event.date.getTime()) {
       return event
     } else {
-      Event.findByIdAndUpdate(
-        event._id, {
-          $set: {
-            "isItOver": true,
-          }
-        }, {
-          new: true
-        }
-      ).catch((error) => {
-        console.log(error)
-      })
+      closeFinishedEvent(event)
     }
   });
 }
+
+
+
+function closeFinishedEvent(event) {
+  Event.findByIdAndUpdate(
+    event._id, {
+      $set: {
+        "isItOver": true,
+      }
+    }, {
+      new: true
+    }
+  ).catch((error) => {
+    console.log(error)
+  })
+  User.findByIdAndUpdate(
+    event.organizer, {
+      $pull: {
+        "organizedEvents": event.id,
+      },
+      $push: {
+        "pastOrganizedEvents": event.id,
+      },
+    },
+    {
+      new: true
+    }).catch((error) => {
+    console.log(error)
+  });
+  event.participants.map(function(participant){
+    User.findByIdAndUpdate(
+      participant, {
+        $pull: {
+          "participatedEvents": event.id,
+        },
+        $push: {
+          "pastParticipatedEvents": event.id,
+        },
+      },
+      {
+        new: true
+      }).catch((error) => {
+      console.log(error)
+    });
+  })
+}
+
+
+
+
+
 
 module.exports = router;
