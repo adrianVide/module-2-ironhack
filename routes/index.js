@@ -6,8 +6,8 @@ const User = require('../models/user')
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
-  let eventItems = await Event.find()
-  .populate('user', 'name')
+  let eventItems = await Event.find().limit(5)
+  .populate('organizer', 'name')
   // everyEvent.organizerName = await User.findById(everyEvent.organizer)
   // eventItems.map(everyEvent => return everyEvent.organizerName = User.findById(everyEvent.organizer));
   // console.log(eventItems.organizerName[0]);
@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 
   // });
   // console.log(eventItems);
-  res.render('index', eventItems);
+  res.render('index', {eventItems});
 });
 
 module.exports = router;

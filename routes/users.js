@@ -43,11 +43,11 @@ router.post('/add-event', async function (req, res, next) {
   const checkDate = new Date(date)
   if (isEventOver(checkDate)===true) {
 
-  //   res.render('users/add-event', {
-  //     errorMessage: `Events can't happen in the past; please input a future date.`
-  //   });
-  //   return;
-  // }
+    res.render('users/add-event', {
+      errorMessage: `Events can't happen in the past; please input a future date.`
+    });
+    return;
+  }
   let newEvent
   Event.findOne({
     organizer: userOrganizing._id,

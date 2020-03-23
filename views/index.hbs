@@ -12,22 +12,19 @@
 
 <body>
   <h1>Check what's going on around you!</h1>
-<div>
-  
-    {{#each this}}
-<div class="card mt-3 mx-1 shadow">
-    <img class="card-img-top" style="object-fit: cover;" src="{{this.images.0.url}}" alt="">
+
+{{#each eventItems}}
+    <div class="card mt-3 mx-1 shadow">
+    <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
     <div class="card-body spot-color">
-        <h5 class="card-title">{{name}} by {{organizer}}</h5>
-        <p class="card-text">{{date}}</p>
-        <form action="/track/{{event.id}}", method='GET'>
-        <button class="btn align-text-bottom btn-outline-green">More Info</button> </form>
+      <h5 class="card-title">{{this.name}} by {{this.organizer.name}}</h5>
+      <p class="card-text">{{this.date}}</p>
+        <a href="/events/{{this._id}}" class="btn align-text-bottom btn-outline-green">More Info</a>
     </div>
-</div>    
-    {{!-- {{> event-card this}} --}}
-    {{/each}}
-    
-</div>
+  </div>
+{{/each}}
+
+
 
 
   <p class="d-none">
@@ -37,11 +34,11 @@
   <div id="mymap"></div>
 
   {{!-------------------------------------------MAPA-------------------------------------------}}
-    <script>
+  <script>
     const latInput = document.getElementById("lat")
     const lonInput = document.getElementById("lon")
     const mymap = L.map("mymap", {
-        marker = L.marker([lat, lon]).addTo(mymap);
+      marker = L.marker([lat, lon]).addTo(mymap);
       minZoom: 14,
     })
     let marker
@@ -54,7 +51,7 @@
         document.getElementById("latitude").textContent = lat;
         document.getElementById("longitude").textContent = lon;
         mymap.setView([lat, lon], 20);
-        const attribution ='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
+        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
         const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
         const tiles = L.tileLayer(tileUrl, { attribution });
         tiles.addTo(mymap);
@@ -67,7 +64,7 @@
     }
 
   </script>
-{{!-------------------------------------------MAPA-------------------------------------------}}
+  {{!-------------------------------------------MAPA-------------------------------------------}}
 
 </body>
 
