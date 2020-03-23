@@ -4,17 +4,17 @@
 <p><b>Time: </b>{{time}}</p>
 <p class="font-italic">{{description}}</p>
 
-<div class="bg-light py-4 px-2 col-lg-2 text-center">
+<div class="bg-light my-2 py-4 px-2 col-lg-2 col-md-3 text-center">
 
 {{#if isOrganizer}}
 <p class="font-weight-bold">You organized this event</p>
-<a class="btn btn-danger" href="/events/edit/{{id}}">Edit this event</a>
+<a class="btn btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
 {{else if isParticipant}}
 <p class="font-weight-bold">You are participating in this event</p>
 <a class="btn btn-danger" href="/events/abandon/{{id}}">Abandon this event</a>
 {{else}}
 <p class="font-weight-bold">Would you like to join the event?</p>
-<a class="btn btn-info" href="/events/participate/{{id}}">Participate in this event!</a>
+<a class="btn btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
 {{/if}}
 </div>
 

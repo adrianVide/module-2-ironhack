@@ -9,8 +9,8 @@ router.get('/:id', async (req, res, next) => {
   })
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
-  foundEvent.isOrganizer = isUserInTheEvent(foundEvent, "organizer", req.session.currentUser._id) 
-  foundEvent.isParticipant = isUserInTheEvent(foundEvent, "participants", req.session.currentUser._id) 
+  foundEvent.isOrganizer = isUserInTheEvent(foundEvent, "organizer", req.session.currentUser._id)
+  foundEvent.isParticipant = isUserInTheEvent(foundEvent, "participants", req.session.currentUser._id)
   foundEvent.organizerData = await User.findById(foundEvent.organizer)
   res.render('event-details', foundEvent)
 })
@@ -25,12 +25,34 @@ router.get('/abandon/:id', async (req, res, next) => {
   res.redirect(`/events/${req.params.id}`)
 })
 
+router.get('/edit-event/:id', async (req, res, next) => {
+  let foundEvent = await Event.findById(req.params.id).catch((error) => {
+    console.log(error)
+  })
+  foundEvent.time = JSON.stringify(foundEvent.date).slice(1, 24)
+  res.render('edit-event', foundEvent)
+})
 
+router.post('/edit-event/:id', async (req, res, next) => {
+  const {
+    name,
+    description,
+    date
+  } = req.body
+  await Event.findByIdAndUpdate(req.params.id, {
+    name,
+    description,
+    date
+  }).catch((error) => {
+    console.log(error)
+  })
+  res.redirect(`/events/${req.params.id}`)
+})
 
-function eventParticipationHandler(eventId, pushOrPull, userId){
+function eventParticipationHandler(eventId, pushOrPull, userId) {
   Event.findByIdAndUpdate(
     eventId, {
-    [pushOrPull]: {
+      [pushOrPull]: {
         "participants": userId,
       }
     }, {
@@ -55,34 +77,51 @@ module.exports = router;
 
 function readableDate(unreadableDate) {
   let dateText = JSON.stringify(unreadableDate)
+  console.log(dateText)
   let day = dateText.slice(9, 11)
   let month = dateText.slice(6, 8)
+  console.log(month)
 
   switch (month) {
     case "01":
       month = "January";
+      break;
     case "02":
       month = "February";
+      break;
     case "03":
       month = "March";
+      break;
     case "04":
       month = "April";
+      break;
     case "05":
       month = "May";
+      break;
     case "06":
       month = "June";
+      break;
     case "07":
       month = "July";
+      break;
     case "08":
       month = "August";
+      break;
     case "09":
       month = "September";
+      break;
     case "10":
       month = "October";
+      break;
     case "11":
       month = "November";
+      break;
     case "12":
       month = "December";
+      break;
+    default:
+      month = "Somewhere in time, on "
+      break;
   }
 
   if (dateText.charAt(9) !== 0) {
