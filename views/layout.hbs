@@ -48,6 +48,8 @@
     {{#if isUserLoggedIn}}
     <button type="button" class="btn btn-default">Around me</button>
 
+    <a type="button" class="btn btn-default" href="/users/add-event">Create event</a>
+
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
@@ -60,7 +62,7 @@
       </ul>
     </div>
     {{else}}
-    <button type="button" class="btn btn-default" href="/users/add-event">Create event</button>
+    <button type="button" class="btn btn-default">Around me</button>
 
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
