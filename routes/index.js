@@ -9,8 +9,9 @@ router.get('/', async (req, res, next) => {
   let eventItems = await Event.find().catch((error) => {
     console.log(error)
   })
-  eventItems.organizerName = await User.findById(eventItems.organizer)
-  console.log(eventItems);
+  // everyEvent.organizerName = await User.findById(everyEvent.organizer)
+  eventItems.map(everyEvent => return everyEvent.organizerName = User.findById(everyEvent.organizer));
+  // console.log(eventItems.organizerName[0]);
 
   res.render('index', eventItems);
 });
