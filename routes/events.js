@@ -12,6 +12,7 @@ router.get('/:id', async (req, res, next) => {
   }
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
+  foundEvent.isUserLoggedIn = userIsNotLoggedIn(req.session.currentUser)
   foundEvent.isOrganizer = isUserTheOrganizer(foundEvent, req.session.currentUser)
   foundEvent.isParticipant = isUserAParticipant(foundEvent, req.session.currentUser)
   //foundEvent.organizerData = await User.findById(foundEvent.organizer)
@@ -34,7 +35,7 @@ router.get('/edit-event/:id', async (req, res, next) => {
     console.error(error)
   })
   const userCheck = await isUserTheOrganizer(foundEvent, req.session.currentUser._id)
-  if (userCheck===false) {
+  if (userCheck === false) {
     console.log("Not him")
     return res.redirect(`/events/${req.params.id}`);
   }
@@ -48,7 +49,7 @@ router.post('/edit-event/:id', async (req, res, next) => {
     console.error(error)
   })
   const userCheck = await isUserTheOrganizer(foundEvent, req.session.currentUser._id)
-  if (userCheck===false) {
+  if (userCheck === false) {
     console.log("Not him")
     return res.redirect(`/events/${req.params.id}`);
   }
@@ -72,7 +73,7 @@ router.get('/delete/:id', async (req, res, next) => {
     console.error(error)
   })
   const userCheck = await isUserTheOrganizer(foundEvent, req.session.currentUser._id)
-  if (userCheck===false) {
+  if (userCheck === false) {
     return res.redirect(`/events/${req.params.id}`);
   }
   await Event.findByIdAndDelete(req.params.id);
@@ -82,6 +83,14 @@ router.get('/delete/:id', async (req, res, next) => {
 
 
 //////////// Funciones /////////////
+
+function userIsNotLoggedIn(user) {
+  if (user === undefined) {
+    return true
+  }
+  return false
+}
+
 
 function eventParticipationHandler(eventId, pushOrPull, userId) {
   Event.findByIdAndUpdate(
@@ -109,16 +118,23 @@ function eventParticipationHandler(eventId, pushOrPull, userId) {
 }
 
 function isUserTheOrganizer(eventObject, userId) {
-      if (eventObject.organizer.equals(userId._id)) {
-        console.log("Sí")
-        return true
-      };
-    }
+  if (userId === undefined) {
+    return false
+  }
+  if (eventObject.organizer.equals(userId._id)) {
+    console.log("Sí")
+    return true
+  };
+}
 
-function isUserAParticipant(eventObject, userId){
-      if (eventObject.participants.indexOf(userId._id) > -1){
-        console.log("veamos");
-        return true};
+function isUserAParticipant(eventObject, userId) {
+  if (userId === undefined) {
+    return false
+  }
+  if (eventObject.participants.indexOf(userId._id) > -1) {
+    console.log("veamos");
+    return true
+  };
 }
 
 async function isTheUserTheOrganizer(eventId, user) {
