@@ -1,0 +1,27 @@
+
+<div class="card col-lg-4 col-md-8 my-3 form">
+  <form id="form" action="/events/edit-event/{{id}}" method="POST">
+    <br>
+    <label for="name">Name</label>
+    <input class=" w-100" type="text" name="name" placeholder="e.g. Neighbourhood bingo!" required 
+      title="Please input a valid name for your event" value="{{name}}">
+    <br>
+    <label for="description">Event description</label>
+    <input class=" w-100" type="text" name="description"
+      placeholder="e.g. Join me to play a game of bingo!" title="Please input a valid description" value="{{description}}">
+    <br>
+
+
+    <label for="date">Date and time</label>
+    <input class="w-100" type="datetime-local" min="now" required name="date"  value="{{time}}"> 
+
+
+    <button type="submit" class="btn my-4 btn-primary w-100">Save changes on your event</button>
+
+    <p class="text-secondary mb-0">Change of plans? No problem! Click to delete your event. However, keep in mind <b>deleted events can't be recovered!</b></p>
+    <a href="/events/delete/{{id}}" class="btn mb-4 mt-1 btn-danger w-100">Delete your event</a>
+</div>
+
+{{#if errorMessage}}
+<h4 class="rounded-pill text-center py-3 px-2 bg-danger text-light font-weight-bold mb-5">{{errorMessage}}</h4>
+{{/if}}

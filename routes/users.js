@@ -40,7 +40,8 @@ router.post('/add-event', async function (req, res, next) {
     date
   } = req.body
   const userOrganizing = req.session.currentUser;
-  if (isEventOver(req.body.date)===true) {
+  const checkDate = new Date(date)
+  if (isEventOver(checkDate)===true) {
 
     res.render('users/add-event', {
       errorMessage: `Events can't happen in the past; please input a future date.`
@@ -81,15 +82,15 @@ router.post('/add-event', async function (req, res, next) {
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
       } else {
-        await updateUserOrganizedEventsArray(theEvent, userOrganizing)
-        res.redirect('/users/');
+        let newEventId = await Event.findOne(theEvent, (_err, eventInDb) => eventInDb)
+        await updateUserOrganizedEventsArray(newEventId, userOrganizing)
+        res.redirect(`/events/${newEventId.id}`);
       };
     });
   });
 });
 
-async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
-  let newEventId = await Event.findOne(theEvent, (err, eventInDb) => eventInDb)
+async function updateUserOrganizedEventsArray(newEventId, userOrganizing) {
   console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
   User.findByIdAndUpdate(
     userOrganizing._id, {
@@ -106,7 +107,7 @@ async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
 
 function populateEvents(events) {
   return events.map(function (event) {
-      if (isEventOver(event.date.getTime()) === false) {
+      if (isEventOver(event.date) === false) {
         return event
       } else {
         closeFinishedEvent(event)
@@ -116,7 +117,8 @@ function populateEvents(events) {
 
 function isEventOver(eventDate) {
   let currentDate = new Date()
-  if (currentDate.getTime() < eventDate) {
+//log//  console.log(currentDate+" vs "+eventDate)
+  if (currentDate.getTime() < eventDate.getTime()) {
     return false
   } else {
     return true
@@ -124,7 +126,6 @@ function isEventOver(eventDate) {
 }
 
 function closeFinishedEvent(event) {
-  console.log("¡Funciono!")
   Event.findByIdAndUpdate(
     event._id, {
       $set: {
