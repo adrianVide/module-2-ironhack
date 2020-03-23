@@ -8,7 +8,7 @@ router.get('/', async function (req, res, next) {
     events = await Event.find({
       isItOver: false
     })
-    events = isEventOver(events)
+    events = populateEvents(events)
     events.sort(function (a, b) {
       if (a.date < b.date) {
         return 1;
@@ -76,7 +76,7 @@ router.post('/add-event', async function (req, res, next) {
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
       } else {
-        await updateUserOrganizedEventsArray(theEvent, userOrganizing)
+        await updatpopulateEventseUserOrganizedEventsArray(theEvent, userOrganizing)
         res.redirect('/users/');
       };
     });
@@ -99,20 +99,27 @@ async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
   })
 }
 
-function isEventOver(events) {
-  let currentDate = new Date()
+function populateEvents(events) {
   return events.map(function (event) {
-    if (currentDate.getTime() < event.date.getTime()) {
-      return event
-    } else {
-      closeFinishedEvent(event)
-    }
-  });
+      if (isEventOver(event) === false) {
+        return event
+      } else {
+        closeFinishedEvent(event)
+      }
+    });
+  };
+
+function isEventOver(event) {
+  let currentDate = new Date()
+  if (currentDate.getTime() < event.date.getTime()) {
+    return false
+  } else {
+    return true
+  }
 }
 
-
-
 function closeFinishedEvent(event) {
+  console.log("¡Funciono!")
   Event.findByIdAndUpdate(
     event._id, {
       $set: {
@@ -132,13 +139,12 @@ function closeFinishedEvent(event) {
       $push: {
         "pastOrganizedEvents": event.id,
       },
-    },
-    {
+    }, {
       new: true
     }).catch((error) => {
     console.log(error)
   });
-  event.participants.map(function(participant){
+  event.participants.map(function (participant) {
     User.findByIdAndUpdate(
       participant, {
         $pull: {
@@ -146,19 +152,18 @@ function closeFinishedEvent(event) {
         },
         $push: {
           "pastParticipatedEvents": event.id,
-        },
-      },
-      {
-        new: true
-      }).catch((error) => {
-      console.log(error)
-    });
-  })
-}
+          },
+        }, {
+          new: true
+        }).catch((error) => {
+        console.log(error)
+      });
+    })
+  }
 
 
 
 
 
 
-module.exports = router;
+  module.exports = router;
