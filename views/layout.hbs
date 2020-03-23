@@ -15,17 +15,17 @@
 
 <body>
 
-  <nav class="navbar  navbar-expand-lg"></nav>
+  <nav class="navbar  navbar-expand-lg w-100"></nav>
   <div class="btn-group d-flex" role="group" aria-label="...">
     <a class="btn btn-default main-color font-weight-bold" href="/">Palcony</a>
     {{#if isUserLoggedIn}}
-    <button type="button" class="btn btn-default">Around me</button>
+    <a a href="/users/" class="btn btn-default">Around me</a>
 
     <a type="button" class="btn btn-default" href="/users/add-event">Create event</a>
 
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false"><!DOCTYPE html>
+        aria-expanded="false">
         {{currentUserInfo.name}}
         <span class="caret"></span>
       </button>
@@ -34,8 +34,9 @@
         <li><a href="/auth/logout">Log Out</a></li>
       </ul>
     </div>
+    <div></div>
     {{else}}
-    <button type="button" class="btn btn-default">Around me</button>
+        <a a href="/users/" class="btn btn-default">Around me</a>
 
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"

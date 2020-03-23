@@ -1,5 +1,9 @@
+{{#if currentUserInfo}}
 <h1>{{currentUserInfo.name}}, these are the events happening near you</h1>
-
+{{else}}
+<h1>These are the events happening near you</h1>
+<p>Sign in to join or create events</p>
+{{/if}}
 
 {{#if message}}
 <h4 class="rounded-pill text-center py-3 px-2 bg-success text-light font-weight-bold my-4 w-50">{{message}}</h4>

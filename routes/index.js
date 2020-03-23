@@ -11,7 +11,21 @@ router.get('/', async (req, res, next) => {
   eventItems.map(function(event){
     event.readableDate = readableDate(event.date)
     event.readableTime = readableTime(event.date)})
-  res.render('index', {eventItems});
+
+    allEvents = await Event.find({
+      isItOver: false
+    })
+    allEvents = populateEvents(allEvents)
+    allEvents.sort(function (a, b) {
+      if (a.date < b.date) {
+        return 1;
+      }
+      if (a.date > b.date) {
+        return -1;
+      }
+      return 0;
+    })
+  res.render('index', {eventItems, events: JSON.stringify(allEvents)});
   });
   
 
@@ -93,4 +107,66 @@ router.get('/', async (req, res, next) => {
     return dateText.slice(12, 17)
   }
 
+  function populateEvents(events) {
+    return events.map(function (event) {
+        if (isEventOver(event.date) === false) {
+          return event
+        } else {
+          closeFinishedEvent(event)
+        }
+      });
+    };
+
+    function isEventOver(eventDate) {
+      let currentDate = new Date()
+    //log//  console.log(currentDate+" vs "+eventDate)
+      if (currentDate.getTime() < eventDate.getTime()) {
+        return false
+      } else {
+        return true
+      }
+    }
+    
+    function closeFinishedEvent(event) {
+      Event.findByIdAndUpdate(
+        event._id, {
+          $set: {
+            "isItOver": true,
+          }
+        }, {
+          new: true
+        }
+      ).catch((error) => {
+        console.log(error)
+      })
+      User.findByIdAndUpdate(
+        event.organizer, {
+          $pull: {
+            "organizedEvents": event.id,
+          },
+          $push: {
+            "pastOrganizedEvents": event.id,
+          },
+        }, {
+          new: true
+        }).catch((error) => {
+        console.log(error)
+      });
+      event.participants.map(function (participant) {
+        User.findByIdAndUpdate(
+          participant, {
+            $pull: {
+              "participatedEvents": event.id,
+            },
+            $push: {
+              "pastParticipatedEvents": event.id,
+              },
+            }, {
+              new: true
+            }).catch((error) => {
+            console.log(error)
+          });
+        })
+      }
+    
 module.exports = router;
