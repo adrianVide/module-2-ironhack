@@ -95,6 +95,17 @@ function eventParticipationHandler(eventId, pushOrPull, userId) {
   ).catch((error) => {
     console.log(error)
   })
+  User.findByIdAndUpdate(
+    userId, {
+      [pushOrPull]: {
+        "participatedEvents": eventId,
+      }
+    }, {
+      new: true
+    }
+  ).catch((error) => {
+    console.log(error)
+  })
 }
 
 function isUserTheOrganizer(eventObject, userId) {
