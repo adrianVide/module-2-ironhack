@@ -42,6 +42,14 @@ router.post('/add-event', async function (req, res, next) {
     date
   } = req.body
   const userOrganizing = req.session.currentUser;
+  if (isEventOver(req.body.date)===true) {
+
+    res.render('users/add-event', {
+      errorMessage: `Events can't happen in the past; please input a future date.`
+    });
+    return;
+  }
+  console.log(req.body)
   let newEvent
   Event.findOne({
     organizer: userOrganizing._id,
@@ -76,7 +84,7 @@ router.post('/add-event', async function (req, res, next) {
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
       } else {
-        await updatpopulateEventseUserOrganizedEventsArray(theEvent, userOrganizing)
+        await updateUserOrganizedEventsArray(theEvent, userOrganizing)
         res.redirect('/users/');
       };
     });
@@ -101,7 +109,7 @@ async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
 
 function populateEvents(events) {
   return events.map(function (event) {
-      if (isEventOver(event) === false) {
+      if (isEventOver(event.date.getTime()) === false) {
         return event
       } else {
         closeFinishedEvent(event)
@@ -109,9 +117,9 @@ function populateEvents(events) {
     });
   };
 
-function isEventOver(event) {
+function isEventOver(eventDate) {
   let currentDate = new Date()
-  if (currentDate.getTime() < event.date.getTime()) {
+  if (currentDate.getTime() < eventDate) {
     return false
   } else {
     return true
