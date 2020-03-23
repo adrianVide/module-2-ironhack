@@ -36,7 +36,9 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set("view engine", "hbs");
+app.set('view engine', 'hbs');
+app.use(express.static(__dirname + '/public'));
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // Middleware Setup
 
@@ -48,10 +50,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-// app.use(express.static(__dirname + '../public'));
-app.use(express.static(__dirname + "/public"));
-
-app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 app.use(bodyParser.json());
 app.use(
@@ -85,10 +83,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/auth", authRouter);
-app.use("/events", eventsRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+app.use('/events', eventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

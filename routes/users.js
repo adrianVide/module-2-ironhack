@@ -8,7 +8,7 @@ router.get('/', async function (req, res, next) {
     events = await Event.find({
       isItOver: false
     })
-    events = isEventOver(events)
+    events = populateEvents(events)
     events.sort(function (a, b) {
       if (a.date < b.date) {
         return 1;
@@ -33,8 +33,6 @@ router.get('/add-event', function (req, res, next) {
   });
 });
 
-
-
 router.post('/add-event', async function (req, res, next) {
   const {
     name,
@@ -42,6 +40,13 @@ router.post('/add-event', async function (req, res, next) {
     date
   } = req.body
   const userOrganizing = req.session.currentUser;
+  if (isEventOver(req.body.date)===true) {
+
+    res.render('users/add-event', {
+      errorMessage: `Events can't happen in the past; please input a future date.`
+    });
+    return;
+  }
   let newEvent
   Event.findOne({
     organizer: userOrganizing._id,
@@ -99,20 +104,27 @@ async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
   })
 }
 
-function isEventOver(events) {
-  let currentDate = new Date()
+function populateEvents(events) {
   return events.map(function (event) {
-    if (currentDate.getTime() < event.date.getTime()) {
-      return event
-    } else {
-      closeFinishedEvent(event)
-    }
-  });
+      if (isEventOver(event.date.getTime()) === false) {
+        return event
+      } else {
+        closeFinishedEvent(event)
+      }
+    });
+  };
+
+function isEventOver(eventDate) {
+  let currentDate = new Date()
+  if (currentDate.getTime() < eventDate) {
+    return false
+  } else {
+    return true
+  }
 }
 
-
-
 function closeFinishedEvent(event) {
+  console.log("¡Funciono!")
   Event.findByIdAndUpdate(
     event._id, {
       $set: {
@@ -132,13 +144,12 @@ function closeFinishedEvent(event) {
       $push: {
         "pastOrganizedEvents": event.id,
       },
-    },
-    {
+    }, {
       new: true
     }).catch((error) => {
     console.log(error)
   });
-  event.participants.map(function(participant){
+  event.participants.map(function (participant) {
     User.findByIdAndUpdate(
       participant, {
         $pull: {
@@ -146,19 +157,18 @@ function closeFinishedEvent(event) {
         },
         $push: {
           "pastParticipatedEvents": event.id,
-        },
-      },
-      {
-        new: true
-      }).catch((error) => {
-      console.log(error)
-    });
-  })
-}
+          },
+        }, {
+          new: true
+        }).catch((error) => {
+        console.log(error)
+      });
+    })
+  }
 
 
 
 
 
 
-module.exports = router;
+  module.exports = router;
