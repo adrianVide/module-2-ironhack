@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const eventSchema = new Schema(
   {
-    name: {type: String, required: true},
+    name: { type: String, required: true },
     description: String,
-    organizer: String,
+    organizer: { type: Schema.Types.ObjectId, ref: 'User' },
     date: { type: Date, default: Date.now },
     latitude: String,
     longitude: String,
