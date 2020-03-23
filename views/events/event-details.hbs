@@ -1,5 +1,9 @@
 <h1>{{name}}</h1>
-<p class="font-italic">Created by: {{organizerData.name}}</p>
+{{#unless isOrganizer}}
+<p class="font-italic">Created by: <b>{{organizer.name}}</b></p>
+{{else}}
+<p class="font-italic">Created by you!</p>
+{{/unless}}
 <p  class="mb-0"><b>Date: </b>{{readableDate}}</p>
 <p><b>Time: </b>{{time}}</p>
 <p class="font-italic">{{description}}</p>
