@@ -40,7 +40,8 @@ router.post('/add-event', async function (req, res, next) {
     date
   } = req.body
   const userOrganizing = req.session.currentUser;
-  if (isEventOver(req.body.date)===true) {
+  const checkDate = new Date(date)
+  if (isEventOver(checkDate)===true) {
 
     res.render('users/add-event', {
       errorMessage: `Events can't happen in the past; please input a future date.`
@@ -106,7 +107,7 @@ async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
 
 function populateEvents(events) {
   return events.map(function (event) {
-      if (isEventOver(event.date.getTime()) === false) {
+      if (isEventOver(event.date) === false) {
         return event
       } else {
         closeFinishedEvent(event)
@@ -116,7 +117,8 @@ function populateEvents(events) {
 
 function isEventOver(eventDate) {
   let currentDate = new Date()
-  if (currentDate.getTime() < eventDate) {
+  console.log(currentDate+" vs "+eventDate)
+  if (currentDate.getTime() < eventDate.getTime()) {
     return false
   } else {
     return true
