@@ -33,8 +33,6 @@ router.get('/add-event', function (req, res, next) {
   });
 });
 
-
-
 router.post('/add-event', async function (req, res, next) {
   const {
     name,
@@ -49,7 +47,6 @@ router.post('/add-event', async function (req, res, next) {
     });
     return;
   }
-  console.log(req.body)
   let newEvent
   Event.findOne({
     organizer: userOrganizing._id,
