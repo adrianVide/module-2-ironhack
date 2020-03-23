@@ -1,5 +1,9 @@
 <h1>{{name}}</h1>
-<p class="font-italic">Created by: {{organizerData.name}}</p>
+{{#unless isOrganizer}}
+<p class="font-italic">Created by: <b>{{organizer.name}}</b></p>
+{{else}}
+<p class="font-italic">Created by you!</p>
+{{/unless}}
 <p  class="mb-0"><b>Date: </b>{{readableDate}}</p>
 <p><b>Time: </b>{{time}}</p>
 <p class="font-italic">{{description}}</p>
@@ -33,7 +37,6 @@
 <div style="height: 80vw;  width: auto;  margin: 0px;" id="mymap"></div>
 
 <script>
-    console.log({{latitude}}+" yeeee")
     var map = L.map('mymap').setView([{{latitude}}, {{longitude}}], 20);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

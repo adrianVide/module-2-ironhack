@@ -11,7 +11,7 @@ const eventSchema = new Schema(
     longitude: String,
     imgName: String,
     imgPath: String,
-    participants: Array,
+    participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     isItOver: {type: Boolean, default: false},
     reviews: Array,
   },

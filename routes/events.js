@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-Event = require('../models/event')
+const express = require('express');
+const router = express.Router();
+const Event = require('../models/event')
 const User = require('../models/user');
 
 router.get('/:id', async (req, res, next) => {
-  let foundEvent = await Event.findById(req.params.id).catch((error) => {
+  let foundEvent = await Event.findById(req.params.id).populate("organizer").catch((error) => {
     console.error(error)
   })
-  if (foundEvent === null){
+  if (foundEvent === null) {
     res.redirect("/users/")
   }
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
-  foundEvent.isOrganizer = isUserInTheEvent(foundEvent, "organizer", req.session.currentUser._id)
-  foundEvent.isParticipant = isUserInTheEvent(foundEvent, "participants", req.session.currentUser._id)
-  foundEvent.organizerData = await User.findById(foundEvent.organizer)
+  foundEvent.isOrganizer = isUserTheOrganizer(foundEvent, req.session.currentUser)
+  foundEvent.isParticipant = isUserAParticipant(foundEvent, req.session.currentUser)
+  //foundEvent.organizerData = await User.findById(foundEvent.organizer)
   res.render('events/event-details', foundEvent)
 })
 
@@ -29,20 +29,27 @@ router.get('/abandon/:id', async (req, res, next) => {
 })
 
 router.get('/edit-event/:id', async (req, res, next) => {
-  const userCheck = await isTheUserTheOrganizer(req.params.id, req.session.currentUser._id)
-  if ( !userCheck) {
-    return res.redirect(`/events/${req.params.id}`);
-  }  
-  let foundEvent = await Event.findById(req.params.id).catch((error) => {
-    console.log(error)
+  console.log("Empieza el edit")
+  let foundEvent = await Event.findById(req.params.id).populate("User").catch((error) => {
+    console.error(error)
   })
+  const userCheck = await isUserTheOrganizer(foundEvent, req.session.currentUser._id)
+  if (userCheck===false) {
+    console.log("Not him")
+    return res.redirect(`/events/${req.params.id}`);
+  }
+  console.log("Usuario validado")
   foundEvent.time = JSON.stringify(foundEvent.date).slice(1, 24)
   res.render('events/edit-event', foundEvent)
 })
 
 router.post('/edit-event/:id', async (req, res, next) => {
-  const userCheck = await isTheUserTheOrganizer(req.params.id, req.session.currentUser._id)
-  if ( !userCheck) {
+  let foundEvent = await Event.findById(req.params.id).populate("User").catch((error) => {
+    console.error(error)
+  })
+  const userCheck = await isUserTheOrganizer(foundEvent, req.session.currentUser._id)
+  if (userCheck===false) {
+    console.log("Not him")
     return res.redirect(`/events/${req.params.id}`);
   }
   const {
@@ -61,11 +68,13 @@ router.post('/edit-event/:id', async (req, res, next) => {
 })
 
 router.get('/delete/:id', async (req, res, next) => {
-  const userCheck = await isTheUserTheOrganizer(req.params.id, req.session.currentUser._id)
-  if ( !userCheck) {
+  let foundEvent = await Event.findById(req.params.id).populate("User").catch((error) => {
+    console.error(error)
+  })
+  const userCheck = await isUserTheOrganizer(foundEvent, req.session.currentUser._id)
+  if (userCheck===false) {
     return res.redirect(`/events/${req.params.id}`);
   }
-  console.log(req.params.id)
   await Event.findByIdAndDelete(req.params.id);
   console.log("deleted")
   res.redirect(`/users/`)
@@ -86,19 +95,36 @@ function eventParticipationHandler(eventId, pushOrPull, userId) {
   ).catch((error) => {
     console.log(error)
   })
+  User.findByIdAndUpdate(
+    userId, {
+      [pushOrPull]: {
+        "participatedEvents": eventId,
+      }
+    }, {
+      new: true
+    }
+  ).catch((error) => {
+    console.log(error)
+  })
 }
 
-function isUserInTheEvent(eventObject, role, userId) {
-  if (eventObject[role].indexOf(userId) > -1) {
-    return true
-  }
-  return false
+function isUserTheOrganizer(eventObject, userId) {
+      if (eventObject.organizer.equals(userId._id)) {
+        console.log("Sí")
+        return true
+      };
+    }
+
+function isUserAParticipant(eventObject, userId){
+      if (eventObject.participants.indexOf(userId._id) > -1){
+        console.log("veamos");
+        return true};
 }
 
 async function isTheUserTheOrganizer(eventId, user) {
   userVerification = await Event.findById(eventId)
-//log//  console.log(userVerification.organizer)
-  if (userVerification.organizer === user) {
+  //log//  console.log(userVerification.organizer)
+  if (userVerification.organizer.equals(user)) {
     console.log("The user IS the organizer")
     return true
   }
