@@ -80,7 +80,6 @@
     const lonInput = document.getElementById("lon")
     const mymap = L.map("mymap", {
         marker = L.marker([lat, lon]).addTo(mymap);
-        latInput.value = lat
       minZoom: 14,
     })
     let marker
@@ -100,9 +99,9 @@
         marker = L.marker([lat, lon]).addTo(mymap);
         latInput.value = lat
         lonInput.value = lon
-      });
+      })
     } else {
-      console.log("geolocation not available");
+      console.log("geolocation not available")
     }
 
   </script>

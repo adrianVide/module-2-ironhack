@@ -82,15 +82,15 @@ router.post('/add-event', async function (req, res, next) {
         });
         //Adrián, si hay conflicto no te preocupes, he cambiado un return por el redirect
       } else {
-        await updateUserOrganizedEventsArray(theEvent, userOrganizing)
-        res.redirect('/users/');
+        let newEventId = await Event.findOne(theEvent, (_err, eventInDb) => eventInDb)
+        await updateUserOrganizedEventsArray(newEventId, userOrganizing)
+        res.redirect(`/events/${newEventId.id}`);
       };
     });
   });
 });
 
-async function updateUserOrganizedEventsArray(theEvent, userOrganizing) {
-  let newEventId = await Event.findOne(theEvent, (err, eventInDb) => eventInDb)
+async function updateUserOrganizedEventsArray(newEventId, userOrganizing) {
   console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
   User.findByIdAndUpdate(
     userOrganizing._id, {
@@ -117,7 +117,7 @@ function populateEvents(events) {
 
 function isEventOver(eventDate) {
   let currentDate = new Date()
-  console.log(currentDate+" vs "+eventDate)
+//log//  console.log(currentDate+" vs "+eventDate)
   if (currentDate.getTime() < eventDate.getTime()) {
     return false
   } else {
@@ -126,7 +126,6 @@ function isEventOver(eventDate) {
 }
 
 function closeFinishedEvent(event) {
-  console.log("¡Funciono!")
   Event.findByIdAndUpdate(
     event._id, {
       $set: {
