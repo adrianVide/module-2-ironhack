@@ -41,6 +41,7 @@
     const latInput = document.getElementById("lat")
     const lonInput = document.getElementById("lon")
     const mymap = L.map("mymap", {
+        marker = L.marker([lat, lon]).addTo(mymap);
       minZoom: 14,
     })
     let marker
@@ -60,17 +61,11 @@
         marker = L.marker([lat, lon]).addTo(mymap);
         latInput.value = lat
         lonInput.value = lon
-      });
+      })
     } else {
-      console.log("geolocation not available");
+      console.log("geolocation not available")
     }
-    function onMapClick(e) {
-      latInput.value = e.latlng.lat
-      lonInput.value = e.latlng.lng
-      mymap.removeLayer(marker);
-      marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
-    }
-    mymap.on('click', onMapClick);
+
   </script>
 {{!-------------------------------------------MAPA-------------------------------------------}}
 

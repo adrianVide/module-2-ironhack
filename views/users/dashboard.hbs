@@ -5,10 +5,14 @@
 <h4 class="rounded-pill text-center py-3 px-2 bg-success text-light font-weight-bold my-4 w-50">{{message}}</h4>
 {{/if}}
 
+{{#if errorMessage}}
+<h4 class="rounded-pill text-center py-3 px-2 bg-danger text-light font-weight-bold my-4 w-50">{{errorMessage}}</h4>
+{{/if}}
+
 
 <h4>Click on any marker to see the details of the event</h4>
 
-<div style="height: 80vw;  width: auto;" id="mymap"></div>
+<div id="mymap"></div>
 
 <p id="events" class="d-none">{{events}}</p>
 

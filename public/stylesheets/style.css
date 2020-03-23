@@ -36,6 +36,8 @@ a {
 #mymap {
   height: 80vw;
   width: auto;
+  max-height: 600px;
+  max-width: 1200px;
   /* border: 2px solid grey; */
   margin: 0px;
 }
