@@ -10,7 +10,10 @@
 
 <div class="bg-light my-2 py-4 px-2 col-lg-2 col-md-3 text-center">
 
-{{#if isOrganizer}}
+{{#if isUserLoggedIn}}
+<p class="font-weight-bold">Sign up to participate in this event</p>
+<a class="btn btn-success font-weight-bold" href="/auth/signup/{{id}}">Sign up to Palcony</a>
+{{else if isOrganizer}}
 <p class="font-weight-bold">You organized this event</p>
 <a class="btn btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
 {{else if isParticipant}}
@@ -20,6 +23,7 @@
 <p class="font-weight-bold">Would you like to join the event?</p>
 <a class="btn btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
 {{/if}}
+
 </div>
 
 {{#if errorMessage}}
