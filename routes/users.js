@@ -2,11 +2,13 @@ var express = require('express');
 var router = express.Router();
 const Event = require('../models/event');
 const User = require('../models/user');
-const readableDate = require("../middlewares/common-functions").readableDate
-const readableTime = require("../middlewares/common-functions").readableTime
+
 const sortByDate = require("../middlewares/common-functions").sortByDate
 const isEventOver = require("../middlewares/common-functions").isEventOver
 const updateUserOrganizedEventsArray = require("../middlewares/common-functions").updateUserOrganizedEventsArray
+
+const bcryptSalt = 10;
+const bcrypt = require('bcryptjs');
 
 router.get("/dashboard", async function (req, res, next) {
   const userOrganizing = req.session.currentUser;
@@ -109,10 +111,12 @@ router.post("/edit-user/:id", async function (req, res, next) {
     return;
   }
   console.log("Updating user "+req.params.id)
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashedPass = bcrypt.hashSync(passwordInput, salt);
   await User.findByIdAndUpdate(req.params.id, {
     name,
     email,
-    password,
+    password: hashedPass,
     description,
     latitude,
     longitude

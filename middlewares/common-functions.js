@@ -90,9 +90,9 @@ function prepareEventOutput(events, currentUser) {
   return events;
 }
 
-
 function sortByDate(eventArray, currentUser){
   eventArray.map(function (event) {
+    event.userIsNotLoggedIn = userIsNotLoggedIn(currentUser)
     event.readableDate = readableDate(event.date)
     event.readableTime = readableTime(event.date)
     event.isOrganizer = isUserTheOrganizer(event, currentUser)
@@ -100,9 +100,6 @@ function sortByDate(eventArray, currentUser){
   })
   return eventArray.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
 }
-
-
-
 
 function populateEvents(events) {
   return events.map(function (event) {
