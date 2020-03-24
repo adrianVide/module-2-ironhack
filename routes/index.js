@@ -107,21 +107,6 @@ router.get('/', async (req, res, next) => {
     return dateText.slice(12, 17)
   }
 
-<<<<<<< HEAD
-    console.log(eventItems);
-
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    newDates = eventItems.map(a => a.date.toLocaleDateString(('en-US'), dateOptions));
-    console.log(newDates);
-    // console.log(newDates.toLocaleDateString('en-US'));
-    
-
-  // });
-  // console.log(eventItems);
-  res.render('index', {eventItems});
-});
-=======
   function populateEvents(events) {
     return events.map(function (event) {
         if (isEventOver(event.date) === false) {
@@ -131,7 +116,6 @@ router.get('/', async (req, res, next) => {
         }
       });
     };
->>>>>>> 72825eecfb26ba6283ad7d66c8d106a1a88be718
 
     function isEventOver(eventDate) {
       let currentDate = new Date()
