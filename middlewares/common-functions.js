@@ -86,15 +86,7 @@ function readableTime(unreadableDate) {
 
 function prepareEventOutput(events) {
   events = populateEvents(events)
-  return events.sort(function (a, b) {
-    if (a.date < b.date) {
-      return 1;
-    }
-    if (a.date > b.date) {
-      return -1;
-    }
-    return 0;
-  })
+  return events.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
 }
 
 function populateEvents(events) {

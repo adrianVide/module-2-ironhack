@@ -1,6 +1,7 @@
 <h1 class="text-center mt-5">Hello, {{userData.name}}. Welcome to your dashboard.</h1>
 
 <div class="my-4">
+      {{#if userData.organizedEvents}}
   <h3 class="text-center">These are the events you are organising</h3>
   <div class="row justify-content-center">
     {{#each userData.organizedEvents}}
@@ -15,10 +16,15 @@
       </div>
     </div>
     {{/each}}
+        {{else}}
+      <h3 class="text-center mt-3">You haven't scheduled any event</h3>
+  <div class="row justify-content-center"><a href="/users/add-event" class="btn btn-info mt-3 mb-4">Organize an event in your neighbourhood</a></div>
+    {{/if}}
   </div>
 </div>
 
 <div class="pt-3 pb-4 px-2 my-3 mx-0 bg-light">
+    {{#if userData.participatedEvents}}
   <h3 class="text-center">These are the events you are participating in</h3>
   <div class="row justify-content-center">
     {{#each userData.participatedEvents}}
@@ -33,6 +39,10 @@
       </div>
     </div>
     {{/each}}
+    {{else}}
+      <h3 class="text-center mt-3">You are not participating in any event</h3>
+  <div class="row justify-content-center"><a href="/around-me" class="btn btn-info  mt-3 mb-4">See what's cooking in your area</a></div>
+    {{/if}}
   </div>
 </div>
 
