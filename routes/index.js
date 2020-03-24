@@ -6,7 +6,7 @@ const User = require('../models/user')
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
-  let eventItems = await Event.find().limit(6)
+  let eventItems = await Event.find()
   .populate('organizer', 'name')
   eventItems.map(function(event){
     event.readableDate = readableDate(event.date)
