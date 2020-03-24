@@ -101,7 +101,7 @@ router.post('/signup', (req, res, next) => {
         } else {
           if (bcrypt.compareSync(inputPassword, user.password)) {
             req.session.currentUser = user;
-            res.redirect('/users/');
+            res.redirect('/around-me');
             }
            else {
             res.render("auth/login", {

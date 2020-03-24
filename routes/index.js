@@ -7,33 +7,41 @@ const readableTime = require("../middlewares/common-functions").readableTime
 const populateEvents = require("../middlewares/common-functions").populateEvents
 const isEventOver = require("../middlewares/common-functions").isEventOver
 const closeFinishedEvent = require("../middlewares/common-functions").closeFinishedEvent
+const prepareEventOutput = require("../middlewares/common-functions").prepareEventOutput
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
   let eventItems = await Event.find()
-  .populate('organizer', 'name')
-  eventItems.map(function(event){
+    .populate('organizer', 'name')
+  eventItems.map(function (event) {
     event.readableDate = readableDate(event.date)
-    event.readableTime = readableTime(event.date)})
+    event.readableTime = readableTime(event.date)
+  })
+  allEvents = await Event.find({
+    isItOver: false
+  })
+  allEvents = prepareEventOutput(allEvents);
+  res.render('index', {
+    eventItems,
+    events: JSON.stringify(allEvents)
+  });
+});
 
-    allEvents = await Event.find({
+router.get('/around-me', async function (req, res, next) {
+  try {
+    events = await Event.find({
       isItOver: false
     })
-    allEvents = populateEvents(allEvents)
-    allEvents.sort(function (a, b) {
-      if (a.date < b.date) {
-        return 1;
-      }
-      if (a.date > b.date) {
-        return -1;
-      }
-      return 0;
-    })
-  res.render('index', {eventItems, events: JSON.stringify(allEvents)});
-  });
-  
+    events = prepareEventOutput(events);
+    res.render('around-me', {
+      title: 'Palcony',
+      events: JSON.stringify(events)
+    });
+  } catch {
+    (err) => console.error("There was an error: ", err)
+  }
+});
 
 
 
- 
 module.exports = router;

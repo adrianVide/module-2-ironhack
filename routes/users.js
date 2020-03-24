@@ -2,34 +2,26 @@ var express = require('express');
 var router = express.Router();
 const Event = require('../models/event');
 const User = require('../models/user');
+const readableDate = require("../middlewares/common-functions").readableDate
+const readableTime = require("../middlewares/common-functions").readableTime
 const populateEvents = require("../middlewares/common-functions").populateEvents
 const isEventOver = require("../middlewares/common-functions").isEventOver
 const closeFinishedEvent = require("../middlewares/common-functions").closeFinishedEvent
 const updateUserOrganizedEventsArray = require("../middlewares/common-functions").updateUserOrganizedEventsArray
 
-router.get('/', async function (req, res, next) {
-  try {
-    events = await Event.find({
-      isItOver: false
-    })
-    events = populateEvents(events)
-    events.sort(function (a, b) {
-      if (a.date < b.date) {
-        return 1;
-      }
-      if (a.date > b.date) {
-        return -1;
-      }
-      return 0;
-    })
-    res.render('users/around-me', {
-      title: 'Palcony',
-      events: JSON.stringify(events)
-    });
-  } catch {
-    (err) => console.error("There was an error: ", err)
-  }
-});
+router.get("/dashboard", async function (req,res,next){
+  const userOrganizing = req.session.currentUser;
+  const userData = await User.findById(userOrganizing._id).populate("organizedEvents").populate("participatedEvents")
+  userData.organizedEvents.map(function(event){
+    event.readableDate = readableDate(event.date)
+    event.readableTime = readableTime(event.date)
+  })
+  userData.participatedEvents.map(function(event){
+    event.readableDate = readableDate(event.date)
+    event.readableTime = readableTime(event.date)
+  })
+  res.render("users/dashboard", {userData})
+})
 
 router.get('/add-event', function (req, res, next) {
   res.render('users/add-event', {

@@ -10,7 +10,7 @@
 
 <div class="bg-light my-2 py-4 px-2 col-lg-2 col-md-3 text-center">
 
-{{#if isUserLoggedIn}}
+{{#if userIsNotLoggedIn}}
 <p class="font-weight-bold">Sign up to participate in this event</p>
 <a class="btn btn-success font-weight-bold" href="/auth/signup/{{id}}">Sign up to Palcony</a>
 {{else if isOrganizer}}

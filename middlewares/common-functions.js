@@ -4,11 +4,12 @@ const Event = require('../models/event')
 const User = require('../models/user');
 
 
+
 function readableDate(unreadableDate) {
   let dateText = JSON.stringify(unreadableDate)
   let day = dateText.slice(9, 11)
   let month = dateText.slice(6, 8)
-  console.log(month)
+  //log// console.log(month)
 
   switch (month) {
     case "01":
@@ -73,7 +74,7 @@ function readableDate(unreadableDate) {
   if (day.charAt(0) === "0") {
     day = day.slice(1)
   }
-  console.log(`${month} the ${day}`)
+  //log// console.log(`${month} the ${day}`)
   return `${month} the ${day}`
 }
 
@@ -82,139 +83,153 @@ function readableTime(unreadableDate) {
   return dateText.slice(12, 17)
 }
 
+function prepareEventOutput(events) {
+  events = populateEvents(events)
+  return events.sort(function (a, b) {
+    if (a.date < b.date) {
+      return 1;
+    }
+    if (a.date > b.date) {
+      return -1;
+    }
+    return 0;
+  })
+}
+
 function populateEvents(events) {
   return events.map(function (event) {
-      if (isEventOver(event.date) === false) {
-        return event
-      } else {
-        closeFinishedEvent(event)
-      }
-    });
-  };
-
-  function isEventOver(eventDate) {
-    let currentDate = new Date()
-  //log//  console.log(currentDate+" vs "+eventDate)
-    if (currentDate.getTime() < eventDate.getTime()) {
-      return false
+    if (isEventOver(event.date) === false) {
+      return event
     } else {
-      return true
+      closeFinishedEvent(event)
     }
+  });
+};
+
+function isEventOver(eventDate) {
+  let currentDate = new Date()
+  //log//  //log// console.log(currentDate+" vs "+eventDate)
+  if (currentDate.getTime() < eventDate.getTime()) {
+    return false
+  } else {
+    return true
   }
-  
-  function closeFinishedEvent(event) {
-    Event.findByIdAndUpdate(
-      event._id, {
-        $set: {
-          "isItOver": true,
-        }
-      }, {
-        new: true
+}
+
+function closeFinishedEvent(event) {
+  Event.findByIdAndUpdate(
+    event._id, {
+      $set: {
+        "isItOver": true,
       }
-    ).catch((error) => {
-      console.log(error)
-    })
+    }, {
+      new: true
+    }
+  ).catch((error) => {
+    //log// console.log(error)
+  })
+  User.findByIdAndUpdate(
+    event.organizer, {
+      $pull: {
+        "organizedEvents": event.id,
+      },
+      $push: {
+        "pastOrganizedEvents": event.id,
+      },
+    }, {
+      new: true
+    }).catch((error) => {
+    //log// console.log(error)
+  });
+  event.participants.map(function (participant) {
     User.findByIdAndUpdate(
-      event.organizer, {
+      participant, {
         $pull: {
-          "organizedEvents": event.id,
+          "participatedEvents": event.id,
         },
         $push: {
-          "pastOrganizedEvents": event.id,
+          "pastParticipatedEvents": event.id,
         },
       }, {
         new: true
       }).catch((error) => {
-      console.log(error)
+      //log// console.log(error)
     });
-    event.participants.map(function (participant) {
-      User.findByIdAndUpdate(
-        participant, {
-          $pull: {
-            "participatedEvents": event.id,
-          },
-          $push: {
-            "pastParticipatedEvents": event.id,
-            },
-          }, {
-            new: true
-          }).catch((error) => {
-          console.log(error)
-        });
-      })
-    }
-  
-    async function updateUserOrganizedEventsArray(newEventId, userOrganizing) {
-      console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
-      User.findByIdAndUpdate(
-        userOrganizing._id, {
-          $push: {
-            "organizedEvents": newEventId.id,
-          }
-        }, {
-          new: true
-        }
-      ).catch((error) => {
-        console.log(error)
-      })
-    }
-    
-    function userIsNotLoggedIn(user) {
-      if (!user) {
-        return true
+  })
+}
+
+async function updateUserOrganizedEventsArray(newEventId, userOrganizing) {
+  //log// console.log("User ID: " + userOrganizing._id + ", event ID: " + newEventId.id)
+  User.findByIdAndUpdate(
+    userOrganizing._id, {
+      $push: {
+        "organizedEvents": newEventId.id,
       }
-      return false
+    }, {
+      new: true
     }
-    
-    
-    function eventParticipationHandler(eventId, pushOrPull, userId) {
-      Event.findByIdAndUpdate(
-        eventId, {
-          [pushOrPull]: {
-            "participants": userId,
-          }
-        }, {
-          new: true
-        }
-      ).catch((error) => {
-        console.log(error)
-      })
-      User.findByIdAndUpdate(
-        userId, {
-          [pushOrPull]: {
-            "participatedEvents": eventId,
-          }
-        }, {
-          new: true
-        }
-      ).catch((error) => {
-        console.log(error)
-      })
-    }
-    
-    function isUserTheOrganizer(eventObject, userId) {
-      if (!userId) {
-        return false
+  ).catch((error) => {
+    //log// console.log(error)
+  })
+}
+
+function userIsNotLoggedIn(user) {
+  if (!user) {
+    return true
+  }
+  return false
+}
+
+
+function eventParticipationHandler(eventId, pushOrPull, userId) {
+  Event.findByIdAndUpdate(
+    eventId, {
+      [pushOrPull]: {
+        "participants": userId,
       }
-      if (eventObject.organizer.equals(userId._id)) {
-        console.log("Sí")
-        return true
-      };
+    }, {
+      new: true
     }
-    
-    function isUserAParticipant(eventObject, userId) {
-      if (!userId) {
-        return false
+  ).catch((error) => {
+    //log// console.log(error)
+  })
+  User.findByIdAndUpdate(
+    userId, {
+      [pushOrPull]: {
+        "participatedEvents": eventId,
       }
-      if (eventObject.participants.indexOf(userId._id) > -1) {
-        console.log("veamos");
-        return true
-      };
+    }, {
+      new: true
     }
+  ).catch((error) => {
+    //log// console.log(error)
+  })
+}
+
+function isUserTheOrganizer(eventObject, userId) {
+  if (!userId) {
+    return false
+  }
+  if (eventObject.organizer.equals(userId._id)) {
+    //log// console.log("Sí")
+    return true
+  };
+}
+
+function isUserAParticipant(eventObject, userId) {
+  if (!userId) {
+    return false
+  }
+  if (eventObject.participants.indexOf(userId._id) > -1) {
+    //log// console.log("veamos");
+    return true
+  };
+}
 
 module.exports = {
   readableDate,
   readableTime,
+  prepareEventOutput,
   populateEvents,
   isEventOver,
   closeFinishedEvent,
