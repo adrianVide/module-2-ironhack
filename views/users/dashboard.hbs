@@ -1,0 +1,97 @@
+<h1 class="text-center mt-5">Hello, {{currentUserInfo.name}}. Welcome to your dashboard.</h1>
+
+<div class="my-4">
+  <h3 class="text-center">These are the events you are organising</h3>
+  <div class="row justify-content-center">
+    {{#each userData.organizedEvents}}
+    <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+      <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+      <div class="card-body spot-color">
+        <h5 class="card-title mb-1">{{name}}</h5>
+        <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
+        <div class="text-center">
+          <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover more</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+
+<div class="pt-3 pb-4 px-2 my-3 mx-0 bg-light">
+  <h3 class="text-center">These are the events you are participating in</h3>
+  <div class="row justify-content-center">
+    {{#each userData.participatedEvents}}
+    <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+      <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+      <div class="card-body spot-color">
+        <h5 class="card-title mb-1">{{name}}</h5>
+        <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
+        <div class="text-center">
+          <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover more</a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</div>
+
+<div>
+  <h3 class="text-center mt-4">Your profile details:</h3>
+  <div class:"container-fluid">
+
+  <div class="row d-flex flex-row justify-content-around">
+    <div class="col-lg-5 px-0 mx-0 profile-map" id="mymap"></div>
+    <div class="col-lg-7 px-5 py-4 mx-0">
+      <div>
+
+      <p><b>Name:</b>
+        {{currentUserInfo.name}}
+      </p>
+      <p><b>Description:</b>
+        {{currentUserInfo.description}}
+      </p>
+      <p><b>Email:</b>
+        {{currentUserInfo.email}}
+      </p>
+       <p><b>Location:</b>
+        <ul>
+          <li><b>Latitude: </b><i>{{currentUserInfo.latitude}}</i></li>
+          <li><b>Longitude: </b><i>{{currentUserInfo.longitude}}</i></li>
+        </ul>
+      </p>
+      <a class="btn btn-info" href="/users/edit-user{{currentUserInfo.currentUserInfo._id}}/">Edit your profile</a>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<script>
+  const latInput = document.getElementById("lat")
+  const lonInput = document.getElementById("lon")
+  const mymap = L.map("mymap", {
+    minZoom: 14,
+  })
+  let marker
+
+  if ("geolocation" in navigator) {
+    console.log("geolocation available");
+    navigator.geolocation.getCurrentPosition(position => {
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+      console.log(lat, lon);
+      mymap.setView([lat, lon], 17);
+      const attribution =
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
+      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      const tiles = L.tileLayer(tileUrl, { attribution });
+      tiles.addTo(mymap);
+      marker = L.marker([lat, lon]).addTo(mymap).bindPopup("This is your location");
+      latInput.value = lat
+      lonInput.value = lon
+    });
+  } else {
+    console.log("geolocation not available");
+  }
+</script>

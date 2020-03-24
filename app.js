@@ -33,12 +33,12 @@ const authRouter = require("./routes/auth");
 const eventsRouter = require("./routes/events");
 
 var app = express();
+app.use(express.static(__dirname + '/public'));
 
 // view engine setup
-hbs.registerPartials(__dirname + "views/partials");
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/public'));
+app.set('views', path.join(__dirname, 'views'));
+hbs.registerPartials(__dirname + 'views/partials');
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // Middleware Setup
@@ -65,7 +65,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: {
-      maxAge: 6000000
+      maxAge: 600000000
     },
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
@@ -103,6 +103,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+hbs.registerHelper('limit', function (arr, limit) {
+  if (!Array.isArray(arr)) { return []; }
+  return arr.slice(0, limit);
 });
 
 module.exports = app;
