@@ -29,7 +29,7 @@ h1 {
   width: 100%;
   background-size: cover;
   /* background-image: url(/images/palcony.jpg); */
-  background-image: linear-gradient(rgba(222, 242, 241, 0.5), rgba(43, 122, 119, 0.5)),
+  background-image: linear-gradient(rgba(222, 242, 241, 0.0), rgba(43, 122, 119, 1)),
     url(/images/palcony.jpg);
 }
 
