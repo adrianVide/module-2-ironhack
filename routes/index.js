@@ -118,12 +118,12 @@ router.get('/', async (req, res, next) => {
     };
 
     function isEventOver(eventDate) {
-      let currentDate = new Date();
+      let currentDate = new Date()
     //log//  console.log(currentDate+" vs "+eventDate)
       if (currentDate.getTime() < eventDate.getTime()) {
-        return false;
+        return false
       } else {
-        return true;
+        return true
       }
     }
     
@@ -137,7 +137,7 @@ router.get('/', async (req, res, next) => {
           new: true
         }
       ).catch((error) => {
-        console.log(error);
+        console.log(error)
       })
       User.findByIdAndUpdate(
         event.organizer, {
@@ -150,7 +150,7 @@ router.get('/', async (req, res, next) => {
         }, {
           new: true
         }).catch((error) => {
-        console.log(error);
+        console.log(error)
       });
       event.participants.map(function (participant) {
         User.findByIdAndUpdate(
@@ -164,9 +164,9 @@ router.get('/', async (req, res, next) => {
             }, {
               new: true
             }).catch((error) => {
-            console.log(error);
+            console.log(error)
           });
-        });
+        })
       }
     
 module.exports = router;
