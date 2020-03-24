@@ -84,8 +84,14 @@ function readableTime(unreadableDate) {
   return dateText.slice(12, 17)
 }
 
-function prepareEventOutput(events) {
+function prepareEventOutput(events, currentUser) {
   events = populateEvents(events)
+  events.map(function (event) {
+    event.readableDate = readableDate(event.date)
+    event.readableTime = readableTime(event.date)
+    event.isOrganizer = isUserTheOrganizer(event, currentUser)
+    event.isParticipant = isUserAParticipant(event, currentUser)
+  })
   return events.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
 }
 
