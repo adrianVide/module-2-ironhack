@@ -9,18 +9,20 @@ const isEventOver = require("../middlewares/common-functions").isEventOver
 const closeFinishedEvent = require("../middlewares/common-functions").closeFinishedEvent
 const updateUserOrganizedEventsArray = require("../middlewares/common-functions").updateUserOrganizedEventsArray
 
-router.get("/dashboard", async function (req,res,next){
+router.get("/dashboard", async function (req, res, next) {
   const userOrganizing = req.session.currentUser;
   const userData = await User.findById(userOrganizing._id).populate("organizedEvents").populate("participatedEvents")
-  userData.organizedEvents.map(function(event){
+  userData.organizedEvents.map(function (event) {
     event.readableDate = readableDate(event.date)
     event.readableTime = readableTime(event.date)
   })
-  userData.participatedEvents.map(function(event){
+  userData.participatedEvents.map(function (event) {
     event.readableDate = readableDate(event.date)
     event.readableTime = readableTime(event.date)
   })
-  res.render("users/dashboard", {userData})
+  res.render("users/dashboard", {
+    userData
+  })
 })
 
 router.get('/add-event', function (req, res, next) {
@@ -37,7 +39,7 @@ router.post('/add-event', async function (req, res, next) {
   } = req.body
   const userOrganizing = req.session.currentUser;
   const checkDate = new Date(date)
-  if (isEventOver(checkDate)===true) {
+  if (isEventOver(checkDate) === true) {
 
     res.render('users/add-event', {
       errorMessage: `Events can't happen in the past; please input a future date.`
@@ -86,5 +88,47 @@ router.post('/add-event', async function (req, res, next) {
   });
 });
 
+router.get("/edit-user/:id", async function (req, res, next) {
+  user = await User.findById(req.params.id);
+  res.render("users/edit-user", user)
+})
 
-  module.exports = router;
+router.post("/edit-user/:id", async function (req, res, next) {
+  const {
+    name,
+    email,
+    password,
+    passwordRepeat,
+    description,
+    latitude,
+    longitude
+  } = req.body;
+  if (name === '' || email === '' || password === '') {
+    res.render('auth/signup', {
+      errorMessage: 'Enter valid user details.'
+    });
+    return;
+  }
+  if (password !== passwordRepeat) {
+    res.render('auth/signup', {
+      errorMessage: 'Please enter the same password in both fields.'
+    });
+    return;
+  }
+  console.log("Updating user "+req.params.id)
+  await User.findByIdAndUpdate(req.params.id, {
+    name,
+    email,
+    password,
+    description,
+    latitude,
+    longitude
+  }, {new: true}).catch((error) => {
+    console.log(error)
+  })
+  req.session.currentUser = await User.findById(req.params.id)
+  console.log(req.session.currentUser)
+  res.redirect("/users/dashboard")
+})
+
+module.exports = router;

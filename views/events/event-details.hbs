@@ -12,7 +12,7 @@
 
 {{#if userIsNotLoggedIn}}
 <p class="font-weight-bold">Sign up to participate in this event</p>
-<a class="btn btn-success font-weight-bold" href="/auth/signup/{{id}}">Sign up to Palcony</a>
+<a class="btn btn-success font-weight-bold" href="/auth/signup/">Sign up to Palcony</a>
 {{else if isOrganizer}}
 <p class="font-weight-bold">You organized this event</p>
 <a class="btn btn-info" href="/events/edit-event/{{id}}">Edit this event</a>

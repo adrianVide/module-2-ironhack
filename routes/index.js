@@ -31,11 +31,17 @@ router.get('/around-me', async function (req, res, next) {
   try {
     events = await Event.find({
       isItOver: false
-    })
+    }).populate('organizer', 'name')
     events = prepareEventOutput(events);
+    events.map(function (event) {
+      event.readableDate = readableDate(event.date)
+      event.readableTime = readableTime(event.date)
+    })
+    console.log(events)
     res.render('around-me', {
       title: 'Palcony',
-      events: JSON.stringify(events)
+      events,
+      eventsForMap: JSON.stringify(events)
     });
   } catch {
     (err) => console.error("There was an error: ", err)

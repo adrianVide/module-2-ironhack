@@ -1,4 +1,4 @@
-<h1 class="text-center mt-5">Hello, {{currentUserInfo.name}}. Welcome to your dashboard.</h1>
+<h1 class="text-center mt-5">Hello, {{userData.name}}. Welcome to your dashboard.</h1>
 
 <div class="my-4">
   <h3 class="text-center">These are the events you are organising</h3>
@@ -46,21 +46,21 @@
       <div>
 
       <p><b>Name:</b>
-        {{currentUserInfo.name}}
+        {{userData.name}}
       </p>
       <p><b>Description:</b>
-        {{currentUserInfo.description}}
+        {{userData.description}}
       </p>
       <p><b>Email:</b>
-        {{currentUserInfo.email}}
+        {{userData.email}}
       </p>
        <p><b>Location:</b>
         <ul>
-          <li><b>Latitude: </b><i>{{currentUserInfo.latitude}}</i></li>
-          <li><b>Longitude: </b><i>{{currentUserInfo.longitude}}</i></li>
+          <li><b>Latitude: </b><i>{{userData.latitude}}</i></li>
+          <li><b>Longitude: </b><i>{{userData.longitude}}</i></li>
         </ul>
       </p>
-      <a class="btn btn-info" href="/users/edit-user{{currentUserInfo.currentUserInfo._id}}/">Edit your profile</a>
+      <a class="btn btn-info" href="/users/edit-user/{{userData._id}}/">Edit your profile</a>
       </div>
     </div>
   </div>
