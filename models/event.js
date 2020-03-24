@@ -13,7 +13,12 @@ const eventSchema = new Schema(
     imgPath: String,
     participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     isItOver: {type: Boolean, default: false},
-    reviews: Array,
+    reviews: [
+      {
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        comments: String
+      }
+    ]
   },
   {
     timestamps: true

@@ -51,8 +51,18 @@ a {
 }
 
 .profile-map{
-  max-height: 350px !important;
+  max-height: 400px !important;
 }
+
+.comment{
+  background-color: rgb(193, 207, 207);
+}
+
+.comment-container{
+  max-height:380px;
+  overflow-y: auto;
+}
+
 
 
 #map {

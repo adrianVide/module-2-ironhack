@@ -10,12 +10,13 @@ const isUserTheOrganizer = require("../middlewares/common-functions").isUserTheO
 const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
 
 router.get('/:id', async (req, res, next) => {
-  let foundEvent = await Event.findById(req.params.id).populate("organizer").catch((error) => {
-    console.error(error)
-  })
+  let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
+  foundEvent.reviews.map(async function (review) {
+    review.userData = await User.findById(review.user)
+  })
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
   foundEvent.userIsNotLoggedIn = userIsNotLoggedIn(req.session.currentUser)
@@ -81,6 +82,32 @@ router.get('/delete/:id', async (req, res, next) => {
   await Event.findByIdAndDelete(req.params.id);
   console.log("deleted")
   res.redirect(`/around-me`)
+});
+
+
+router.post('/:id/add-comment', (req, res, next) => {
+  const user = req.session.currentUser._id
+  const {
+    comments
+  } = req.body;
+  Event.findByIdAndUpdate(
+      req.params.id, {
+        $push: {
+          reviews: {
+            $each: [{
+              user,
+              comments
+            }],
+            $position: 0
+          }
+        }
+      })
+    .then(() => {
+      res.redirect("back");
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
 
 

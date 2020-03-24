@@ -1,14 +1,5 @@
-<h1 class="text-center my-4estoy vien">{{name}}</h1>
-<div>
-
-  <div class="row d-flex flex-row justify-content-around">
-    <div class="col-lg-5 px-0 mx-0" id="mymap"></div>
-    <div class="col-lg-7 px-5 py-4 mx-0">
-      <div>
-
-
-
-  <div class="container-fluid">
+<div class="mb-5 mt-3 text-center">
+<h1 class="">{{name}}</h1>
 {{#if participants}}
 <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend this event!</p>
 {{else if isOrganizer}}
@@ -16,7 +7,13 @@
 {{else}}
 <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
 {{/if}}
-  <h3 class="mt-4">Event details:</h3>
+</div>
+
+  <div class="row d-flex flex-row justify-content-around">
+    <div class="col-lg-4 px-0 mx-0" id="mymap"></div>
+    <div class="col-lg-5 px-5 mx-0">
+  <div class="container-fluid">
+  <h3 class="">Event details:</h3>
 {{#unless isOrganizer}}
 <p class="mb-0"><b>Organizer:</b> {{organizer.name}}</p>
 {{else}}
@@ -40,13 +37,33 @@
 <p class="font-weight-bold">Would you like to join the event?</p>
 <a class="btn btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
 {{/if}}
-
-      </div>
-    </div>
-  </div>
-  </div>
 </div>
 
+  </div>
+      
+    </div>
+
+    <div  class="col-lg-2 mx-5">
+
+      <h2>Comments</h2>
+<div class="comment-container">
+{{#each reviews}}
+<div class="my-1 comment p-2">
+  <p class="font-weight-bold">{{this.comments}}</p>
+  <p class="font-italic">By {{this.userData.name}}</p>
+</div>
+{{/each}}
+  </div>
+      <div>
+<h4 class="mt-4">Add a comment</h4>
+<form action="/events/{{id}}/add-comment" class="justify-content-center d-flex flex-column align-items-end" method="post">
+    <textarea class="d-block my-2 w-100 p-3 mb-0" type="text" name="comments" placeholder="Say something nice!"></textarea>
+    <button class="btn btn-success mt-0"type="submit"><i class="fas fa-comment text-light m-1"></i>Comment</button>
+</form>
+      </div>
+
+    </div>
+</div>
 
 
 
@@ -56,15 +73,16 @@
 <h4 class="rounded-pill text-center py-3 px-2 bg-danger text-light font-weight-bold my-4 w-50">{{message}}</h4>
 {{/if}}
 
-
+<div class="d-none">
 <p class="font-weight-bold mb-0">Location:
-<ul class="d-none">
+<ul >
 <li class=""><b>Latitude: </b> <i id="latitude" >{{latitude}}</i></li>
 <li class=""><b>Longitude: </b> <i id="longitude">{{longitude}}</i></li>
 </ul>
 </p>
 </div>
-<div style="height: 80vw;  width: auto;  margin: 0px;" id="mymap"></div>
+
+
 
 <script>
     var map = L.map('mymap').setView([{{latitude}}, {{longitude}}], 20);
