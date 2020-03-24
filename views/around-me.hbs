@@ -1,8 +1,8 @@
 {{#if currentUserInfo}}
-<h1>{{currentUserInfo.name}}, these are the events happening near you</h1>
+<h1 class="mt-4 text-center">{{currentUserInfo.name}}, these are the events happening near you</h1>
 {{else}}
-<h1>These are the events happening near you</h1>
-<p>Sign in to join or create events</p>
+<h1 class="mt-4 text-center">These are the events happening near you</h1>
+<p class="text-center">Sign in to join or create events</p>
 {{/if}}
 
 {{#if message}}
@@ -14,11 +14,31 @@
 {{/if}}
 
 
-<h4>Click on any marker to see the details of the event</h4>
+<h4 class="text-center">Click on any marker to see the details of the event</h4>
 
 <div id="mymap"></div>
 
-<p id="events" class="d-none">{{events}}</p>
+<p id="events" class="d-none">{{eventsForMap}}</p>
+
+    <h2 class="mt-5 text-center">Popular upcoming events:</h2>
+    <div class="row justify-content-center px-4">
+      {{#each (limit events 9) }}
+      <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+        <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+        <div class="card-body spot-color">
+          <h5 class="card-title mb-1">{{name}}</h5>
+          <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
+          <p class="text-secondary font-italic pt-0 my-0">Organized by {{organizer.name}}</p>
+          <div class="text-center">
+            <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover
+              more</a>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+
 
 {{!-------------------------------------------MAPA-------------------------------------------}}
 <script>
@@ -51,7 +71,8 @@
 
   events.map(function (event) {
     L.marker([event.latitude, event.longitude])
-      .bindPopup(`<div class="text-center m-0"><a class="font-weight-bold text-primary mb-1" href=/events/${event._id}>${event.name}</a><br><p class="my-1"><b>Date:</b>  <i>${readableDate(event.date)}</i>   <br>     <b>Start time: </b> <i>${event.date.slice(11, 16)}</i></p><p class="text-muted mt-1">${event.description}</p></div>`)
+      .bindPopup(`<div class="text-center m-0"><a class="font-weight-bold text-primary mb-1" href=/events/${event._id}>${event.name}</a><br>
+      <p class="my-1"><b>Date:</b>  <i>${readableDate(event.date)}</i>   <br>     <b>Start time: </b> <i>${event.date.slice(11, 16)}</i></p><p class="text-muted mt-1">${event.description}</p></div>`)
       .addTo(mymap);
   })
 
