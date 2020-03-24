@@ -27,12 +27,12 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/participate/:id', async (req, res, next) => {
   eventParticipationHandler(req.params.id, "$push", req.session.currentUser._id);
-  res.redirect(`/events/${req.params.id}`)
+  res.redirect('back')
 })
 
 router.get('/abandon/:id', async (req, res, next) => {
   eventParticipationHandler(req.params.id, "$pull", req.session.currentUser._id);
-  res.redirect(`/events/${req.params.id}`)
+  res.redirect('back')
 })
 
 router.get('/edit-event/:id', async (req, res, next) => {
