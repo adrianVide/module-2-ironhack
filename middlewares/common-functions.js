@@ -7,6 +7,7 @@ const User = require('../models/user');
 
 function readableDate(unreadableDate) {
   let dateText = JSON.stringify(unreadableDate)
+  console.log(dateText)
   let day = dateText.slice(9, 11)
   let month = dateText.slice(6, 8)
   //log// console.log(month)
@@ -85,15 +86,7 @@ function readableTime(unreadableDate) {
 
 function prepareEventOutput(events) {
   events = populateEvents(events)
-  return events.sort(function (a, b) {
-    if (a.date < b.date) {
-      return 1;
-    }
-    if (a.date > b.date) {
-      return -1;
-    }
-    return 0;
-  })
+  return events.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
 }
 
 function populateEvents(events) {

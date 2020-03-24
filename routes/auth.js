@@ -26,9 +26,9 @@ router.post('/signup', (req, res, next) => {
     const passwordInput = req.body.password;
     const {passwordRepeat, description, latitude, longitude} = req.body;
   
-    if (emailInput === '' || passwordInput === '') {
+    if (nameInput === '' || emailInput === '' || passwordInput === '') {
       res.render('auth/signup', {
-        errorMessage: 'Enter both a valid email email and password to sign up.'
+        errorMessage: 'Enter valid user details.'
       });
       return;
     }
