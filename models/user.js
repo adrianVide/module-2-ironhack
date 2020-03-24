@@ -11,10 +11,10 @@ const userSchema = new Schema(
     longitude: String,
     imgName: String,
     imgPath: String,
-    organizedEvents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    pastOrganizedEvents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    participatedEvents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    pastParticipatedEvents: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    organizedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    pastOrganizedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    participatedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    pastParticipatedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
   },
   {
     timestamps: true
