@@ -70,10 +70,16 @@
     } else {
       console.log("geolocation not available");
     }
-
+    const palconyFlag = L.icon({
+        iconUrl: './images/palconyFlag.png',
+        shadowUrl: './images/palconyFlagShadow.png',
+        iconSize: [40, 60],
+        iconAnchor: [16, 60],
+        shadowAnchor: [23, 75],
+      });
 
     events.map(function (event) {
-      L.marker([event.latitude, event.longitude])
+      L.marker([event.latitude, event.longitude], {icon: palconyFlag} )
         .bindPopup(`<div class="text-center m-0"><a class="font-weight-bold text-primary mb-1" href=/events/${event._id}>${event.name}</a><br><p class="my-1"><b>Date:</b>  <i>${readableDate(event.date)}</i>   <br>     <b>Start time: </b> <i>${event.date.slice(11, 16)}</i></p><p class="text-muted mt-1">${event.description}</p></div>`)
         .addTo(mymap);
     })
