@@ -1,14 +1,31 @@
-<h1>{{name}}</h1>
-{{#unless isOrganizer}}
-<p class="font-italic">Created by: <b>{{organizer.name}}</b></p>
+<h1 class="text-center my-4estoy vien">{{name}}</h1>
+<div>
+
+  <div class="row d-flex flex-row justify-content-around">
+    <div class="col-lg-5 px-0 mx-0" id="mymap"></div>
+    <div class="col-lg-7 px-5 py-4 mx-0">
+      <div>
+
+
+
+  <div class="container-fluid">
+{{#if participants}}
+<p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend this event!</p>
+{{else if isOrganizer}}
+<p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
 {{else}}
-<p class="font-italic">Created by you!</p>
+<p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
+{{/if}}
+  <h3 class="mt-4">Event details:</h3>
+{{#unless isOrganizer}}
+<p class="mb-0"><b>Organizer:</b> {{organizer.name}}</p>
+{{else}}
+<p class="mb-0"><b>Organizer:</b> you!</p>
 {{/unless}}
 <p  class="mb-0"><b>Date: </b>{{readableDate}}</p>
 <p><b>Time: </b>{{time}}</p>
 <p class="font-italic">{{description}}</p>
-
-<div class="bg-light my-2 py-4 px-2 col-lg-2 col-md-3 text-center">
+<div class="bg-light my-2 my-3 py-4 px-2 col-lg-4 col-md-8 text-center">
 
 {{#if userIsNotLoggedIn}}
 <p class="font-weight-bold">Sign up to participate in this event</p>
@@ -24,7 +41,16 @@
 <a class="btn btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
 {{/if}}
 
+      </div>
+    </div>
+  </div>
+  </div>
 </div>
+
+
+
+
+
 
 {{#if errorMessage}}
 <h4 class="rounded-pill text-center py-3 px-2 bg-danger text-light font-weight-bold my-4 w-50">{{message}}</h4>
@@ -37,7 +63,7 @@
 <li class=""><b>Longitude: </b> <i id="longitude">{{longitude}}</i></li>
 </ul>
 </p>
-
+</div>
 <div style="height: 80vw;  width: auto;  margin: 0px;" id="mymap"></div>
 
 <script>
