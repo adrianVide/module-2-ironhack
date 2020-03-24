@@ -86,14 +86,23 @@ function readableTime(unreadableDate) {
 
 function prepareEventOutput(events, currentUser) {
   events = populateEvents(events)
-  events.map(function (event) {
+  events = sortByDate(events, currentUser)
+  return events;
+}
+
+
+function sortByDate(eventArray, currentUser){
+  eventArray.map(function (event) {
     event.readableDate = readableDate(event.date)
     event.readableTime = readableTime(event.date)
     event.isOrganizer = isUserTheOrganizer(event, currentUser)
     event.isParticipant = isUserAParticipant(event, currentUser)
   })
-  return events.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
+  return eventArray.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
 }
+
+
+
 
 function populateEvents(events) {
   return events.map(function (event) {
@@ -237,4 +246,5 @@ module.exports = {
   eventParticipationHandler,
   isUserTheOrganizer,
   isUserAParticipant,
+  sortByDate,
 };

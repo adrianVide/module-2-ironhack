@@ -1,7 +1,7 @@
 <h1 class="text-center mt-5">Hello, {{userData.name}}. Welcome to your dashboard.</h1>
 
 <div class="my-4">
-      {{#if userData.organizedEvents}}
+  {{#if userData.organizedEvents}}
   <h3 class="text-center">These are the events you are organising</h3>
   <div class="row justify-content-center">
     {{#each userData.organizedEvents}}
@@ -11,20 +11,32 @@
         <h5 class="card-title mb-1">{{name}}</h5>
         <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
         <div class="text-center">
-          <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover more</a>
+          <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
+              more</a>
+            <a class="btn text-center align-text-bottom my-3  btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
+            <br>
+          {{#if participants}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
+            this event!</p>
+          {{else if isOrganizer}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
+          {{else}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
+          {{/if}}
         </div>
       </div>
     </div>
     {{/each}}
-        {{else}}
-      <h3 class="text-center mt-3">You haven't scheduled any event</h3>
-  <div class="row justify-content-center"><a href="/users/add-event" class="btn btn-info mt-3 mb-4">Organize an event in your neighbourhood</a></div>
+    {{else}}
+    <h3 class="text-center mt-3">You haven't scheduled any event</h3>
+    <div class="row justify-content-center"><a href="/users/add-event" class="btn btn-info mt-3 mb-4">Organize an event
+        in your neighbourhood</a></div>
     {{/if}}
   </div>
 </div>
 
 <div class="pt-3 pb-4 px-2 my-3 mx-0 bg-light">
-    {{#if userData.participatedEvents}}
+  {{#if userData.participatedEvents}}
   <h3 class="text-center">These are the events you are participating in</h3>
   <div class="row justify-content-center">
     {{#each userData.participatedEvents}}
@@ -34,46 +46,59 @@
         <h5 class="card-title mb-1">{{name}}</h5>
         <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
         <div class="text-center">
-          <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover more</a>
+            <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
+              more</a>
+          <a class="btn text-center align-text-bottom my-3  btn-danger" href="/events/abandon/{{id}}">Abandon this
+            event</a>
+          <br>
+          {{#if participants}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
+            this event!</p>
+          {{else if isOrganizer}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
+          {{else}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
+          {{/if}}
         </div>
       </div>
     </div>
     {{/each}}
-    {{else}}
-      <h3 class="text-center mt-3">You are not participating in any event</h3>
-  <div class="row justify-content-center"><a href="/around-me" class="btn btn-info  mt-3 mb-4">See what's cooking in your area</a></div>
-    {{/if}}
-  </div>
+{{else}}
+<h3 class="text-center mt-3">You are not participating in any event</h3>
+<div class="row justify-content-center"><a href="/around-me" class="btn btn-info  mt-3 mb-4">See what's cooking in your
+    area</a></div>
+{{/if}}
+</div>
 </div>
 
 <div>
   <h3 class="text-center mt-4">Your profile details:</h3>
   <div class="container-fluid">
 
-  <div class="row d-flex flex-row justify-content-around">
-    <div class="col-lg-5 px-0 mx-0 profile-map" id="mymap"></div>
-    <div class="col-lg-7 px-5 py-4 mx-0">
-      <div>
+    <div class="row d-flex flex-row justify-content-around">
+      <div class="col-lg-5 px-0 mx-0 profile-map" id="mymap"></div>
+      <div class="col-lg-7 px-5 py-4 mx-0">
+        <div>
 
-      <p><b>Name:</b>
-        {{userData.name}}
-      </p>
-      <p><b>Description:</b>
-        {{userData.description}}
-      </p>
-      <p><b>Email:</b>
-        {{userData.email}}
-      </p>
-       <p><b>Location:</b>
-        <ul>
-          <li><b>Latitude: </b><i>{{userData.latitude}}</i></li>
-          <li><b>Longitude: </b><i>{{userData.longitude}}</i></li>
-        </ul>
-      </p>
-      <a class="btn btn-info" href="/users/edit-user/{{userData._id}}/">Edit your profile</a>
+          <p><b>Name:</b>
+            {{userData.name}}
+          </p>
+          <p><b>Description:</b>
+            {{userData.description}}
+          </p>
+          <p><b>Email:</b>
+            {{userData.email}}
+          </p>
+          <p><b>Location:</b>
+            <ul>
+              <li><b>Latitude: </b><i>{{userData.latitude}}</i></li>
+              <li><b>Longitude: </b><i>{{userData.longitude}}</i></li>
+            </ul>
+          </p>
+          <a class="btn btn-info" href="/users/edit-user/{{userData._id}}/">Edit your profile</a>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </div>
 
