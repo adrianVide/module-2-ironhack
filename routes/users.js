@@ -4,22 +4,15 @@ const Event = require('../models/event');
 const User = require('../models/user');
 const readableDate = require("../middlewares/common-functions").readableDate
 const readableTime = require("../middlewares/common-functions").readableTime
-const populateEvents = require("../middlewares/common-functions").populateEvents
+const sortByDate = require("../middlewares/common-functions").sortByDate
 const isEventOver = require("../middlewares/common-functions").isEventOver
-const closeFinishedEvent = require("../middlewares/common-functions").closeFinishedEvent
 const updateUserOrganizedEventsArray = require("../middlewares/common-functions").updateUserOrganizedEventsArray
 
 router.get("/dashboard", async function (req, res, next) {
   const userOrganizing = req.session.currentUser;
   const userData = await User.findById(userOrganizing._id).populate("organizedEvents").populate("participatedEvents")
-  userData.organizedEvents.map(function (event) {
-    event.readableDate = readableDate(event.date)
-    event.readableTime = readableTime(event.date)
-  })
-  userData.participatedEvents.map(function (event) {
-    event.readableDate = readableDate(event.date)
-    event.readableTime = readableTime(event.date)
-  })
+  userData.organizedEvents = sortByDate(userData.organizedEvents, userData);
+  userData.participatedEvents = sortByDate(userData.participatedEvents, userData);
   res.render("users/dashboard", {
     userData
   })
