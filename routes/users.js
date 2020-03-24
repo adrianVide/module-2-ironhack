@@ -66,7 +66,7 @@ router.post('/add-event', async function (req, res, next) {
       longitude: userOrganizing.longitude
     }
     const theEvent = new Event(newEvent)
-    console.log(theEvent)
+//    console.log(theEvent)
 
     theEvent.save(async (err) => {
       if (err) {
@@ -112,7 +112,7 @@ router.post("/edit-user/:id", async function (req, res, next) {
   }
   console.log("Updating user "+req.params.id)
   const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashedPass = bcrypt.hashSync(passwordInput, salt);
+  const hashedPass = bcrypt.hashSync(password, salt);
   await User.findByIdAndUpdate(req.params.id, {
     name,
     email,
@@ -124,7 +124,7 @@ router.post("/edit-user/:id", async function (req, res, next) {
     console.log(error)
   })
   req.session.currentUser = await User.findById(req.params.id)
-  console.log(req.session.currentUser)
+//  console.log(req.session.currentUser)
   res.redirect("/users/dashboard")
 })
 
