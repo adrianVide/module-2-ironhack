@@ -10,6 +10,7 @@
   <title>Document</title>
 </head>
 
+<<<<<<< HEAD
 <body>
   <h1>#stayAtHome</h1>
   <h2>Check what's going on around you!</h2>
@@ -21,48 +22,107 @@
       <h5 class="card-title">{{this.name}} by {{this.organizer.name}}</h5>
       <p class="card-text">{{this.date}}</p>
         <a href="/events/{{id}}" class="btn align-text-bottom btn-outline-green">More Info</a>
+=======
+<body class="p-0">
+  <div class="d-flex flex-column align-items-center">
+<div id="palcony-banner" class="d-flex flex-column justify-content-center align-items-center">
+  <h1 class="display-1 font-weight-bold text-dark">Welcome to Palcony</h1>
+  <h4 class="text-dark">Turning your balcony into a theatre box seat</h4>
+</div>
+  <h2 class="mt-5">Unique experiences right at your balcony</h2>
+  <div class="row justify-content-center px-4">
+    {{#each eventItems}}
+    <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+      <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+      <div class="card-body spot-color">
+        <h5 class="card-title mb-1">{{this.name}}</h5>
+        <p class="card-text mb-0 pb-0">{{this.readableDate}} at {{this.readableTime}}</p>
+        <p class="text-secondary font-italic pt-0 my-0">Organised by {{this.organizer.name}}</p>
+        <div class="text-center">
+        <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover more</a>
+        </div>
+      </div>
+>>>>>>> 72825eecfb26ba6283ad7d66c8d106a1a88be718
     </div>
+    {{/each}}
   </div>
-{{/each}}
+
+  <h2 class="mt-5">Check what's going on around you!</h2>
+<div class="d-block justify-content-center w-100">
+<div id="mymap"></div>
+</div>
+
+<p id="events" class="d-none">{{events}}</p>
+  </div>
+
+{{!-------------------------------------------MAPA-------------------------------------------}}
+<script>
+  const latInput = document.getElementById("lat")
+  const lonInput = document.getElementById("lon")
+  const events = JSON.parse(document.getElementById("events").innerHTML)
+  console.log(events)
+  const mymap = L.map("mymap", {
+    minZoom: 14,
+  })
 
 
+  if ("geolocation" in navigator) {
+    console.log("geolocation available");
+    navigator.geolocation.getCurrentPosition(position => {
+      lat = position.coords.latitude;
+      lon = position.coords.longitude;
+      console.log(lat, lon);
+      mymap.setView([lat, lon], 17);
+      const attribution =
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
+      const tileUrl = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      const tiles = L.tileLayer(tileUrl, { attribution });
+      tiles.addTo(mymap);
+    });
+  } else {
+    console.log("geolocation not available");
+  }
 
 
-  <p class="d-none">
-    latitude: <span id="latitude"></span>&deg;<br />
-    longitude: <span id="longitude"></span>&deg;
-  </p>
-  <div id="mymap"></div>
+  events.map(function (event) {
+    L.marker([event.latitude, event.longitude])
+      .bindPopup(`<div class="text-center m-0"><a class="font-weight-bold text-primary mb-1" href=/events/${event._id}>${event.name}</a><br><p class="my-1"><b>Date:</b>  <i>${readableDate(event.date)}</i>   <br>     <b>Start time: </b> <i>${event.date.slice(11, 16)}</i></p><p class="text-muted mt-1">${event.description}</p></div>`)
+      .addTo(mymap);
+  })
 
-  {{!-------------------------------------------MAPA-------------------------------------------}}
-  <script>
-    const latInput = document.getElementById("lat")
-    const lonInput = document.getElementById("lon")
-    const mymap = L.map("mymap", {
-      marker = L.marker([lat, lon]).addTo(mymap);
-      minZoom: 14,
-    })
-    let marker
-    if ("geolocation" in navigator) {
-      console.log("geolocation available");
-      navigator.geolocation.getCurrentPosition(position => {
-        lat = position.coords.latitude;
-        lon = position.coords.longitude;
-        console.log(lat, lon);
-        document.getElementById("latitude").textContent = lat;
-        document.getElementById("longitude").textContent = lon;
-        mymap.setView([lat, lon], 20);
-        const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
-        const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-        const tiles = L.tileLayer(tileUrl, { attribution });
-        tiles.addTo(mymap);
-        marker = L.marker([lat, lon]).addTo(mymap);
-        latInput.value = lat
-        lonInput.value = lon
-      })
-    } else {
-      console.log("geolocation not available")
-    }
+
+    function readableDate(unreadableDate) {
+      console.log(unreadableDate)
+      let day = unreadableDate.slice(8, 10)
+      let month = unreadableDate.slice(5, 7)
+
+      switch (month) {
+        case "01": month = "January";
+        case "02": month = "February";
+        case "03": month = "March";
+        case "04": month = "April";
+        case "05": month = "May";
+        case "06": month = "June";
+        case "07": month = "July";
+        case "08": month = "August";
+        case "09": month = "September";
+        case "10": month = "October";
+        case "11": month = "November";
+        case "12": month = "December";
+      }
+
+      if (unreadableDate.charAt(8) !== 0) { day + unreadableDate.charAt(8) };
+
+      switch (day.charAt(1)) {
+        case "1": day += "st"; break;
+        case "2": day += "nd"; break;
+        case "3": day += "rd"; break;
+        default: day += "th";
+      }
+
+    if (day.charAt(0)==="0"){day=day.slice(1)}
+  return `${month} the ${day}`;
+  };
 
   </script>
   {{!-------------------------------------------MAPA-------------------------------------------}}
