@@ -21,17 +21,35 @@
 <p id="events" class="d-none">{{eventsForMap}}</p>
 
     <h2 class="mt-5 text-center">Popular upcoming events:</h2>
-    <div class="row justify-content-center px-4">
+    <<div class="row justify-content-center px-4">
       {{#each (limit events 9) }}
       <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
         <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
         <div class="card-body spot-color">
-          <h5 class="card-title mb-1">{{name}}</h5>
-          <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
-          <p class="text-secondary font-italic pt-0 my-0">Organized by {{organizer.name}}</p>
+          <h5 class="card-title mb-1">{{this.name}}</h5>
+          <p class="card-text mb-0 pb-0">{{this.readableDate}} at {{this.readableTime}}</p>
+          <p class="text-secondary font-italic pt-0 my-0">Organized by {{this.organizer.name}}</p>
           <div class="text-center">
-            <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success mt-3">Discover
+            <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
               more</a>
+            {{#if userIsNotLoggedIn}}
+            <a class="btn text-center align-text-bottom my-3 btn-success font-weight-bold" href="/auth/signup/">Sign up to Palcony</a>
+            {{else if isOrganizer}}
+            <a class="btn text-center align-text-bottom my-3  btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
+            {{else if isParticipant}}
+            <a class="btn text-center align-text-bottom my-3  btn-danger" href="/events/abandon/{{id}}">Abandon this event</a>
+            {{else}}
+            <a class="btn text-center align-text-bottom my-3  btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
+            {{/if}}
+            <br>
+            {{#if participants}}
+            <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
+              this event!</p>
+            {{else if isOrganizer}}
+            <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
+            {{else}}
+            <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
+            {{/if}}
           </div>
         </div>
       </div>
