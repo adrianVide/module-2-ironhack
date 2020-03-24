@@ -19,7 +19,9 @@ h1 {
   font-weight: 600;
   color: #DEF2F1;
 }
-
+a {
+  color: #17232A;
+}
 .main-color {
   color: #DEF2F1;
 }
@@ -27,13 +29,12 @@ h1 {
 #palcony-banner{
   height: 80vh;
   width: 100%;
+  text-align: center;
   background-size: cover;
   background-image: url(/images/palcony.jpg);
+  text-shadow: 0.1em 0.2em 0.2em rgba(250, 250, 250, 0.5); 
 }
 
-a {
-  color: #17232A;
-}
 #lat,
 #lon {
   border: 0px solid;
@@ -47,6 +48,11 @@ a {
   margin-right: auto;
   /* border: 2px solid grey; */
 }
+
+.profile-map{
+  max-height: 350px !important;
+}
+
 
 #map {
   height: 800px;

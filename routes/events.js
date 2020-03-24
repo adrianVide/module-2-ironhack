@@ -14,11 +14,11 @@ router.get('/:id', async (req, res, next) => {
     console.error(error)
   })
   if (foundEvent === null) {
-    res.redirect("/users/")
+    res.redirect("/around-me")
   }
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
-  foundEvent.isUserLoggedIn = userIsNotLoggedIn(req.session.currentUser)
+  foundEvent.userIsNotLoggedIn = userIsNotLoggedIn(req.session.currentUser)
   foundEvent.isOrganizer = isUserTheOrganizer(foundEvent, req.session.currentUser)
   foundEvent.isParticipant = isUserAParticipant(foundEvent, req.session.currentUser)
   //foundEvent.organizerData = await User.findById(foundEvent.organizer)
@@ -80,7 +80,7 @@ router.get('/delete/:id', async (req, res, next) => {
   }
   await Event.findByIdAndDelete(req.params.id);
   console.log("deleted")
-  res.redirect(`/users/`)
+  res.redirect(`/around-me`)
 });
 
 

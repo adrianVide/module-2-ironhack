@@ -8,18 +8,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" href="../stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 </head>
 
-<body>
+<body class="p-0">
 
   <nav class="navbar  navbar-expand-lg w-100"></nav>
   <div class="btn-group d-flex" role="group" aria-label="...">
     <a class="btn btn-default main-color font-weight-bold" href="/">Palcony</a>
     {{#if isUserLoggedIn}}
-    <a a href="/users/" class="btn btn-default">Around me</a>
+    <a a href="/around-me" class="btn btn-default">Around me</a>
 
     <a type="button" class="btn btn-default" href="/users/add-event">Create event</a>
 
@@ -30,13 +30,13 @@
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="/users/">My Dashboard</a></li>
+        <li><a href="/users/dashboard">My Dashboard</a></li>
         <li><a href="/auth/logout">Log Out</a></li>
       </ul>
     </div>
     <div></div>
     {{else}}
-        <a a href="/users/" class="btn btn-default">Around me</a>
+        <a a href="/around-me" class="btn btn-default">Around me</a>
 
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
