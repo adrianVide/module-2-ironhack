@@ -19,9 +19,7 @@ mongoose
       "authSource": "admin"
     },
     "user": "admin",
-    "pass": "password"
-  }, {
-    
+    "pass": "password",
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
