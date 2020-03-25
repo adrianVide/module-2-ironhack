@@ -43,7 +43,7 @@ app.use(express.static(__dirname + '/public'));
 // view engine setup
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
-hbs.registerPartials(__dirname + 'views/partials');
+hbs.registerPartials(__dirname + '/views/partials');
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // Middleware Setup
