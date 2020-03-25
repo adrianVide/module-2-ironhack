@@ -13,9 +13,16 @@ const eventSchema = new Schema(
     imgPath: String,
     participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     isItOver: {type: Boolean, default: false},
+    comments: [
+      {
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        comments: String
+      }
+    ],
     reviews: [
       {
         user: { type: Schema.Types.ObjectId, ref: 'User' },
+        score: Number,
         comments: String
       }
     ]
