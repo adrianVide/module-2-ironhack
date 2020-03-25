@@ -103,7 +103,6 @@ function prepareEvent(event, currentUser){
   event.readableTime = readableTime(event.date)
   event.isOrganizer = isUserTheOrganizer(event, currentUser)
   event.isParticipant = isUserAParticipant(event, currentUser)
-  console.log(event)
 }
 
 function populateEvents(events) {
