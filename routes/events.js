@@ -20,11 +20,11 @@ router.get('/:id', async (req, res, next) => {
   })
   } else {
     foundEvent.reviews.map(async function (review) {
-      console.log(review.user +"    vs    "+req.session.currentUser._id)
+      if (req.session.currentUser){
       if (review.user.equals(req.session.currentUser._id)){
         console.log("Found it!")
         foundEvent.userReview=review
-      }
+      }}
       review.userData = await User.findById(review.user)
     })
   }

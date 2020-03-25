@@ -222,7 +222,7 @@ function isUserTheOrganizer(eventObject, userId) {
 }
 
 function isUserAParticipant(eventObject, userId) {
-  if (!userId) {
+  if (!userId || userId=== null) {
     return false
   }
   if (eventObject.participants.indexOf(userId._id) > -1) {
