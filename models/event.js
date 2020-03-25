@@ -23,7 +23,7 @@ const eventSchema = new Schema(
       {
         user: { type: Schema.Types.ObjectId, ref: 'User' },
         score: Number,
-        comments: String
+        comments: String,
       }
     ]
   },

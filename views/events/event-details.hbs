@@ -88,7 +88,7 @@
     <div class="comment-container">
       {{#each reviews}}
       <div class="my-1 comment p-4">
-        {{#unless This.score}}
+        {{#unless this.negativeScore}}
         <i class="mr-2 fas fa-thumbs-up py-0 my-0 text-success"></i>
         <h5 class="text-light d-inline">I liked it!</h5>
         {{else}}
@@ -114,7 +114,7 @@
       </div>
       <form action="/events/{{id}}/add-review" class="justify-content-center d-flex flex-column align-items-end"
         method="post">
-        <input type="number" class="d-none" id="score">
+        <input type="number" class="d-none" id="score" name="score">
         <textarea class="d-block my-2 w-100 p-3 mb-0" type="text" name="comments"
           placeholder="Tell us your experience"></textarea>
         <button class="btn btn-success mt-0" type="submit"><i class="fas fa-comment text-light m-1"></i>Review</button>
@@ -123,7 +123,7 @@
     {{else}}
     <h4 class="mt-4">This was your rating of {{name}}:</h4>
     <div class="comment mx-0  p-4">
-      {{#unless userReview.score}}
+      {{#unless userReview.negativeScore}}
       <i class="mr-2 fas fa-thumbs-up py-0 my-0 text-success"></i>
       <h5 class="text-light d-inline">I liked it!</h5>
       {{else}}
@@ -188,6 +188,6 @@
   thumbsUp.addEventListener('click', function () {
     thumbsDown.classList.remove("selected-rating", "text-light")
     thumbsUp.classList.add("selected-rating", "text-light")
-    score.value = 1
+    score.value = 1;
   });}
 </script>

@@ -248,56 +248,16 @@ async function didUserReview(foundEvent, user){
 return foundEvent
 }
 
-
-
-
-
-
-
-
-/*
-router.get('/:id', async (req, res, next) => {
-  let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
-  if (foundEvent === null) {
-    res.redirect("/around-me")
-  }
-  if (foundEvent.isItOver === false) {
-    foundEvent.comments.map(async function (comment) {
-      comment.userData = await User.findById(comment.user)
-    })
-  } else {
-    if (req.session.currentUser) {
-      if (foundEvent.participants.indexOf(req.session.currentUser._id)>-1){
-        foundEvent.userAttended = true;   
-      }
-      foundEvent.reviews.map(async function (review) {
-          if (review.user.equals(req.session.currentUser._id)) {
-            console.log("Found it!")
-            foundEvent.userReview = review
-          }
-      review.userData = await User.findById(review.user)
-    })
-  }
-res.render('events/event-details', foundEvent)
-}})*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+async function scoreCalculation(foundEvent, user){
+  let counter = 0
+  foundEvent.reviews.map(async function (review) {
+    if (review.score === 0) {
+      review.negativeScore = true
+    }
+    counter += review.score
+  })
+return (counter/foundEvent.reviews.length)*100
+}
 
 module.exports = {
   readableDate,
@@ -314,4 +274,5 @@ module.exports = {
   sortByDate,
   populateAnnotations,
   didUserReview,
+  scoreCalculation
 };
