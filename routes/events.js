@@ -14,9 +14,22 @@ router.get('/:id', async (req, res, next) => {
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
+  if (foundEvent.isItOver === false){
   foundEvent.comments.map(async function (comment) {
     comment.userData = await User.findById(comment.user)
   })
+  } else {
+    foundEvent.reviews.map(async function (review) {
+      console.log(review.user +"    vs    "+req.session.currentUser._id)
+      if (review.user.equals(req.session.currentUser._id)){
+        console.log("Found it!")
+        foundEvent.userReview=review
+      }
+      review.userData = await User.findById(review.user)
+    })
+  }
+
+  console.log(foundEvent.userReview)
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
   foundEvent.userIsNotLoggedIn = userIsNotLoggedIn(req.session.currentUser)
@@ -109,6 +122,34 @@ router.post('/:id/add-comment', (req, res, next) => {
       console.log(error);
     });
 });
+
+router.post('/:id/add-review', (req, res, next) => {
+  const user = req.session.currentUser._id
+  const {
+    score,
+    comments
+  } = req.body;
+  Event.findByIdAndUpdate(
+      req.params.id, {
+        $push: {
+          reviews: {
+            $each: [{
+              user,
+              score,
+              comments
+            }],
+            $position: 0
+          }
+        }
+      })
+    .then(() => {
+      res.redirect("back");
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+
 
 
 module.exports = router;

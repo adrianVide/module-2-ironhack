@@ -63,7 +63,23 @@ a {
   overflow-y: auto;
 }
 
+.selected-rating{
+  font-weight: bold;
+}
 
+.thumbs-down:hover, .thumbs-up:hover{
+  color: white !important;
+}
+
+.selected-rating> .fa-thumbs-down{
+  font-size: x-large;
+  color: tomato
+}
+
+.selected-rating> .fa-thumbs-up{
+  font-size: x-large;
+  color: limegreen
+}
 
 #map {
   height: 800px;
