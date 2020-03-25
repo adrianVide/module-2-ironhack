@@ -20,8 +20,6 @@
             this event!</p>
           {{else if isOrganizer}}
           <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
-          {{else}}
-          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
           {{/if}}
         </div>
       </div>
@@ -51,14 +49,8 @@
           <a class="btn text-center align-text-bottom my-3  btn-danger" href="/events/abandon/{{id}}">Abandon this
             event</a>
           <br>
-          {{#if participants}}
           <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
             this event!</p>
-          {{else if isOrganizer}}
-          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
-          {{else}}
-          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
-          {{/if}}
         </div>
       </div>
     </div>
@@ -103,30 +95,11 @@
 </div>
 
 <script>
-  const latInput = document.getElementById("lat")
-  const lonInput = document.getElementById("lon")
-  const mymap = L.map("mymap", {
-    minZoom: 14,
-  })
-  let marker
-
-  if ("geolocation" in navigator) {
-    console.log("geolocation available");
-    navigator.geolocation.getCurrentPosition(position => {
-      lat = position.coords.latitude;
-      lon = position.coords.longitude;
-      console.log(lat, lon);
-      mymap.setView([lat, lon], 17);
-      const attribution =
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
-      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-      const tiles = L.tileLayer(tileUrl, { attribution });
-      tiles.addTo(mymap);
-      marker = L.marker([lat, lon]).addTo(mymap).bindPopup("This is your location");
-      latInput.value = lat
-      lonInput.value = lon
-    });
-  } else {
-    console.log("geolocation not available");
-  }
+    var map = L.map('mymap').setView([{{userData.latitude}}, {{userData.longitude}}], 20);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    L.marker([{{userData.latitude}}, {{userData.longitude}}]).addTo(map)
+        .bindPopup(`<p class="font-weight-bold text-primary mx-3 my-2">{{userData.name}}</p>`)
+        .openPopup();
 </script>

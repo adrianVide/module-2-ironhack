@@ -15,6 +15,7 @@ const userSchema = new Schema(
     pastOrganizedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     participatedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     pastParticipatedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    reviews: { type: Schema.Types.ObjectId, ref: 'Event' },
   },
   {
     timestamps: true

@@ -14,8 +14,8 @@ router.get('/:id', async (req, res, next) => {
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
-  foundEvent.reviews.map(async function (review) {
-    review.userData = await User.findById(review.user)
+  foundEvent.comments.map(async function (comment) {
+    comment.userData = await User.findById(comment.user)
   })
   foundEvent.readableDate = readableDate(foundEvent.date)
   foundEvent.time = readableTime(foundEvent.date)
@@ -93,7 +93,7 @@ router.post('/:id/add-comment', (req, res, next) => {
   Event.findByIdAndUpdate(
       req.params.id, {
         $push: {
-          reviews: {
+          comments: {
             $each: [{
               user,
               comments
