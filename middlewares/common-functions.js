@@ -226,7 +226,6 @@ function isUserAParticipant(eventObject, user) {
     return false
   }
   if (eventObject.participants.indexOf(user._id) > -1) {
-    //log// console.log("veamos");
     return true
   };
 }

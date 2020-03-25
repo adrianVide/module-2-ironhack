@@ -20,7 +20,7 @@ router.get('/:id', async (req, res, next) => {
     populateAnnotations(foundEvent, "comments")
   } else {
     if (req.session.currentUser) {
-      isUserAParticipant(foundEvent) 
+      foundEvent.userAttended= await isUserAParticipant(foundEvent, req.session.currentUser) 
       didUserReview(foundEvent, req.session.currentUser)
     }
     populateAnnotations(foundEvent, "reviews")
