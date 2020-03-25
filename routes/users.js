@@ -20,6 +20,18 @@ router.get("/dashboard", async function (req, res, next) {
   })
 })
 
+router.get("/dashboard/past", async function (req, res, next) {
+  const userOrganizing = req.session.currentUser;
+  const userData = await User.findById(userOrganizing._id).populate("pastOrganizedEvents").populate("pastParticipatedEvents")
+  userData.pastpastOrganizedEvents = sortByDate(userData.pastOrganizedEvents, userData);
+  userData.pastParticipatedEvents = sortByDate(userData.pastParticipatedEvents, userData);
+  res.render("users/dashboard", {
+    userData,
+    pastEvents: true,
+  })
+})
+
+
 router.get('/add-event', function (req, res, next) {
   res.render('users/add-event', {
     title: 'Palcony'
