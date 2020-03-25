@@ -15,11 +15,11 @@ const MongoStore = require("connect-mongo")(session);
 
 mongoose
   .connect("mongodb://localhost/palcony",{
-    "auth": {
-      "authSource": "admin"
-    },
-    "user": "admin",
-    "pass": "password",
+    // "auth": {
+    //   "authSource": "admin"
+    // },
+    // "user": "admin",
+    // "pass": "password",
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
