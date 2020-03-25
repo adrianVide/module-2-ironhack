@@ -212,7 +212,7 @@ function eventParticipationHandler(eventId, pushOrPull, userId) {
 }
 
 function isUserTheOrganizer(eventObject, userId) {
-  if (!userId) {
+  if (!userId || userId=== null) {
     return false
   }
   if (eventObject.organizer.equals(userId._id)) {
