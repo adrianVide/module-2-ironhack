@@ -1,5 +1,15 @@
 <h1 class="text-center mt-5">Hello, {{userData.name}}. Welcome to your dashboard.</h1>
 
+<div class="row">
+  {{#unless pastEvents}}
+  <a href="/users/dashboard" class="w-75 text-center py-3 text-light">Upcoming events</a>
+  <a href="/users/dashboard/past" class="w-25 bg-info text-center py-3 text-light">Past events</a>
+  {{else}}
+  <a href="/users/dashboard" class="w-25  bg-info text-center py-3 text-light">Upcoming events</a>
+  <a href="/users/dashboard/past" class="w-75 text-center py-3 text-light">Past events</a>
+  {{/unless}}
+</div>
+ {{#unless pastEvents}}
 <div class="my-4">
   {{#if userData.organizedEvents}}
   <h3 class="text-center">These are the events you are organising</h3>
@@ -62,6 +72,69 @@
 {{/if}}
 </div>
 </div>
+{{else}}
+
+<div class="my-4">
+  {{#if userData.pastOrganizedEvents}}
+  <h3 class="text-center">These are the events you organized in the past</h3>
+  <div class="row justify-content-center">
+    {{#each userData.pastOrganizedEvents}}
+    <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+      <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+      <div class="card-body spot-color">
+        <h5 class="card-title mb-1">{{name}}</h5>
+        <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
+        <div class="text-center">
+          <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
+              more</a>
+            <br>
+          {{#if participants}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users attended
+            this event</p>
+          {{else if isOrganizer}}
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    {{else}}
+    <h3 class="text-center mt-3">You don't have any finished events you organized</h3>
+    <div class="row justify-content-center"><a href="/users/add-event" class="btn btn-info mt-3 mb-4">Organize an event
+        in your neighbourhood</a></div>
+    {{/if}}
+  </div>
+</div>
+
+<div class="pt-3 pb-4 px-2 my-3 mx-0 bg-light">
+  {{#if userData.pastParticipatedEvents}}
+  <h3 class="text-center">These are the events you participated in</h3>
+  <div class="row justify-content-center">
+    {{#each userData.pastParticipatedEvents}}
+    <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+      <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+      <div class="card-body spot-color">
+        <h5 class="card-title mb-1">{{name}}</h5>
+        <p class="card-text mb-0 pb-0">{{readableDate}} at {{readableTime}}</p>
+        <div class="text-center">
+          <a class="btn text-center align-text-bottom my-3  btn-success" href="/events/{{id}}">Rate this
+            event</a>
+          <br>
+          <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users attended
+            this event!</p>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+{{else}}
+<h3 class="text-center mt-3">You never participated in any event</h3>
+<div class="row justify-content-center"><a href="/around-me" class="btn btn-info  mt-3 mb-4">See what's cooking in your
+    area</a></div>
+{{/if}}
+</div>
+</div>
+{{/unless}}
+
 
 <div>
   <h3 class="text-center mt-4">Your profile details:</h3>

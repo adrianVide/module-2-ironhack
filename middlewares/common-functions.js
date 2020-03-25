@@ -211,25 +211,93 @@ function eventParticipationHandler(eventId, pushOrPull, userId) {
   })
 }
 
-function isUserTheOrganizer(eventObject, userId) {
-  if (!userId || userId=== null) {
+function isUserTheOrganizer(eventObject, user) {
+  if (!user || user=== null) {
     return false
   }
-  if (eventObject.organizer.equals(userId._id)) {
+  if (eventObject.organizer.equals(user._id)) {
     //log// console.log("Sí")
     return true
   };
 }
 
-function isUserAParticipant(eventObject, userId) {
-  if (!userId) {
+function isUserAParticipant(eventObject, user) {
+  if (!user || user=== null) {
     return false
   }
-  if (eventObject.participants.indexOf(userId._id) > -1) {
-    //log// console.log("veamos");
+  if (eventObject.participants.indexOf(user._id) > -1) {
     return true
   };
 }
+
+async function populateAnnotations(foundEvent, annotations){
+  foundEvent[annotations].map(async function (annotation) {
+    annotation.userData = await User.findById(annotation.user)
+  })
+  return foundEvent
+}
+
+
+async function didUserReview(foundEvent, user){
+  foundEvent.reviews.map(async function (review) {
+    if (review.user.equals(user._id)) {
+      foundEvent.userReview = review
+    }
+    review.userData = await User.findById(review.user)
+  })
+return foundEvent
+}
+
+
+
+
+
+
+
+
+/*
+router.get('/:id', async (req, res, next) => {
+  let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
+  if (foundEvent === null) {
+    res.redirect("/around-me")
+  }
+  if (foundEvent.isItOver === false) {
+    foundEvent.comments.map(async function (comment) {
+      comment.userData = await User.findById(comment.user)
+    })
+  } else {
+    if (req.session.currentUser) {
+      if (foundEvent.participants.indexOf(req.session.currentUser._id)>-1){
+        foundEvent.userAttended = true;   
+      }
+      foundEvent.reviews.map(async function (review) {
+          if (review.user.equals(req.session.currentUser._id)) {
+            console.log("Found it!")
+            foundEvent.userReview = review
+          }
+      review.userData = await User.findById(review.user)
+    })
+  }
+res.render('events/event-details', foundEvent)
+}})*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = {
   readableDate,
@@ -244,4 +312,6 @@ module.exports = {
   isUserTheOrganizer,
   isUserAParticipant,
   sortByDate,
+  populateAnnotations,
+  didUserReview,
 };

@@ -24,14 +24,14 @@ router.get("/dashboard", async function (req, res, next) {
 })
 
 const upload = multer({ dest: './public/uploads/' });
-const pic = new Picture({
-  name: req.body.name,
-  path: `/uploads/${req.file.filename}`,
-  originalName: req.file.originalname
-});
+
 router.post('/uploadphoto', upload.single('photo'), (req, res) => {
 
-  
+  const pic = new Picture({
+    name: req.body.name,
+    path: `/uploads/${req.file.filename}`,
+    originalName: req.file.originalname
+  });
 
   pic.save((err) => {
       res.redirect('dashboard');

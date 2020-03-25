@@ -1,68 +1,146 @@
 <div class="mb-5 mt-3 text-center">
-<h1 class="">{{name}}</h1>
-{{#if participants}}
-<p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend this event!</p>
-{{else if isOrganizer}}
-<p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
-{{else}}
-<p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
-{{/if}}
+  <h1 class="pb-3">{{name}}</h1>
+  {{#unless isItOver}}
+  {{#if participants}}
+  <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend this event!
+  </p>
+  {{else if isOrganizer}}
+  <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
+  {{else}}
+  <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
+  {{/if}}
+  {{else}}
+  {{#if participants}}
+  <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users attended this event</p>
+  {{else}}
+  <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody attended this event</p>
+  {{/if}}
+  {{/unless}}
 </div>
 
-  <div class="row d-flex flex-row justify-content-around">
-    <div class="col-lg-4 px-0 mx-0" id="mymap"></div>
-    <div class="col-lg-5 px-5 mx-0">
-  <div class="container-fluid">
-  <h3 class="">Event details:</h3>
-{{#unless isOrganizer}}
-<p class="mb-0"><b>Organizer:</b> {{organizer.name}}</p>
-{{else}}
-<p class="mb-0"><b>Organizer:</b> you!</p>
-{{/unless}}
-<p  class="mb-0"><b>Date: </b>{{readableDate}}</p>
-<p><b>Time: </b>{{time}}</p>
-<p class="font-italic">{{description}}</p>
-<div class="bg-light my-2 my-3 py-4 px-2 col-lg-4 col-md-8 text-center">
-
-{{#if userIsNotLoggedIn}}
-<p class="font-weight-bold">Sign up to participate in this event</p>
-<a class="btn btn-success font-weight-bold" href="/auth/signup/">Sign up to Palcony</a>
-{{else if isOrganizer}}
-<p class="font-weight-bold">You organized this event</p>
-<a class="btn btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
-{{else if isParticipant}}
-<p class="font-weight-bold">You are participating in this event</p>
-<a class="btn btn-danger" href="/events/abandon/{{id}}">Abandon this event</a>
-{{else}}
-<p class="font-weight-bold">Would you like to join the event?</p>
-<a class="btn btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
-{{/if}}
-</div>
-
+<div class="row d-flex flex-row justify-content-around">
+  <div class="col-lg-4 px-0 mx-0" id="mymap">
   </div>
-      
-    </div>
-
-    <div  class="col-lg-2 mx-5">
-
-      <h2>Comments</h2>
-<div class="comment-container">
-{{#each comments}}
-<div class="my-1 comment p-2">
-  <p class="font-weight-bold">{{this.comments}}</p>
-  <p class="font-italic">By {{this.userData.name}}</p>
-</div>
-{{/each}}
-  </div>
-      <div>
-<h4 class="mt-4">Add a comment</h4>
-<form action="/events/{{id}}/add-comment" class="justify-content-center d-flex flex-column align-items-end" method="post">
-    <textarea class="d-block my-2 w-100 p-3 mb-0" type="text" name="comments" placeholder="Say something nice!"></textarea>
-    <button class="btn btn-success mt-0"type="submit"><i class="fas fa-comment text-light m-1"></i>Comment</button>
-</form>
+  <div class="col-lg-5 px-5 mx-0">
+    <div class="container-fluid">
+      <h3 class="">Event details:</h3>
+      {{#unless isOrganizer}}
+      <p class="mb-0"><b>Organizer:</b> {{organizer.name}}</p>
+      {{else}}
+      <p class="mb-0"><b>Organizer:</b> you!</p>
+      {{/unless}}
+      <p class="mb-0"><b>Date: </b>{{readableDate}}</p>
+      <p><b>Time: </b>{{time}}</p>
+      <p class="font-italic">{{description}}</p>
+      <div class="bg-light my-2 my-5 py-4 px-2 col-lg-5 col-md-8 text-center">
+        {{#unless isItOver}}
+        {{#if userIsNotLoggedIn}}
+        <p class="font-weight-bold">Sign up to participate in this event</p>
+        <a class="btn btn-success font-weight-bold" href="/auth/signup/">Sign up to Palcony</a>
+        {{else if isOrganizer}}
+        <p class="font-weight-bold">You organized this event</p>
+        <a class="btn btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
+        {{else if isParticipant}}
+        <p class="font-weight-bold">You are participating in this event</p>
+        <a class="btn btn-danger" href="/events/abandon/{{id}}">Abandon this event</a>
+        {{else}}
+        <p class="font-weight-bold">Would you like to join the event?</p>
+        <a class="btn btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
+        {{/if}}
+        {{else isOrganizer}}
+        <h4>This event is over</h4>
+        <p class="font-weight-bold">You organized this event</p>
+        {{else if isParticipant}}
+        <h4>This event is over</h4>
+        <p class="font-weight-bold">You participated in this event</p>
+        {{else}}
+        <p class="font-weight-bold mb-0">This event is over</p>
+        {{/unless}}
       </div>
-
     </div>
+  </div>
+  <div class="col-lg-2 mx-4">
+    {{#unless isItOver}}
+    <h2>Comments</h2>
+    <div class="comment-container">
+      {{#each comments}}
+      <div class="my-1 comment p-2">
+        <p class="font-weight-bold mt-2">{{this.comments}}</p>
+        <p class="font-italic mb-1">By {{this.userData.name}}</p>
+      </div>
+      {{/each}}
+    </div>
+    <div>
+      <h4 class="mt-4">Add a comment</h4>
+      {{#if userIsNotLoggedIn}}
+      <p class="font-italic">Only registered users can post comments.</p>
+      {{else}}
+      <form action="/events/{{id}}/add-comment" class="justify-content-center d-flex flex-column align-items-end"
+        method="post">
+        <textarea class="d-block my-2 w-100 p-3 mb-0" type="text" name="comments"
+          placeholder="Say something nice!"></textarea>
+        <button class="btn btn-success mt-0" type="submit"><i class="fas fa-comment text-light m-1"></i>Comment</button>
+      </form>
+      {{/if}}
+    </div>
+    {{else}}
+    <h2>Reviews</h2>
+    <div class="comment-container">
+      {{#each reviews}}
+      <div class="my-1 comment p-4">
+        {{#unless This.score}}
+        <i class="mr-2 fas fa-thumbs-up py-0 my-0 text-success"></i>
+        <h5 class="text-light d-inline">I liked it!</h5>
+        {{else}}
+        <i class="mr-2 fas fa-thumbs-down py-0 my-0 text-danger 3x"></i>
+        <h5 class="text-light d-inline">Not good</h5>
+        {{/unless}}
+        <p class="font-weight-bold">{{this.comments}}</p>
+        <p class="font-italic">By {{this.userData.name}}</p>
+      </div>
+      {{/each}}
+    </div>
+    <div>
+      {{#if userAttended}}
+      {{#unless userReview}}
+      <h4 class="mt-4">How was your experience in {{name}}?</h4>
+      <div class="row mx-0 ">
+        <a id="thumbs-down" class="py-4 mr-2">Not good
+          <i class="ml-2 fas fa-thumbs-down py-0 my-0"></i>
+        </a>
+        <a id="thumbs-up" class="py-4 ml-2">
+          <i class="mr-2 fas fa-thumbs-up py-0 my-0"></i>
+          I liked it!</a>
+      </div>
+      <form action="/events/{{id}}/add-review" class="justify-content-center d-flex flex-column align-items-end"
+        method="post">
+        <input type="number" class="d-none" id="score">
+        <textarea class="d-block my-2 w-100 p-3 mb-0" type="text" name="comments"
+          placeholder="Tell us your experience"></textarea>
+        <button class="btn btn-success mt-0" type="submit"><i class="fas fa-comment text-light m-1"></i>Review</button>
+      </form>
+    </div>
+    {{else}}
+    <h4 class="mt-4">This was your rating of {{name}}:</h4>
+    <div class="comment mx-0  p-4">
+      {{#unless userReview.score}}
+      <i class="mr-2 fas fa-thumbs-up py-0 my-0 text-success"></i>
+      <h5 class="text-light d-inline">I liked it!</h5>
+      {{else}}
+      <i class="mr-2 fas fa-thumbs-down py-0 my-0 text-danger 3x"></i>
+      <h5 class="text-light d-inline">Not good</h5>
+      {{/unless}}
+      <p class="font-weight-bold pt-2">{{userReview.comments}}</p>
+    </div>
+    {{/unless}}
+    {{/if}}
+      {{#unless userAttended}}
+      <p class="font-italic">Events can only be reviewed by their attendees.</p>
+      {{/unless}}
+    {{/unless}}
+
+    
+  </div>
 </div>
 
 
@@ -74,24 +152,42 @@
 {{/if}}
 
 <div class="d-none">
-<p class="font-weight-bold mb-0">Location:
-<ul >
-<li class=""><b>Latitude: </b> <i id="latitude" >{{latitude}}</i></li>
-<li class=""><b>Longitude: </b> <i id="longitude">{{longitude}}</i></li>
-</ul>
-</p>
+  <p class="font-weight-bold mb-0">Location:
+    <ul>
+      <li class=""><b>Latitude: </b> <i id="latitude">{{latitude}}</i></li>
+      <li class=""><b>Longitude: </b> <i id="longitude">{{longitude}}</i></li>
+    </ul>
+  </p>
 </div>
 
 
 
 <script>
+
+
+
     var map = L.map('mymap').setView([{{latitude}}, {{longitude}}], 20);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     L.marker([{{latitude}}, {{longitude}}]).addTo(map)
-        .bindPopup(`<p class="font-weight-bold text-primary mx-3 my-2">{{name}}</p>`)
-        .openPopup();
-</script>
+    .bindPopup(`<p class="font-weight-bold text-primary mx-3 my-2">{{name}}</p>`)
+    .openPopup();
 
-        
+
+  const thumbsUp = document.getElementById("thumbs-up")
+  const thumbsDown = document.getElementById("thumbs-down")
+  const score = document.getElementById("score")
+
+  if (thumbsDown){
+  thumbsDown.addEventListener('click', function () {
+    score.value = 0;
+    thumbsUp.classList.remove("selected-rating", "text-light")
+    thumbsDown.classList.add("selected-rating", "text-light")
+  });
+  thumbsUp.addEventListener('click', function () {
+    thumbsDown.classList.remove("selected-rating", "text-light")
+    thumbsUp.classList.add("selected-rating", "text-light")
+    score.value = 1
+  });}
+</script>

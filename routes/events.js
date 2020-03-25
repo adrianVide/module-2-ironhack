@@ -2,28 +2,31 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/event')
 const User = require('../models/user');
-const readableDate = require("../middlewares/common-functions").readableDate
-const readableTime = require("../middlewares/common-functions").readableTime
+const populateAnnotations = require("../middlewares/common-functions").populateAnnotations
+const populateReviews = require("../middlewares/common-functions").populateReviews
+const didUserReview = require("../middlewares/common-functions").didUserReview
 const userIsNotLoggedIn = require("../middlewares/common-functions").userIsNotLoggedIn
+const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
 const eventParticipationHandler = require("../middlewares/common-functions").eventParticipationHandler
 const isUserTheOrganizer = require("../middlewares/common-functions").isUserTheOrganizer
-const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
+
 
 router.get('/:id', async (req, res, next) => {
   let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
-  foundEvent.comments.map(async function (comment) {
-    comment.userData = await User.findById(comment.user)
-  })
-  foundEvent.readableDate = readableDate(foundEvent.date)
-  foundEvent.time = readableTime(foundEvent.date)
-  foundEvent.userIsNotLoggedIn = userIsNotLoggedIn(req.session.currentUser)
-  foundEvent.isOrganizer = isUserTheOrganizer(foundEvent, req.session.currentUser)
-  foundEvent.isParticipant = isUserAParticipant(foundEvent, req.session.currentUser)
-  //foundEvent.organizerData = await User.findById(foundEvent.organizer)
-  res.render('events/event-details', foundEvent)
+  if (foundEvent.isItOver === false) {
+    populateAnnotations(foundEvent, "comments")
+  } else {
+    if (req.session.currentUser) {
+      foundEvent.userAttended= await isUserAParticipant(foundEvent, req.session.currentUser) 
+      didUserReview(foundEvent, req.session.currentUser)
+    }
+    populateAnnotations(foundEvent, "reviews")
+  }
+  console.log(foundEvent.userAttended)
+res.render('events/event-details', foundEvent)
 })
 
 router.get('/participate/:id', async (req, res, next) => {
@@ -109,6 +112,34 @@ router.post('/:id/add-comment', (req, res, next) => {
       console.log(error);
     });
 });
+
+router.post('/:id/add-review', (req, res, next) => {
+  const user = req.session.currentUser._id
+  const {
+    score,
+    comments
+  } = req.body;
+  Event.findByIdAndUpdate(
+      req.params.id, {
+        $push: {
+          reviews: {
+            $each: [{
+              user,
+              score,
+              comments
+            }],
+            $position: 0
+          }
+        }
+      })
+    .then(() => {
+      res.redirect("back");
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+
 
 
 module.exports = router;
