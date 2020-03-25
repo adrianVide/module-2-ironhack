@@ -2,41 +2,31 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/event')
 const User = require('../models/user');
-const readableDate = require("../middlewares/common-functions").readableDate
-const readableTime = require("../middlewares/common-functions").readableTime
+const populateAnnotations = require("../middlewares/common-functions").populateAnnotations
+const populateReviews = require("../middlewares/common-functions").populateReviews
+const didUserReview = require("../middlewares/common-functions").didUserReview
 const userIsNotLoggedIn = require("../middlewares/common-functions").userIsNotLoggedIn
+const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
 const eventParticipationHandler = require("../middlewares/common-functions").eventParticipationHandler
 const isUserTheOrganizer = require("../middlewares/common-functions").isUserTheOrganizer
-const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
+
 
 router.get('/:id', async (req, res, next) => {
   let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
-  if (foundEvent.isItOver === false){
-  foundEvent.comments.map(async function (comment) {
-    comment.userData = await User.findById(comment.user)
-  })
+  if (foundEvent.isItOver === false) {
+    populateAnnotations(foundEvent, "comments")
   } else {
-    foundEvent.reviews.map(async function (review) {
-      if (req.session.currentUser){
-      if (review.user.equals(req.session.currentUser._id)){
-        console.log("Found it!")
-        foundEvent.userReview=review
-      }}
-      review.userData = await User.findById(review.user)
-    })
+    if (req.session.currentUser) {
+      isUserAParticipant(foundEvent) 
+      didUserReview(foundEvent, req.session.currentUser)
+    }
+    populateAnnotations(foundEvent, "reviews")
   }
-
-  console.log(foundEvent.userReview)
-  foundEvent.readableDate = readableDate(foundEvent.date)
-  foundEvent.time = readableTime(foundEvent.date)
-  foundEvent.userIsNotLoggedIn = userIsNotLoggedIn(req.session.currentUser)
-  foundEvent.isOrganizer = isUserTheOrganizer(foundEvent, req.session.currentUser)
-  foundEvent.isParticipant = isUserAParticipant(foundEvent, req.session.currentUser)
-  //foundEvent.organizerData = await User.findById(foundEvent.organizer)
-  res.render('events/event-details', foundEvent)
+  console.log(foundEvent.userAttended)
+res.render('events/event-details', foundEvent)
 })
 
 router.get('/participate/:id', async (req, res, next) => {

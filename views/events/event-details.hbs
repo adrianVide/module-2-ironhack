@@ -101,9 +101,8 @@
       {{/each}}
     </div>
     <div>
-      {{#unless userIsNotLoggedIn}}
+      {{#if userAttended}}
       {{#unless userReview}}
-      {{#unless isOrganizer}}
       <h4 class="mt-4">How was your experience in {{name}}?</h4>
       <div class="row mx-0 ">
         <a id="thumbs-down" class="py-4 mr-2">Not good
@@ -121,7 +120,6 @@
         <button class="btn btn-success mt-0" type="submit"><i class="fas fa-comment text-light m-1"></i>Review</button>
       </form>
     </div>
-    {{/unless}}
     {{else}}
     <h4 class="mt-4">This was your rating of {{name}}:</h4>
     <div class="comment mx-0  p-4">
@@ -135,11 +133,11 @@
       <p class="font-weight-bold pt-2">{{userReview.comments}}</p>
     </div>
     {{/unless}}
+    {{/if}}
     {{/unless}}
-    {{/unless}}
-      {{#if userIsNotLoggedIn}}
-      <p class="font-italic">Only registered users can review events.</p>
-      {{/if}}
+      {{#unless userAttended}}
+      <p class="font-italic">Events can only be reviewed by their attendees.</p>
+      {{/unless}}
 
     
   </div>
