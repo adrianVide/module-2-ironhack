@@ -5,17 +5,19 @@ const User = require('../models/user');
 const populateAnnotations = require("../middlewares/common-functions").populateAnnotations
 const scoreCalculation = require("../middlewares/common-functions").scoreCalculation
 const didUserReview = require("../middlewares/common-functions").didUserReview
-const userIsNotLoggedIn = require("../middlewares/common-functions").userIsNotLoggedIn
+const prepareEvent = require("../middlewares/common-functions").prepareEvent
 const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
 const eventParticipationHandler = require("../middlewares/common-functions").eventParticipationHandler
 const isUserTheOrganizer = require("../middlewares/common-functions").isUserTheOrganizer
-
+const readableDate = require("../middlewares/common-functions").readableDate
+const readableTime = require("../middlewares/common-functions").readableTime
 
 router.get('/:id', async (req, res, next) => {
   let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
+  prepareEvent(foundEvent, req.session.currentUser)
   if (foundEvent.isItOver === false) {
     populateAnnotations(foundEvent, "comments")
   } else {
@@ -24,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
       didUserReview(foundEvent, req.session.currentUser)
     }
     populateAnnotations(foundEvent, "reviews")
-    scoreCalculation(foundEvent)
+    foundEvent.globalScore= await scoreCalculation(foundEvent)
     if (foundEvent.reviews.length === 0){
       foundEvent.noReviews = true
     }

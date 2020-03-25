@@ -92,13 +92,18 @@ function prepareEventOutput(events, currentUser) {
 
 function sortByDate(eventArray, currentUser){
   eventArray.map(function (event) {
-    event.userIsNotLoggedIn = userIsNotLoggedIn(currentUser)
-    event.readableDate = readableDate(event.date)
-    event.readableTime = readableTime(event.date)
-    event.isOrganizer = isUserTheOrganizer(event, currentUser)
-    event.isParticipant = isUserAParticipant(event, currentUser)
+  prepareEvent(event, currentUser)
   })
   return eventArray.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
+}
+
+function prepareEvent(event, currentUser){
+  event.userIsNotLoggedIn = userIsNotLoggedIn(currentUser)
+  event.readableDate = readableDate(event.date)
+  event.readableTime = readableTime(event.date)
+  event.isOrganizer = isUserTheOrganizer(event, currentUser)
+  event.isParticipant = isUserAParticipant(event, currentUser)
+  console.log(event)
 }
 
 function populateEvents(events) {
@@ -256,8 +261,41 @@ async function scoreCalculation(foundEvent, user){
     }
     counter += review.score
   })
-return (counter/foundEvent.reviews.length)*100
+return Math.floor((counter/foundEvent.reviews.length)*100)
 }
+
+
+
+
+/*
+router.get('/:id', async (req, res, next) => {
+  let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
+  if (foundEvent === null) {
+    res.redirect("/around-me")
+  }
+  if (foundEvent.isItOver === false) {
+    foundEvent.comments.map(async function (comment) {
+      comment.userData = await User.findById(comment.user)
+    })
+  } else {
+    if (req.session.currentUser) {
+      if (foundEvent.participants.indexOf(req.session.currentUser._id)>-1){
+        foundEvent.userAttended = true;   
+      }
+      foundEvent.reviews.map(async function (review) {
+          if (review.user.equals(req.session.currentUser._id)) {
+            console.log("Found it!")
+            foundEvent.userReview = review
+          }
+      review.userData = await User.findById(review.user)
+    })
+  }
+res.render('events/event-details', foundEvent)
+}})*/
+
+
+
+
 
 module.exports = {
   readableDate,
@@ -274,5 +312,6 @@ module.exports = {
   sortByDate,
   populateAnnotations,
   didUserReview,
-  scoreCalculation
+  scoreCalculation,
+  prepareEvent,
 };
