@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const multer  = require('multer');
+
 const Event = require('../models/event');
 const User = require('../models/user');
+const Picture = require('../models/userimg');
 
 const sortByDate = require("../middlewares/common-functions").sortByDate
 const isEventOver = require("../middlewares/common-functions").isEventOver
@@ -19,6 +22,33 @@ router.get("/dashboard", async function (req, res, next) {
     userData
   })
 })
+
+const upload = multer({ dest: './public/uploads/' });
+const pic = new Picture({
+  name: req.body.name,
+  path: `/uploads/${req.file.filename}`,
+  originalName: req.file.originalname
+});
+router.post('/uploadphoto', upload.single('photo'), (req, res) => {
+
+  
+
+  pic.save((err) => {
+      res.redirect('dashboard');
+  });
+});
+
+router.get("/dashboard/past", async function (req, res, next) {
+  const userOrganizing = req.session.currentUser;
+  const userData = await User.findById(userOrganizing._id).populate("pastOrganizedEvents").populate("pastParticipatedEvents")
+  userData.pastpastOrganizedEvents = sortByDate(userData.pastOrganizedEvents, userData);
+  userData.pastParticipatedEvents = sortByDate(userData.pastParticipatedEvents, userData);
+  res.render("users/dashboard", {
+    userData,
+    pastEvents: true,
+  })
+})
+
 
 router.get('/add-event', function (req, res, next) {
   res.render('users/add-event', {

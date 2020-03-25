@@ -88,11 +88,23 @@
             </ul>
           </p>
           <a class="btn btn-info" href="/users/edit-user/{{userData._id}}/">Edit your profile</a>
+<section>
+  <h2>Upload your photo</h2>
+  <form action="/users/uploadphoto" method="post" enctype="multipart/form-data">
+    {{!-- <input type="text" name="name"> --}}
+    <input type="file" name="photo">
+    <input type="submit" value="Upload">
+  </form>
+</section>
         </div>
       </div>
     </div>
   </div>
 </div>
+{{!-- <form action="/uploadphoto" enctype="multipart/form-data" method="POST"> 
+  <input type="file" name="myImage" accept="image/*" />
+  <input type="submit" value="Upload Photo"/>
+</form> --}}
 
 <script>
     var map = L.map('mymap').setView([{{userData.latitude}}, {{userData.longitude}}], 20);
