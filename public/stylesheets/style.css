@@ -130,3 +130,5 @@ a {
   border-color: #3AAFA9;
   color: #3AAFA9;
 }
+
+#navBarSearchForm input[type=text]{width:430px !important;}

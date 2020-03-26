@@ -10,49 +10,74 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 </head>
 
 <body class="p-0">
 
-  <nav class="navbar  navbar-expand-lg w-100"></nav>
-  <div class="btn-group d-flex" role="group" aria-label="...">
-    <a class="btn btn-default main-color font-weight-bold" href="/">Palcony</a>
+  <nav class="navbar navbar-expand-sm navbar-dark justify-content-between">
+    <!-- Brand -->
+    <a class="navbar-brand m-2 font-weight-bold mx-3 display-1" href="/">Palcony</a>
+    {{!-- Search Events --}}
+    {{!-- <form class="form-inline" action="/search">
+
+
+      <input class="form-control mr-sm-2" type="text" placeholder="Search events around you...">
+
+      <button class="btn btn-success" type="submit">Search</button>
+    </form> --}}
+
+    <form class="mr-2 my-auto w-75 d-inline-block">
+            <div class="input-group">
+                <input type="text" class="form-control border " placeholder="Search events...">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-light border " type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
     {{#if isUserLoggedIn}}
-    <a a href="/around-me" class="btn btn-default">Around me</a>
 
-    <a type="button" class="btn btn-default" href="/users/add-event">Create event</a>
+    <!-- Links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/around-me">Around me</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/add-event">Create Event</a>
+      </li>
 
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-        {{currentUserInfo.name}}
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><a href="/users/dashboard">My Dashboard</a></li>
-        <li><a href="/auth/logout">Log Out</a></li>
-      </ul>
-    </div>
-    <div></div>
+      <!-- Dropdown -->
+      <li class="nav-item dropdown">
+
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          {{currentUserInfo.name}} </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="/users/dashboard">My dashboard</a>
+          <a class="dropdown-item" href="/auth/logout">Log out</a>
+          {{!-- <a class="dropdown-item" href="#">Link 3</a> --}}
+        </div>
+      </li>
+    </ul>
     {{else}}
-        <a a href="/around-me" class="btn btn-default">Around me</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/around-me">Around me</a>
+      </li>
+     <a href="/auth/login"> <button href="/auth/login" class="btn btn-outline-success mx-4" type="submit">Log in</button></a>
+      <a href="/auth/signup"><button  href="/auth/signup"class="btn btn-success" type="submit">Sign up</button></a>
+      {{/if}}
 
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-        User area
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu align-right">
-        <li><a href="/auth/signup">Sign Up</a></li>
-        <li><a href="/auth/login">Log In</a></li>
-      </ul>
-    </div>
-    {{/if}}
-  </div>
+    </ul>
   </nav>
+
+
+
+
+
 
 
   {{{body}}}
@@ -79,4 +104,5 @@
 
 </footer>
 <!-- Footer -->
+
 </html>
