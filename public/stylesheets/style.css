@@ -56,13 +56,13 @@ a {
 }
 
 #profile-picture{
-  max-height: 400px !important;
+  max-height: 370px !important;
   max-width: 100%;
   min-height: 300px;
   min-width: 300px;
-  object-fit: scale-down;
+  object-fit: cover;
+  overflow: hidden;
 }
-
 
 .middle {
   transition: .5s ease;
