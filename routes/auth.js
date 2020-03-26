@@ -114,7 +114,7 @@ router.post('/signup', (req, res, next) => {
   })
   
   router.get("/logout", (req, res, next)=>{
-  req.session.destroy(err => res.redirect("/auth/login"))
+  req.session.destroy(err => res.redirect("/"))
   })
   
 
