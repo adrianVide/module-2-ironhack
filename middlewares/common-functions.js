@@ -92,13 +92,17 @@ function prepareEventOutput(events, currentUser) {
 
 function sortByDate(eventArray, currentUser){
   eventArray.map(function (event) {
-    event.userIsNotLoggedIn = userIsNotLoggedIn(currentUser)
-    event.readableDate = readableDate(event.date)
-    event.readableTime = readableTime(event.date)
-    event.isOrganizer = isUserTheOrganizer(event, currentUser)
-    event.isParticipant = isUserAParticipant(event, currentUser)
+  prepareEvent(event, currentUser)
   })
   return eventArray.sort(function (a, b) {return new Date(a.date) - new Date(b.date)});
+}
+
+function prepareEvent(event, currentUser){
+  event.userIsNotLoggedIn = userIsNotLoggedIn(currentUser)
+  event.readableDate = readableDate(event.date)
+  event.readableTime = readableTime(event.date)
+  event.isOrganizer = isUserTheOrganizer(event, currentUser)
+  event.isParticipant = isUserAParticipant(event, currentUser)
 }
 
 function populateEvents(events) {
@@ -248,9 +252,16 @@ async function didUserReview(foundEvent, user){
 return foundEvent
 }
 
-
-
-
+async function scoreCalculation(foundEvent, user){
+  let counter = 0
+  foundEvent.reviews.map(async function (review) {
+    if (review.score === 0) {
+      review.negativeScore = true
+    }
+    counter += review.score
+  })
+return Math.floor((counter/foundEvent.reviews.length)*100)
+}
 
 
 
@@ -285,20 +296,6 @@ res.render('events/event-details', foundEvent)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = {
   readableDate,
   readableTime,
@@ -314,4 +311,6 @@ module.exports = {
   sortByDate,
   populateAnnotations,
   didUserReview,
+  scoreCalculation,
+  prepareEvent,
 };

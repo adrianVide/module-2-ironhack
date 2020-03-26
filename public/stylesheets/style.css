@@ -63,6 +63,11 @@ a {
   overflow-y: auto;
 }
 
+.review-container{
+  max-height:310px;
+  overflow-y: auto;
+}
+
 .selected-rating{
   font-weight: bold;
 }
