@@ -174,17 +174,21 @@
     </div>
   </div>
 </div>
-{{!-- <form action="/uploadphoto" enctype="multipart/form-data" method="POST"> 
-  <input type="file" name="myImage" accept="image/*" />
-  <input type="submit" value="Upload Photo"/>
-</form> --}}
 
 <script>
+    const palconyFlag = L.icon({
+      iconUrl: '/images/palconyFlag.png',
+      shadowUrl: '/images/palconyFlagShadow.png',
+      iconSize: [40, 60],
+      iconAnchor: [16, 60],
+      shadowAnchor: [23, 75],
+    });
+    
     var map = L.map('mymap').setView([{{userData.latitude}}, {{userData.longitude}}], 20);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-    L.marker([{{userData.latitude}}, {{userData.longitude}}]).addTo(map)
+    L.marker([{{userData.latitude}}, {{userData.longitude}}], {icon: palconyFlag} ).addTo(map)
         .bindPopup(`<p class="font-weight-bold text-primary mx-3 my-2">{{userData.name}}</p>`)
         .openPopup();
 </script>
