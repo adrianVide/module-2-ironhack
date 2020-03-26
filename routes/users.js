@@ -36,8 +36,7 @@ var storage =   multer.diskStorage({
 
 router.post('/uploadphoto',async function(req,res){
     var upload = multer({ storage : storage}).single('photo');
-    var postPictRoute = await User.findByIdAndUpdate(req.session.currentUser._id, {$set: {imgPath: `./uploads/${req.session.currentUser._id}`}}, {new: true}); //(req.session.currentUser._id, {$push: {imgPath: `./uploads/${req.session.currentUser._id}`}});
-    console.log({ _id: req.session.currentUser._id }, {$set: {imgPath: `/uploads/${req.session.currentUser._id}`}},{new: true}); //(req.session.currentUser._id, {$push: {imgPath: `./uploads/${req.session.currentUser._id}`}});
+    var postPictRoute = await User.findByIdAndUpdate(req.session.currentUser._id, {$set: {imgPath: `/uploads/${req.session.currentUser._id}`}}, {new: true}); //(req.session.currentUser._id, {$push: {imgPath: `./uploads/${req.session.currentUser._id}`}});
     console.log(`./public/uploads/${req.session.currentUser._id}`);
     console.log(req.session.currentUser._id);
     upload(req,res,function(err) {
