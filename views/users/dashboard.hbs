@@ -164,9 +164,9 @@
 <section>
   <h2>Upload your photo</h2>
   <form action="/users/uploadphoto" method="post" enctype="multipart/form-data">
-    <input type="text" name="name">
+    {{!-- <input type="text" name="name"> --}}
     <input type="file" name="photo">
-    <input type="submit" value="save">
+    <input type="submit" value="Change">
   </form>
 </section>
 <img src="{{userData.imgPath}}" alt="">
