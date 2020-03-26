@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 function readableDate(unreadableDate) {
   let dateText = JSON.stringify(unreadableDate)
-  console.log(dateText)
+  // console.log(dateText)
   let day = dateText.slice(9, 11)
   let month = dateText.slice(6, 8)
   //log// console.log(month)

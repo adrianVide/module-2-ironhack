@@ -14,6 +14,7 @@ const bcryptSalt = 10;
 const bcrypt = require('bcryptjs');
 
 router.get("/dashboard", async function (req, res, next) {
+  
   const userOrganizing = req.session.currentUser;
   const userData = await User.findById(userOrganizing._id).populate("organizedEvents").populate("participatedEvents")
   userData.organizedEvents = sortByDate(userData.organizedEvents, userData);
@@ -23,20 +24,52 @@ router.get("/dashboard", async function (req, res, next) {
   })
 })
 
-const upload = multer({ dest: './public/uploads/' });
 
-router.post('/uploadphoto', upload.single('photo'), (req, res) => {
+////////
 
-  const pic = new Picture({
-    name: req.body.name,
-    path: `/uploads/${req.file.filename}`,
-    originalName: req.file.originalname
-  });
 
-  pic.save((err) => {
-      res.redirect('dashboard');
-  });
+var storage =   multer.diskStorage({
+  destination: './public/uploads/',
+  filename: function (req, file, callback) {
+    callback(null, req.session.currentUser._id);
+  }
 });
+
+router.post('/uploadphoto',async function(req,res){
+    var upload = multer({ storage : storage}).single('photo');
+    var postPictRoute = await User.findByIdAndUpdate(req.session.currentUser._id, {$set: {imgPath: `./uploads/${req.session.currentUser._id}`}}, {new: true}); //(req.session.currentUser._id, {$push: {imgPath: `./uploads/${req.session.currentUser._id}`}});
+    console.log({ _id: req.session.currentUser._id }, {$set: {imgPath: `./uploads/${req.session.currentUser._id}`}},{new: true}); //(req.session.currentUser._id, {$push: {imgPath: `./uploads/${req.session.currentUser._id}`}});
+    console.log(`./public/uploads/${req.session.currentUser._id}`);
+    console.log(req.session.currentUser._id);
+    upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        res.redirect("back");
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+// const upload = multer({ dest: './public/uploads/' });
+
+// router.post('/uploadphoto', upload.single('photo'), (req, res) => {
+//   const {name, filename, originalname} = req.body;
+//   console.log('AQUI!!----> ' + name, filename, originalname);
+//   console.log(req.body);
+//   console.log(req.file);
+
+//   res.redirect('dashboard');
+
+// });
 
 router.get("/dashboard/past", async function (req, res, next) {
   const userOrganizing = req.session.currentUser;
@@ -159,3 +192,5 @@ router.post("/edit-user/:id", async function (req, res, next) {
 })
 
 module.exports = router;
+
+

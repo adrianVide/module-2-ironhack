@@ -164,11 +164,12 @@
 <section>
   <h2>Upload your photo</h2>
   <form action="/users/uploadphoto" method="post" enctype="multipart/form-data">
-    {{!-- <input type="text" name="name"> --}}
+    <input type="text" name="name">
     <input type="file" name="photo">
-    <input type="submit" value="Upload">
+    <input type="submit" value="save">
   </form>
 </section>
+<img src="{{userData.imgPath}}" alt="">
         </div>
       </div>
     </div>
