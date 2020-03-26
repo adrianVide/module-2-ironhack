@@ -18,27 +18,22 @@
 <body class="p-0">
 
   <nav class="menu-bg-color fixed-top navbar navbar-expand-sm navbar-dark justify-content-between">
-    <!-- Brand -->
+
     <a class="navbar-brand m-2 font-weight-bold mx-3 display-1" href="/">Palcony</a>
-    {{!-- Search Events --}}
-    {{!-- <form class="form-inline" action="/search">
 
 
-      <input class="form-control mr-sm-2" type="text" placeholder="Search events around you...">
-
-      <button class="btn btn-success" type="submit">Search</button>
-    </form> --}}
-
-    <form class="mr-2 my-auto w-75 d-inline-block">
+    <form class="mr-2 my-auto w-75 d-inline-block" action="/events/search-event" method="GET">
             <div class="input-group">
-                <input type="text" class="form-control border " placeholder="Search events...">
+                <input type="text" class="form-control border" name="event" placeholder="Search events by name">
                 <span class="input-group-append">
-                    <button class="btn btn-outline-light border " type="button">
+                    <button class="btn btn-outline-light border " type="submit">
                         <i class="fa fa-search"></i>
                     </button>
                 </span>
             </div>
         </form>
+
+
     {{#if isUserLoggedIn}}
 
     <!-- Links -->

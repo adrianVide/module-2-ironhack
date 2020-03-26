@@ -1,9 +1,14 @@
+{{#unless searchQuery}}
 {{#if currentUserInfo}}
 <h1 class="mt-10 text-center">{{currentUserInfo.name}}, these are the events happening near you</h1>
 {{else}}
 <h1 class="mt-10 text-center">These are the events happening near you</h1>
 <p class="text-center">Sign in to join or create events</p>
 {{/if}}
+{{else}}
+<h1 class="mt-10 text-center">These events match your query: <b>{{searchQuery}}</b></h1>
+{{/unless}}
+
 
 {{#if message}}
 <h4 class="rounded-pill text-center py-3 px-2 bg-success text-light font-weight-bold my-4 w-50">{{message}}</h4>
@@ -14,91 +19,100 @@
 {{/if}}
 
 
-<h4 class="text-center">Click on any marker to see the details of the event</h4>
-
-<div id="mymap"></div>
-
 <p id="events" class="d-none">{{eventsForMap}}</p>
-
-    <h2 class="mt-5 text-center">Popular upcoming events:</h2>
-    <<div class="row justify-content-center px-4">
-      {{#each (limit events 9) }}
-      <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
-        <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
-        <div class="card-body spot-color">
-          <h5 class="card-title mb-1">{{this.name}}</h5>
-          <p class="card-text mb-0 pb-0">{{this.readableDate}} at {{this.readableTime}}</p>
-          <p class="text-secondary font-italic pt-0 my-0">Organized by {{this.organizer.name}}</p>
-          <div class="text-center">
-            <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
-              more</a>
-            {{#if userIsNotLoggedIn}}
-            <a class="btn text-center align-text-bottom my-3 btn-success font-weight-bold" href="/auth/signup/">Sign up to Palcony</a>
-            {{else if isOrganizer}}
-            <a class="btn text-center align-text-bottom my-3  btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
-            {{else if isParticipant}}
-            <a class="btn text-center align-text-bottom my-3  btn-danger" href="/events/abandon/{{id}}">Abandon this event</a>
-            {{else}}
-            <a class="btn text-center align-text-bottom my-3  btn-success" href="/events/participate/{{id}}">Participate in this event!</a>
-            {{/if}}
-            <br>
-            {{#if participants}}
-            <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
-              this event!</p>
-            {{else if isOrganizer}}
-            <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
-            {{else}}
-            <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
-            {{/if}}
-          </div>
-        </div>
+{{#unless searchQuery}}
+<h2 class="mt-5 text-center">Popular upcoming events:</h2>
+{{else}}
+<h2 class="mt-5 text-center">Search results:</h2>
+{{/unless}}
+<<div class="row justify-content-center px-4">
+  {{#each (limit events 9) }}
+  <div class="card mt-3 mx-2 col-lg-3 col-md-5 shadow ">
+    <img class="card-img-top" style="object-fit: cover;" src="{{images.0.url}}" alt="">
+    <div class="card-body spot-color">
+      <h5 class="card-title mb-1">{{this.name}}</h5>
+      <p class="card-text mb-0 pb-0">{{this.readableDate}} at {{this.readableTime}}</p>
+      <p class="text-secondary font-italic pt-0 my-0">Organized by {{this.organizer.name}}</p>
+      <div class="text-center">
+        <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
+          more</a>
+        {{#if userIsNotLoggedIn}}
+        <a class="btn text-center align-text-bottom my-3 btn-success font-weight-bold" href="/auth/signup/">Sign up to
+          Palcony</a>
+        {{else if isOrganizer}}
+        <a class="btn text-center align-text-bottom my-3  btn-info" href="/events/edit-event/{{id}}">Edit this event</a>
+        {{else if isParticipant}}
+        <a class="btn text-center align-text-bottom my-3  btn-danger" href="/events/abandon/{{id}}">Abandon this
+          event</a>
+        {{else}}
+        <a class="btn text-center align-text-bottom my-3  btn-success" href="/events/participate/{{id}}">Participate in
+          this event!</a>
+        {{/if}}
+        <br>
+        {{#unless isItOver}}
+        {{#if participants}}
+        <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
+          this event!</p>
+        {{else if isOrganizer}}
+        <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Nobody has joined your event yet!</p>
+        {{else}}
+        <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
+        {{/if}}
+        {{else}}
+        <p class="bg-dark d-inline py-1 px-3 my-3 text-light rounded-pill"> This event is over</p>
+        {{/unless}}
       </div>
-      {{/each}}
     </div>
+  </div>
+  {{/each}}
+  </div>
+
+  <h4 class="text-center mt-5 mb-4">Click on any marker to see the details of the event</h4>
+
+  <div class="mx-0" id="mymap"></div>
 
 
-
-{{!-------------------------------------------MAPA-------------------------------------------}}
-<script>
-  const latInput = document.getElementById("lat")
-  const lonInput = document.getElementById("lon")
-  const events = JSON.parse(document.getElementById("events").innerHTML)
-  console.log(events)
-  const mymap = L.map("mymap", {
-    minZoom: 14,
-  })
-  const palconyFlag = L.icon({
-    iconUrl: '/images/palconyFlag.png',
-    shadowUrl: '/images/palconyFlagShadow.png',
-    iconSize: [40, 60],
-    iconAnchor: [16, 60],
-    shadowAnchor: [23, 75],
-  });
-
-  if ("geolocation" in navigator) {
-    console.log("geolocation available");
-    navigator.geolocation.getCurrentPosition(position => {
-      lat = position.coords.latitude;
-      lon = position.coords.longitude;
-      console.log(lat, lon);
-      mymap.setView([lat, lon], 17);
-      const attribution =
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
-      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-      const tiles = L.tileLayer(tileUrl, { attribution });
-      tiles.addTo(mymap);
+  {{!-------------------------------------------MAPA-------------------------------------------}}
+  <script>
+    const latInput = document.getElementById("lat")
+    const lonInput = document.getElementById("lon")
+    const events = JSON.parse(document.getElementById("events").innerHTML)
+    console.log(events)
+    const mymap = L.map("mymap", {
+      minZoom: 14,
+    })
+    const palconyFlag = L.icon({
+      iconUrl: '/images/palconyFlag.png',
+      shadowUrl: '/images/palconyFlagShadow.png',
+      iconSize: [40, 60],
+      iconAnchor: [16, 60],
+      shadowAnchor: [23, 75],
     });
-  } else {
-    console.log("geolocation not available");
-  }
+
+    if ("geolocation" in navigator) {
+      console.log("geolocation available");
+      navigator.geolocation.getCurrentPosition(position => {
+        lat = position.coords.latitude;
+        lon = position.coords.longitude;
+        console.log(lat, lon);
+        mymap.setView([lat, lon], 17);
+        const attribution =
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ';
+        const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+        const tiles = L.tileLayer(tileUrl, { attribution });
+        tiles.addTo(mymap);
+      });
+    } else {
+      console.log("geolocation not available");
+    }
 
 
-  events.map(function (event) {
-    L.marker([event.latitude, event.longitude], {icon: palconyFlag} )
-      .bindPopup(`<div class="text-center m-0"><a class="font-weight-bold text-primary mb-1" href=/events/${event._id}>${event.name}</a><br>
+    events.map(function (event) {
+      L.marker([event.latitude, event.longitude], { icon: palconyFlag })
+        .bindPopup(`<div class="text-center m-0"><a class="font-weight-bold text-primary mb-1" href=/events/${event._id}>${event.name}</a><br>
       <p class="my-1"><b>Date:</b>  <i>${readableDate(event.date)}</i>   <br>     <b>Start time: </b> <i>${event.date.slice(11, 16)}</i></p><p class="text-muted mt-1">${event.description}</p></div>`)
-      .addTo(mymap);
-  })
+        .addTo(mymap);
+    })
 
 
     function readableDate(unreadableDate) {
@@ -130,8 +144,8 @@
         default: day += "th";
       }
 
-    if (day.charAt(0)==="0"){day=day.slice(1)}
-  return `${month} the ${day}`;
-  };
+      if (day.charAt(0) === "0") { day = day.slice(1) }
+      return `${month} the ${day}`;
+    };
 
   </script>
