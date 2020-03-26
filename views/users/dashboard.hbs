@@ -141,8 +141,8 @@
   <div class="container-fluid">
 
     <div class="row d-flex flex-row justify-content-around">
-      <div class="col-lg-5 px-0 mx-0 profile-map" id="mymap"></div>
-      <div class="col-lg-7 px-5 py-4 mx-0">
+      <div class="col-lg-4 px-0 mx-0 profile-map" id="mymap"></div>
+      <div class="col-lg-5 px-5 py-4 mx-0">
         <div>
 
           <p><b>Name:</b>
@@ -171,6 +171,15 @@
 </section>
         </div>
       </div>
+      {{#if imgPath}}
+            <div class="col-lg-3 px-0 mx-0">
+              <img id="profile-picture" src="{{userData.imgPath}}"> 
+            </div>
+      {{else}}
+    <div class="col-lg-3 px-0 mx-0">
+      <img id="profile-picture" src="/uploads/default.jpg"> 
+    </div>
+      {{/if}}
     </div>
   </div>
 </div>
