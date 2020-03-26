@@ -9,11 +9,35 @@ const prepareEvent = require("../middlewares/common-functions").prepareEvent
 const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
 const eventParticipationHandler = require("../middlewares/common-functions").eventParticipationHandler
 const isUserTheOrganizer = require("../middlewares/common-functions").isUserTheOrganizer
-const readableDate = require("../middlewares/common-functions").readableDate
+const prepareEventOutput = require("../middlewares/common-functions").prepareEventOutput
 const readableTime = require("../middlewares/common-functions").readableTime
 
+
+router.get("/search-event", async (req, res, next) => {
+  let searchQuery = req.query.event
+  let events = await Event.find({
+    name: {
+      $regex: searchQuery,
+      $options: "i"
+    },
+    isItOver: "false",
+  }).populate('organizer', 'name')
+  if (events.length === 0){
+    searchQuery.noResults = true;
+    events = await Event.find({
+      isItOver: false
+    }).populate('organizer', 'name')
+  }
+  events = prepareEventOutput(events, req.session.currentUser)
+  res.render("around-me", {
+    events,
+    eventsForMap: JSON.stringify(events),
+    searchQuery
+})
+})
+
 router.get('/:id', async (req, res, next) => {
-  let foundEvent = await (await Event.findById(req.params.id).populate("organizer"))
+  let foundEvent = await Event.findById(req.params.id).populate("organizer")
   if (foundEvent === null) {
     res.redirect("/around-me")
   }
@@ -22,16 +46,16 @@ router.get('/:id', async (req, res, next) => {
     populateAnnotations(foundEvent, "comments")
   } else {
     if (req.session.currentUser) {
-      foundEvent.userAttended= await isUserAParticipant(foundEvent, req.session.currentUser) 
+      foundEvent.userAttended = await isUserAParticipant(foundEvent, req.session.currentUser)
       didUserReview(foundEvent, req.session.currentUser)
     }
     populateAnnotations(foundEvent, "reviews")
-    foundEvent.globalScore= await scoreCalculation(foundEvent)
-    if (foundEvent.reviews.length === 0){
+    foundEvent.globalScore = await scoreCalculation(foundEvent)
+    if (foundEvent.reviews.length === 0) {
       foundEvent.noReviews = true
     }
   }
-res.render('events/event-details', foundEvent)
+  res.render('events/event-details', foundEvent)
 })
 
 router.get('/participate/:id', async (req, res, next) => {

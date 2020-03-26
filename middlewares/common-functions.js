@@ -225,6 +225,7 @@ function isUserTheOrganizer(eventObject, user) {
   }
   if (eventObject.organizer.equals(user._id)) {
     //log// console.log("Sí")
+    console.log(eventObject.name+" validated")
     return true
   };
 }
