@@ -27,8 +27,8 @@
     <br>
     <br>
     <label for="description">Your description (optional)</label>
-    <textarea class=" w-100" type="text" name="description" value="{{description}}"
-      placeholder="e.g. I am a gym instructor with 10 years of experience..." title="Please input a valid description"></textarea>
+    <textarea class=" w-100" type="text" name="description"
+      placeholder="e.g. I am a gym instructor with 10 years of experience..." title="Please input a valid description">{{description}}</textarea>
     <br>
     <div class="mt-3 align-items-center">
       <p class="">Please select the location of your balcony on the map to autofill your coordinates</p>
@@ -67,6 +67,13 @@
     minZoom: 14,
   })
   let marker
+    const palconyFlag = L.icon({
+        iconUrl: '/images/palconyFlag.png',
+        shadowUrl: '/images/palconyFlagShadow.png',
+        iconSize: [40, 60],
+        iconAnchor: [16, 60],
+        shadowAnchor: [23, 75],
+      });
 
   if ("geolocation" in navigator) {
     console.log("geolocation available");
@@ -80,7 +87,7 @@
       const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       const tiles = L.tileLayer(tileUrl, { attribution });
       tiles.addTo(mymap);
-      marker = L.marker([lat, lon]).addTo(mymap);
+      marker = L.marker([lat, lon], {icon: palconyFlag}).addTo(mymap);
       latInput.value = lat
       lonInput.value = lon
     });
@@ -93,7 +100,7 @@
     latInput.value = e.latlng.lat
     lonInput.value = e.latlng.lng
     mymap.removeLayer(marker);
-    marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
+    marker = L.marker([e.latlng.lat, e.latlng.lng], {icon: palconyFlag}).addTo(mymap);
   }
 
 

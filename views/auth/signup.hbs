@@ -65,6 +65,13 @@
   const mymap = L.map("mymap", {
     minZoom: 14,
   })
+  const palconyFlag = L.icon({
+    iconUrl: '/images/palconyFlag.png',
+    shadowUrl: '/images/palconyFlagShadow.png',
+    iconSize: [40, 60],
+    iconAnchor: [16, 60],
+    shadowAnchor: [23, 75],
+  });
   let marker
 
   if ("geolocation" in navigator) {
@@ -79,7 +86,7 @@
       const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       const tiles = L.tileLayer(tileUrl, { attribution });
       tiles.addTo(mymap);
-      marker = L.marker([lat, lon]).addTo(mymap);
+      marker = L.marker([lat, lon], {icon: palconyFlag}).addTo(mymap);
       latInput.value = lat
       lonInput.value = lon
     });
@@ -92,7 +99,7 @@
     latInput.value = e.latlng.lat
     lonInput.value = e.latlng.lng
     mymap.removeLayer(marker);
-    marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(mymap);
+    marker = L.marker([e.latlng.lat, e.latlng.lng], {icon: palconyFlag}).addTo(mymap);
   }
 
 

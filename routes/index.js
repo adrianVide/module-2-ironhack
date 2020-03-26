@@ -23,7 +23,6 @@ router.get('/around-me', async function (req, res, next) {
       isItOver: false
     }).populate('organizer', 'name')
     events = prepareEventOutput(events, req.session.currentUser)
-    console.log(events)
     res.render('around-me', {
       title: 'Palcony',
       events,

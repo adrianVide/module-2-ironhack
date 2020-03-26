@@ -4,7 +4,6 @@ const multer  = require('multer');
 
 const Event = require('../models/event');
 const User = require('../models/user');
-const Picture = require('../models/userimg');
 
 const sortByDate = require("../middlewares/common-functions").sortByDate
 const isEventOver = require("../middlewares/common-functions").isEventOver
