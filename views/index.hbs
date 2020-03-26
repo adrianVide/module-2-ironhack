@@ -14,12 +14,14 @@
   <div class="d-flex flex-column align-items-center">
     <div id="palcony-banner" class="d-flex flex-column justify-content-center align-items-center">
       <h1 id='hero-title' class="display-1 font-weight-bold text-dark"><span class="font-weight-light"
-          style="color:  #DEF2F1;">Welcome to</span> <span style="color:  #3AAFA9;">Palcony</span></h1>
+          style="color:  #DEF2F1;">Welcome to</span> <span style="color:  #3AAFA9 ; -webkit-text-fill-color: #3AAFA9; 
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;">Palcony</span></h1>
       <p id='stayathome' class="font-weight-bold">#stayHome</p>
       <h4 class="text-dark">Turning your balcony into a theatre box seat</h4>
     </div>
     <h2 class="mt-5">Unique experiences right at your balcony</h2>
-    <div class="row justify-content-center px-4">
+    <div class="row justify-content-center px-1">
       {{#each (limit allEvents 9) }}
       {{>eventCard }}
       {{/each}}

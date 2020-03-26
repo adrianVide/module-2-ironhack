@@ -90,10 +90,32 @@ a {
 }
 
 #hero-title {
-  text-shadow: 0em 0.1em 0.1em rgb(88, 90, 90); 
+  text-shadow: 0em 0.05em 0.1em rgb(88, 90, 90); 
 }
 
 #stayathome {
   color: #DEF2F1;
   font-size: 3em;
+}
+
+.btn-success {
+  background-color: #3AAFA9;
+  border-color: #3AAFA9;
+}
+
+.btn-success:hover {
+  background-color: #DEF2F1;
+  border-color: #3AAFA9;
+  color: #3AAFA9;
+}
+
+.btn-outline-success {
+  border-color: #3AAFA9;
+  color: #3AAFA9;
+}
+
+.btn-outline-success:hover {
+  background-color: #DEF2F1;
+  border-color: #3AAFA9;
+  color: #3AAFA9;
 }
