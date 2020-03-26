@@ -31,7 +31,6 @@ router.get('/:id', async (req, res, next) => {
       foundEvent.noReviews = true
     }
   }
-  console.log(foundEvent.userAttended)
 res.render('events/event-details', foundEvent)
 })
 

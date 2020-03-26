@@ -7,7 +7,7 @@ const User = require('../models/user');
 
 function readableDate(unreadableDate) {
   let dateText = JSON.stringify(unreadableDate)
-  console.log(dateText)
+  //log// console.log(dateText)
   let day = dateText.slice(9, 11)
   let month = dateText.slice(6, 8)
   //log// console.log(month)
@@ -99,10 +99,12 @@ function sortByDate(eventArray, currentUser){
 
 function prepareEvent(event, currentUser){
   event.userIsNotLoggedIn = userIsNotLoggedIn(currentUser)
+  if (event.userIsNotLoggedIn === false){
+    event.isOrganizer = isUserTheOrganizer(event, currentUser)
+    event.isParticipant = isUserAParticipant(event, currentUser)
+  }
   event.readableDate = readableDate(event.date)
   event.readableTime = readableTime(event.date)
-  event.isOrganizer = isUserTheOrganizer(event, currentUser)
-  event.isParticipant = isUserAParticipant(event, currentUser)
 }
 
 function populateEvents(events) {
@@ -216,7 +218,8 @@ function eventParticipationHandler(eventId, pushOrPull, userId) {
 }
 
 function isUserTheOrganizer(eventObject, user) {
-  if (!user || user=== null) {
+  if (!eventObject.organizer){
+    console.log('Something weird happened - this event lacks an organizer');
     return false
   }
   if (eventObject.organizer.equals(user._id)) {
@@ -226,9 +229,6 @@ function isUserTheOrganizer(eventObject, user) {
 }
 
 function isUserAParticipant(eventObject, user) {
-  if (!user || user=== null) {
-    return false
-  }
   if (eventObject.participants.indexOf(user._id) > -1) {
     return true
   };
