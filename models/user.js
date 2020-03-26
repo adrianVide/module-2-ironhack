@@ -10,7 +10,7 @@ const userSchema = new Schema(
     latitude: String,
     longitude: String,
     imgName: String,
-    imgPath: {type: String, default: '/uploads/whatever.jpg'},
+    imgPath: {type: String, default: '/uploads/default.jpg'},
     organizedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     pastOrganizedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     participatedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
