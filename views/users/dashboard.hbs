@@ -141,7 +141,30 @@
   <div class="container-fluid">
 
     <div class="row d-flex flex-row justify-content-around">
-      <div class="col-lg-4 px-0 mx-0 profile-map" id="mymap"></div>
+            <div class="col-lg-3 px-0 mx-0">
+              <h5 class="ml-2">Profile picture:</h5>
+<div class="container">
+
+      {{#if userData.imgPath}}
+              <img id="profile-picture" src="{{userData.imgPath}}"> 
+      {{else}}
+      <img id="profile-picture" src="/uploads/default.jpg"> 
+      {{/if}}
+      
+  <div class="middle">
+      <label class="px-3 py-4 btn btn-info" for="photo-upload">Select a new profile picture</label>
+    <div>
+      <form action="/users/uploadphoto" method="post" enctype="multipart/form-data">
+        <input type="file" class="d-none" id="photo-upload" name="photo">
+        <input class="btn btn-success" type="submit" value="Upload">
+      </form>
+    </div>
+  </div>
+</div>
+
+        <div class="content">
+  </div>
+    </div>
       <div class="col-lg-5 px-5 py-4 mx-0">
         <div>
 
@@ -161,25 +184,10 @@
             </ul>
           </p>
           <a class="btn btn-info" href="/users/edit-user/{{userData._id}}/">Edit your profile</a>
-<section>
-  <h2>Upload your photo</h2>
-  <form action="/users/uploadphoto" method="post" enctype="multipart/form-data">
-    {{!-- <input type="text" name="name"> --}}
-    <input type="file" name="photo">
-    <input type="submit" value="Change">
-  </form>
-</section>
         </div>
       </div>
-      {{#if userData.imgPath}}
-            <div class="col-lg-3 px-0 mx-0">
-              <img id="profile-picture" src="{{userData.imgPath}}"> 
-            </div>
-      {{else}}
-    <div class="col-lg-3 px-0 mx-0">
-      <img id="profile-picture" src="/uploads/default.jpg"> 
-    </div>
-      {{/if}}
+
+            <div class="col-lg-4 px-0 mx-0 profile-map" id="mymap"></div>
     </div>
   </div>
 </div>
