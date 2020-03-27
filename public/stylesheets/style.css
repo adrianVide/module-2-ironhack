@@ -159,8 +159,15 @@ a {
   height: 75vw;
 }
 
-#event-search{
-  max-width: 1500px !important;
+#search--input{
+  max-width: 1300px !important;
+}
+#login-btn, #auth-btn, .nav-item, .nav-link{
+  min-width: 120px !important;
+  text-align: center;
+}
+.nav-link:hover{
+  color: white;
 }
 
 #hero-title {

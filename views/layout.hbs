@@ -29,13 +29,13 @@
 
   {{!-- ------------------------------------------------------------------------------------------------------------- --}}
 
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg ">
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav"><i
         class="fas fa-bars text-light"></i></button>
     <a class="navbar-brand m-2 text-light font-weight-bold mx-3 px-4 display-1" href="/">Palcony</a>
-    <form class="mr-2 my-auto w-100" id="event-search" action="/events/search-event" method="GET">
+    <form class="mr-2 my-auto w-100 justify-content-center" id="event-search" action="/events/search-event" method="GET">
       <div class="input-group">
-        <input type="text" class="form-control border" name="event" placeholder="Search events by name">
+        <input type="text" class="form-control border" id="search-input" name="event" placeholder="Search events by name">
         <span class="input-group-append">
           <button class="btn btn-outline-light border " type="submit">
             <i class="fa fa-search"></i>
@@ -56,11 +56,11 @@
             <a class="dropdown-item" href="/auth/logout">Log out</a>
             {{else}}
         <li class="nav-item">
-          <a href="/auth/login" class="btn btn-outline-login mx-4" type="submit">Log
+          <a href="/auth/login" id="login-btn" class="btn btn-outline-login mx-4" type="submit">Log
               in</button></a>
         </li>
-        <li class="nav-item"> <a href="/auth/signup" href="/auth/signup" class="btn btn-signup"
-              type="submit">Sign up</a>
+        <li class="nav-item"> 
+          <a href="/auth/signup" id="auth-btn" href="/auth/signup" class="btn btn-signup" type="submit">Sign up</a>
         </li>
         {{/if}}
     </div>
