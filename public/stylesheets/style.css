@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap');
 body {
   background-color:#2B7A77;
-  padding: 1vw;
   /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
@@ -30,6 +29,8 @@ a {
 #palcony-banner{
   height: 80vh;
   width: 100%;
+  margin: 0;
+  padding: 0;
   text-align: center;
   background-size: cover;
   background-image: linear-gradient(rgba(43, 122, 119, 0), rgba(43, 122, 119, 0.3), rgba(43, 122, 119, 1)),

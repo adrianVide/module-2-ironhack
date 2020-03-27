@@ -21,7 +21,7 @@
       <h4 class="text-dark">Turning your balcony into a theatre box seat</h4>
     </div>
     <h2 class="mt-5">Unique experiences right at your balcony</h2>
-    <div class="row justify-content-center px-1">
+    <div class="row justify-content-center mx-0">
       {{#each (limit allEvents 9) }}
       {{>eventCard }}
       {{/each}}
@@ -31,15 +31,11 @@
     <div class="d-block justify-content-center w-100">
       <div id="mymap"></div>
     </div>
-
-    <p id="events" class="d-none">{{events}}</p>
   </div>
 
   {{!-------------------------------------------MAPA-------------------------------------------}}
   <script>
-    const latInput = document.getElementById("lat")
-    const lonInput = document.getElementById("lon")
-    const events = JSON.parse(document.getElementById("events").innerHTML)
+    const events = JSON.parse({{events}})
     console.log(events)
     const mymap = L.map("mymap", {
       minZoom: 14,
