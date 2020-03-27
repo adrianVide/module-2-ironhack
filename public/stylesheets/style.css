@@ -115,9 +115,13 @@ a {
 .container:hover #profile-picture {
   opacity: 0.3;
 }
+<<<<<<< HEAD
 .container #mymap {
   opacity: 0.99;
 }
+=======
+
+>>>>>>> 8da8e4fadef3ec0441e868c5c4abfc8580c30ff6
 .container:hover .middle {
   opacity: 1;
 }
