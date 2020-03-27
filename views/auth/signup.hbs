@@ -1,7 +1,7 @@
 <h1 class="mt-10 mb-2 text-center">Register an account</h1>
-<div class="row justify-content-center">
+<div class="row justify-content-end">
 
-<div class="card col-lg-4 col-md-8 my-3 form">
+<div class="card col-xl-4 col-lg-6 col-md-12 my-3 form">
   <form id="form" action="/auth/signup" method="POST">
     <br>
     <label for="name">Name</label>
@@ -52,11 +52,8 @@
 <h4 class="rounded-pill text-center py-3 px-2 bg-danger text-light font-weight-bold my-5">{{ errorMessage}}</h4>
 {{/if}}
 </div>
+  <div class="col-xl-7 col-lg-5 col-md-12 px-0 ml-5 mr-0 my-3 signup-map" id="mymap"></div>
 </div>
-
-
-
-<div id="mymap"></div>
 
 {{!-------------------------------------------MAPA-------------------------------------------}}
 <script>

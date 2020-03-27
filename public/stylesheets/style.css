@@ -55,6 +55,10 @@ a {
   max-height: 400px !important;
 }
 
+.signup-map{
+  max-height: 820px !important;
+}
+
 #profile-picture{
   max-height: 370px !important;
   max-width: 100%;
