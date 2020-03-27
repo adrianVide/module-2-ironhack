@@ -36,6 +36,7 @@
       <div class="text-center">
         <a href="/events/{{id}}" class="btn text-center align-text-bottom btn-outline-success my-3">Discover
           more</a>
+        {{#unless isItOver}}
         {{#if userIsNotLoggedIn}}
         <a class="btn text-center align-text-bottom my-3 btn-success font-weight-bold" href="/auth/signup/">Sign up to
           Palcony</a>
@@ -49,7 +50,6 @@
           this event!</a>
         {{/if}}
         <br>
-        {{#unless isItOver}}
         {{#if participants}}
         <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> <b>{{participants.length}}</b> users will attend
           this event!</p>
@@ -59,6 +59,11 @@
         <p class="bg-light d-inline py-1 px-3 my-3 rounded-pill"> Be the first to join this event!</p>
         {{/if}}
         {{else}}
+        {{#if isParticipant}}
+        <a class="btn text-center align-text-bottom my-3  btn-success" href="/events/{{id}}">Rate this
+        event</a>
+        {{/if}}
+        <br>
         <p class="bg-dark d-inline py-1 px-3 my-3 text-light rounded-pill"> This event is over</p>
         {{/unless}}
       </div>

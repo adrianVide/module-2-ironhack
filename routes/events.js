@@ -9,7 +9,7 @@ const prepareEvent = require("../middlewares/common-functions").prepareEvent
 const isUserAParticipant = require("../middlewares/common-functions").isUserAParticipant
 const eventParticipationHandler = require("../middlewares/common-functions").eventParticipationHandler
 const isUserTheOrganizer = require("../middlewares/common-functions").isUserTheOrganizer
-const prepareEventOutput = require("../middlewares/common-functions").prepareEventOutput
+const sortByDate = require("../middlewares/common-functions").sortByDate
 const readableTime = require("../middlewares/common-functions").readableTime
 
 
@@ -20,7 +20,6 @@ router.get("/search-event", async (req, res, next) => {
       $regex: searchQuery,
       $options: "i"
     },
-    isItOver: "false",
   }).populate('organizer', 'name')
   if (events.length === 0){
     searchQuery.noResults = true;
@@ -28,7 +27,7 @@ router.get("/search-event", async (req, res, next) => {
       isItOver: false
     }).populate('organizer', 'name')
   }
-  events = prepareEventOutput(events, req.session.currentUser)
+  events = sortByDate(events, req.session.currentUser)
   res.render("around-me", {
     events,
     eventsForMap: JSON.stringify(events),
