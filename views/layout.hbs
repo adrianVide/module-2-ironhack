@@ -26,9 +26,6 @@
 </head>
 
 <body class="p-0">
-{{!-- Beggining of tablet and mobile --}}
-  <nav class="d-lg-none d-xl-none menu-bg-color navbar navbar-expand-sm navbar-dark text-center container-fluid">
-    <div class="row w-100 justify-content-between align-items-center">
 
   {{!-- ------------------------------------------------------------------------------------------------------------- --}}
 
@@ -54,7 +51,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link text-light text-uppercase font-weight-bold px-3 dropdown-toggle" data-toggle="dropdown"
             href="#">{{currentUserInfo.name}} </a>
-          <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-menu">
             <a class="dropdown-item" href="/users/dashboard">My dashboard</a>
             <a class="dropdown-item" href="/auth/logout">Log out</a>
             {{else}}
@@ -69,9 +66,11 @@
     </div>
     </li>
     </ul>
+    </div>
   </nav>
 
-  {{!-- End of desktop --}}
+
+
 
 
 
