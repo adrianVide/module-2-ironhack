@@ -2,11 +2,9 @@
 
 <div class="row">
   {{#unless pastEvents}}
-  <a href="/users/dashboard" class="w-75 text-center py-3 text-light">Upcoming events</a>
-  <a href="/users/dashboard/past" class="w-25 bg-info text-center py-3 text-light">Past events</a>
+  <a href="/users/dashboard/past" class="w-100 text-center py-3 text-light"><i class="fas fa-undo-alt text-light mr-4"></i>See past events</a>
   {{else}}
-  <a href="/users/dashboard" class="w-25  bg-info text-center py-3 text-light">Upcoming events</a>
-  <a href="/users/dashboard/past" class="w-75 text-center py-3 text-light">Past events</a>
+  <a href="/users/dashboard" class="w-100 text-center py-3 text-light"><i class="fas text-light fa-calendar-alt mr-4"></i>See upcoming events</a>
   {{/unless}}
 </div>
  {{#unless pastEvents}}
