@@ -3,14 +3,14 @@
 
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162050715-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162050715-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'UA-162050715-1');
-</script>
+    gtag('config', 'UA-162050715-1');
+  </script>
 
   <title>PALCONY - Turning your balcony into a theatre box seat</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -27,43 +27,47 @@
 
 <body class="p-0">
 
-{{!-- ------------------------------------------------------------------------------------------------------------- --}}
+  {{!-- ------------------------------------------------------------------------------------------------------------- --}}
 
-<nav class="navbar navbar-expand-lg">
-  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav"><i class="fas fa-bars text-light"></i></button>
-  <a class="navbar-brand m-2 text-light font-weight-bold mx-3 px-4 display-1" href="/">Palcony</a>
-      <form class="mr-2 my-auto w-100" id="event-search" action="/events/search-event" method="GET">
-            <div class="input-group">
-                <input type="text" class="form-control border" name="event" placeholder="Search events by name">
-                <span class="input-group-append">
-                    <button class="btn btn-outline-light border " type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form>
+  <nav class="navbar navbar-expand-lg">
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav"><i
+        class="fas fa-bars text-light"></i></button>
+    <a class="navbar-brand m-2 text-light font-weight-bold mx-3 px-4 display-1" href="/">Palcony</a>
+    <form class="mr-2 my-auto w-100" id="event-search" action="/events/search-event" method="GET">
+      <div class="input-group">
+        <input type="text" class="form-control border" name="event" placeholder="Search events by name">
+        <span class="input-group-append">
+          <button class="btn btn-outline-light border " type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </div>
+    </form>
     <div class="collapse navbar-collapse" id="nav">
-        <ul class="navbar-nav justify-content-between align-items-center">
-                  <li class="nav-item px-3"><a class="nav-item nav-link mx-0 px-0" href="/around-me">Around me</a></a>
+      <ul class="navbar-nav justify-content-between align-items-center">
+        <li class="nav-item px-3"><a class="nav-item nav-link mx-0 px-0" href="/around-me">Around me</a></a>
           {{#if isUserLoggedIn}}
-                   <li class="nav-item px-3"><a class="nav-link mx-0 px-0" href="/users/add-event">Create event</a></li>
-            <li class="nav-item dropdown">
-                <a class="nav-link text-light text-uppercase font-weight-bold px-3 dropdown-toggle" data-toggle="dropdown" href="#">{{currentUserInfo.name}} </a>
-                <div class="dropdown-menu">
-          <a class="dropdown-item" href="/users/dashboard">My dashboard</a>
-          <a class="dropdown-item" href="/auth/logout">Log out</a>
-          {{else}}
-               <li class="nav-item">
-               <a href="/auth/login"> <button href="/auth/login" class="btn btn-outline-login mx-4" type="submit">Log in</button></a>
-               </li>
-<li class="nav-item">    <a href="/auth/signup"><button  href="/auth/signup"class="btn btn-signup" type="submit">Sign up</button></a>
-</li>
-          {{/if}}
-                </div>
-            </li>
-        </ul>
+        <li class="nav-item px-3"><a class="nav-link mx-0 px-0" href="/users/add-event">Create event</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light text-uppercase font-weight-bold px-3 dropdown-toggle" data-toggle="dropdown"
+            href="#">{{currentUserInfo.name}} </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/users/dashboard">My dashboard</a>
+            <a class="dropdown-item" href="/auth/logout">Log out</a>
+            {{else}}
+        <li class="nav-item">
+          <a href="/auth/login" class="btn btn-outline-login mx-4" type="submit">Log
+              in</button></a>
+        </li>
+        <li class="nav-item"> <a href="/auth/signup" href="/auth/signup" class="btn btn-signup"
+              type="submit">Sign up</a>
+        </li>
+        {{/if}}
     </div>
-</nav>
+    </li>
+    </ul>
+    </div>
+  </nav>
 
 
 
