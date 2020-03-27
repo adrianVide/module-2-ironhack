@@ -27,14 +27,12 @@
 
 <body class="p-0">
 
-<nav class="menu-bg-color navbar navbar-expand-sm navbar-dark text-center container-fluid">
-<div class="row w-100 justify-content-between align-items-center">
-  
-  <div class="col-xl-1 col-lg-2 col-md-12">
-    <a class="navbar-brand m-2 font-weight-bold mx-3  w-100 display-1" href="/">Palcony</a>
-  </div>
-  <div class="col-xl-8 col-lg-5 col-md-12">
-    <form class="mr-2 my-auto w-100 d-inline-block" action="/events/search-event" method="GET">
+{{!-- ------------------------------------------------------------------------------------------------------------- --}}
+
+<nav class="navbar navbar-expand-lg">
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav"><i class="fas fa-bars text-light"></i></button>
+  <a class="navbar-brand m-2 text-light font-weight-bold mx-3 px-4 display-1" href="/">Palcony</a>
+      <form class="mr-2 my-auto w-100" id="event-search" action="/events/search-event" method="GET">
             <div class="input-group">
                 <input type="text" class="form-control border" name="event" placeholder="Search events by name">
                 <span class="input-group-append">
@@ -44,48 +42,28 @@
                 </span>
             </div>
         </form>
-  </div>
-    {{#if isUserLoggedIn}}
-    <!-- Links -->
-      <div class="col-xl-1 col-lg-2 col-md-12">
-
-        <a class="nav-item nav-link mx-0 px-0" href="/around-me">Around me</a>
-
-      </div>
-        <div class="col-xl-1 col-lg-2 col-md-12">
-        <a class="nav-link mx-0 px-0" href="/users/add-event">Create event</a>
-
-        </div>
-      <!-- Dropdown -->
-        <div class="col-xl-1 col-lg-1 col-md-12">
-
-      <div class="nav-item dropdown">
-
-        <a class="nav-link dropdown-toggle mx-0 px-0" href="#" id="navbardrop" data-toggle="dropdown">
-          {{currentUserInfo.name}} </a>
-        <div class="dropdown-menu dropdown-menu-right">
+    <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav justify-content-between align-items-center">
+                  <li class="nav-item px-3"><a class="nav-item nav-link mx-0 px-0" href="/around-me">Around me</a></a>
+          {{#if isUserLoggedIn}}
+                   <li class="nav-item px-3"><a class="nav-link mx-0 px-0" href="/users/add-event">Create event</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link text-light text-uppercase font-weight-bold px-3 dropdown-toggle" data-toggle="dropdown" href="#">{{currentUserInfo.name}} </a>
+                <div class="dropdown-menu">
           <a class="dropdown-item" href="/users/dashboard">My dashboard</a>
           <a class="dropdown-item" href="/auth/logout">Log out</a>
-        </div>
-          {{!-- <a class="dropdown-item" href="#">Link 3</a> --}}
-        </div>
-      </div>
-    {{else}}
-     <div class="col-xl-1 col-lg-2 col-sm-4 mx-0 px-0">
-        <a class="nav-item nav-link" href="/around-me">Around me</a>
-     </div>
-      <div class="col-xl-1 col-lg-2 col-sm-4 mx-0 px-0">
-     <a href="/auth/login"> <button href="/auth/login" class="btn btn-outline-login mx-4" type="submit">Log in</button></a>
-      </div>
-       <div class="col-xl-1 col-lg-1 col-sm-4 mx-0 px-0">
-      <a href="/auth/signup"><button  href="/auth/signup"class="btn btn-signup" type="submit">Sign up</button></a>
-       </div>
-      {{/if}}
-
-    </ul>
+          {{else}}
+               <li class="nav-item">
+               <a href="/auth/login"> <button href="/auth/login" class="btn btn-outline-login mx-4" type="submit">Log in</button></a>
+               </li>
+<li class="nav-item">    <a href="/auth/signup"><button  href="/auth/signup"class="btn btn-signup" type="submit">Sign up</button></a>
+</li>
+          {{/if}}
+                </div>
+            </li>
+        </ul>
     </div>
-  </nav>
-
+</nav>
 
 
 

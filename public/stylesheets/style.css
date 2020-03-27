@@ -15,6 +15,7 @@ body {
 
 h1 {
   font-family: "Montserrat", sans-serif;
+  font-size: 5em;
   font-weight: 600;
   color: #DEF2F1;
   text-shadow: 0em 0.1em 0.1em rgb(88, 90, 90); 
@@ -148,8 +149,13 @@ a {
   height: 800px;
   background-color: rgba(255, 0, 0, 0);
 }
+
 #event-details-map {
   height: 75vw;
+}
+
+#event-search{
+  max-width: 1500px !important;
 }
 
 #hero-title {
