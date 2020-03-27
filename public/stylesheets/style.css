@@ -215,5 +215,6 @@ a {
   .navbar{ 
     position: fixed;
     width: auto;
+    z-index: 999;
   }
  }
