@@ -15,16 +15,21 @@ body {
 
 h1 {
   font-family: "Montserrat", sans-serif;
-  font-size: 5em;
   font-weight: 600;
   color: #DEF2F1;
   text-shadow: 0em 0.1em 0.1em rgb(88, 90, 90); 
 }
+
 a {
   color: #17232A;
 }
+
 .main-color {
   color: #DEF2F1;
+}
+
+#hero-title{
+  font-size: 4.5em;
 }
 
 #palcony-banner{
