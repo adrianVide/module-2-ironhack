@@ -21,7 +21,7 @@ h1 {
 }
 
 a {
-  color: #17232A;
+  color: white;
 }
 
 .main-color {
@@ -88,7 +88,7 @@ a {
 }
 
 .navbar{
-  background-color: rgb(102,153,149) !important;
+  /* background-color: rgb(102,153,149) !important; */
 }
 
 .nav-link{
@@ -200,7 +200,7 @@ a {
 }
 
 .menu-bg-color {
-  background-color: rgba(43, 122, 119, 0.7);
+  background-color: rgba(43, 122, 119, 0.2);
 }
 
 .btn-outline-login {
