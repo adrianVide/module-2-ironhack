@@ -81,6 +81,14 @@ a {
   text-align: center;
 }
 
+.navbar{
+  background-color: rgb(102,153,149) !important;
+}
+
+.nav-link{
+  color: rgb(222,242,241)
+}
+
 .click-to-pin {
   opacity: 1;
   position: absolute;
@@ -177,10 +185,6 @@ a {
 
 .menu-bg-color {
   background-color: rgba(43, 122, 119, 0.7);
-}
-
-.mt-10  {
-  margin-top: 8vw;
 }
 
 .btn-outline-login {
