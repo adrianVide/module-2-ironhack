@@ -1,6 +1,8 @@
 # Project- PALCONY - Social interaction amidst a quarantine 
 
+# Project URL:
 
+www.palcony.com
 
 ## Description
 Due to the current COVID-19 quarantine, people all around the country have been ordered to stay at home, effectively isolating them. As time passes, days become dull, and the lack of human contact start taking a toll on the average person. What once was a warm home slowly devolves into a prison cell with nicer furniture.
@@ -37,12 +39,3 @@ Palcony turns your balconies into theatre box seats, to help you reconnect with 
 ![signup](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView2.png)
 ![events](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView3.png)
 ![eventdetails¡](https://github.com/adrianVide/module-2-ironhack/blob/master/public/images/nonweb/mobView4.png)
-
-
-
-### Git
-tbd
-
-
-### Slides
-tbd
